@@ -5,8 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using PaulMiami.AspNetCore.Mvc.Recaptcha;
+using Microsoft.AspNetCore.Session;
+using System.Diagnostics;
 
 namespace NetCorePSAV
 {
@@ -29,6 +33,9 @@ namespace NetCorePSAV
         {
             // Add framework services.
             services.AddMvc();
+            //services.AddSession();
+            services.AddTransient<GCCorePSAV.Controllers.Services.LoggedInComponent>();
+            services.AddDistributedMemoryCache();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
