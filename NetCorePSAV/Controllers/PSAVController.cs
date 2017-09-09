@@ -1001,6 +1001,7 @@ namespace GCCorePSAV.Controllers
                     }
                     if (!CRLF.Count.Equals(0)) {
                         exlWork.Cells["C" + cellHeader1.ToString()].Value = GetMonth(a.ToString("00"));
+                        exlWork.Cells["C" + cellHeader1.ToString()].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
                         exlWork.Cells["C" + cellHeader1.ToString()].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
                         exlWork.Cells["C" + cellHeader1.ToString()].Style.Font.Color.SetColor(System.Drawing.Color.White);
                         //titles
@@ -1022,6 +1023,7 @@ namespace GCCorePSAV.Controllers
                         exlWork.Cells["P" + cellHeader2.ToString()].Value = "Motivo de LB";
                         exlWork.Cells["Q" + cellHeader2.ToString()].Value = "Cuando y donde será el próximo evento";
                         //background
+                        exlWork.Cells[cellHeader2, 1, cellHeader2, 17].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
                         exlWork.Cells["A" + cellHeader2.ToString()].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Yellow);
                         exlWork.Cells["B" + cellHeader2.ToString()].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Yellow);
                         exlWork.Cells["C" + cellHeader2.ToString()].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Yellow);
