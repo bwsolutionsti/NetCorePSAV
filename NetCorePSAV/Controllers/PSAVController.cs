@@ -899,10 +899,10 @@ namespace GCCorePSAV.Controllers
                     wkCotizacion.Cells["C20"].Value = ModEptFill.Fax;//Razon
                     wkCotizacion.Cells["C21"].Value = ModEptFill.Email;//Razon
                                                                        //fill sales Represent
-                    wkCotizacion.Cells["C10"].Value = "";//Razon
-                    wkCotizacion.Cells["C10"].Value = "";//Razon
-                    wkCotizacion.Cells["C10"].Value = "";//Razon
-                    wkCotizacion.Cells["C10"].Value = "";//Razon
+                    wkCotizacion.Cells["C24"].Value = "";//Razon
+                    wkCotizacion.Cells["C25"].Value = "";//Razon
+                    wkCotizacion.Cells["C26"].Value = "";//Razon
+                    wkCotizacion.Cells["C27"].Value = "";//Razon
                                                          //fill event info
                     wkCotizacion.Cells["G10"].Value = ModEptFill.EventName;//Razon
                     wkCotizacion.Cells["G11"].Value = ModEptFill.MountDate;//Razon
@@ -917,10 +917,10 @@ namespace GCCorePSAV.Controllers
                     wkCotizacion.Cells["G20"].Value = ModEptFill.Address;//Razon
                     wkCotizacion.Cells["G22"].Value = "MXN Mexican Peso";//Razon
                                                                          //fill psav manager
-                    wkCotizacion.Cells["F10"].Value = "";//Razon
-                    wkCotizacion.Cells["F10"].Value = "";//Razon
-                    wkCotizacion.Cells["F10"].Value = "";//Razon
-                    wkCotizacion.Cells["F10"].Value = "";//Razon
+                    wkCotizacion.Cells["G24"].Value = "";//Razon
+                    wkCotizacion.Cells["G25"].Value = "";//Razon
+                    wkCotizacion.Cells["G27"].Value = "";//Razon
+                    wkCotizacion.Cells["G28"].Value = "";//Razon
                                                          ///////////Get Item List Sheet
                     ExcelWorksheet wkItemList = package.Workbook.Worksheets[3];
                     ///get item list salons
