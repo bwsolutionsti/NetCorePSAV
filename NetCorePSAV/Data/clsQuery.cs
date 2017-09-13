@@ -982,7 +982,18 @@ namespace GCCorePSAV.Data
             string lastID = cmd.LastInsertedId.ToString();
             conn.Close();
             InsertEPTDetail(model, lastID);
+            insertEPTRPPM(model);
             return lastID;
+        }
+        public string insertEPTRPPM(Models.EPTModel model)
+        {
+            string ConsSQLSearch = "insert into td_eptrep(tme_folio,tder_rv,tder_rvjob,tder_rvmail,tder_rvcel,tder_ppm,tder_ppmcel,tder_ppmmail,tder_location) values('"+model.EPTNumber+"','"+model.SMName+"','"+model.SMJob+"','"+model.SMEmail+"','"+model.SMPhone+"','"+model.PMName+"','"+model.PMMobile+"','"+model.PMEmail+"','"+model.PMLocation+"')";
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(ConsSQLSearch, conn);
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            return string.Empty;
         }
         public void EditInsertEPTDetail(Models.EPTModel model, string EventId)
         {
@@ -1121,12 +1132,14 @@ namespace GCCorePSAV.Data
 " per.tmp_rfc,'nombre contacto','puesto','tel','ext','movil','mail','alterno','fax'," +
 " evt.tdee_nombre,evt.tdee_fecmontaje,evt.tdee_horamontaje,evt.tdee_contactositio,evt.tdee_celular," +
 " evt.tdee_fecinicio,evt.tdee_horainicio,evt.tdee_fectermino,evt.tdee_horatermino,evt.tdee_lugar," +
-" evt.tdee_direccion,evt.tme_id,ept.tmem_id FROM psav_dev.tm_ept ept" +
+" evt.tdee_direccion,tder_rv,tder_rvjob,tder_rvmail,tder_rvcel,tder_ppm,tder_ppmcel,tder_ppmmail,tder_location," +
+" evt.tme_id,ept.tmem_id FROM psav_dev.tm_ept ept" +
 " inner join td_eptevt evt on evt.tme_id = ept.tme_id" +
 " inner join tm_client cli on cli.tmc_id = ept.tmc_id" +
 " inner join tm_person per on per.tmp_id = cli.tmp_id" +
 " inner join tm_personaddress tmpa on tmpa.tmp_id = per.tmp_id" +
-" where ept.tme_folio = '"+folio.Trim()+"'";
+" inner join td_eptrep tder on tder.tme_folio=ept.tme_folio "+
+" where ept.tme_folio = '" +folio.Trim()+"'";
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(ConsSQL, conn);
             conn.Open();
@@ -1159,6 +1172,14 @@ namespace GCCorePSAV.Data
                 eptm.FinishHour = msdr.GetValue(22).ToString();
                 eptm.Place = msdr.GetValue(23).ToString();
                 eptm.Address = msdr.GetValue(24).ToString();
+                eptm.SMName = msdr.GetValue(25).ToString();
+                eptm.SMJob = msdr.GetValue(26).ToString();
+                eptm.SMEmail = msdr.GetValue(27).ToString();
+                eptm.SMPhone = msdr.GetValue(28).ToString();
+                eptm.PMName = msdr.GetValue(29).ToString();
+                eptm.PMMobile = msdr.GetValue(30).ToString();
+                eptm.PMEmail = msdr.GetValue(31).ToString();
+                eptm.PMLocation = msdr.GetValue(32).ToString();
                 eptm.IDEvent = msdr.GetValue(msdr.FieldCount - 2).ToString();
                 eptm.IDEmpresa= msdr.GetValue(msdr.FieldCount - 1).ToString();
             }

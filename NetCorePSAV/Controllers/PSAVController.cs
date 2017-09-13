@@ -877,7 +877,7 @@ namespace GCCorePSAV.Controllers
                 var fileDownloadName = "EPTTem.xlsx";
                 var reportsFolder = "reports";
                 var fileInfo = new FileInfo(Path.Combine(_hostingEnvironment.WebRootPath, reportsFolder, fileDownloadName));
-                byte[] ReportArray;
+                byte[] ReportArray;                
                 using (ExcelPackage package = new ExcelPackage(fileInfo))
                 {
                     
@@ -899,10 +899,10 @@ namespace GCCorePSAV.Controllers
                     wkCotizacion.Cells["C20"].Value = ModEptFill.Fax;//Razon
                     wkCotizacion.Cells["C21"].Value = ModEptFill.Email;//Razon
                                                                        //fill sales Represent
-                    wkCotizacion.Cells["C24"].Value = "";//Razon
-                    wkCotizacion.Cells["C25"].Value = "";//Razon
-                    wkCotizacion.Cells["C26"].Value = "";//Razon
-                    wkCotizacion.Cells["C27"].Value = "";//Razon
+                    wkCotizacion.Cells["C24"].Value = ModEptFill.SMName;//Razon
+                    wkCotizacion.Cells["C25"].Value = ModEptFill.SMJob;//Razon
+                    wkCotizacion.Cells["C26"].Value = ModEptFill.SMEmail;//Razon
+                    wkCotizacion.Cells["C27"].Value = ModEptFill.SMPhone;//Razon
                                                          //fill event info
                     wkCotizacion.Cells["G10"].Value = ModEptFill.EventName;//Razon
                     wkCotizacion.Cells["G11"].Value = ModEptFill.MountDate;//Razon
@@ -917,10 +917,10 @@ namespace GCCorePSAV.Controllers
                     wkCotizacion.Cells["G20"].Value = ModEptFill.Address;//Razon
                     wkCotizacion.Cells["G22"].Value = "MXN Mexican Peso";//Razon
                                                                          //fill psav manager
-                    wkCotizacion.Cells["G24"].Value = "";//Razon
-                    wkCotizacion.Cells["G25"].Value = "";//Razon
-                    wkCotizacion.Cells["G27"].Value = "";//Razon
-                    wkCotizacion.Cells["G28"].Value = "";//Razon
+                    wkCotizacion.Cells["G24"].Value = ModEptFill.PMName;//Razon
+                    wkCotizacion.Cells["G25"].Value = ModEptFill.PMMobile;//Razon
+                    wkCotizacion.Cells["G27"].Value = ModEptFill.PMEmail;//Razon
+                    wkCotizacion.Cells["G28"].Value = ModEptFill.PMLocation;//Razon
                                                          ///////////Get Item List Sheet
                     ExcelWorksheet wkItemList = package.Workbook.Worksheets[3];
                     ///get item list salons
@@ -960,7 +960,7 @@ namespace GCCorePSAV.Controllers
                     ////package.Save();
                     ReportArray = package.GetAsByteArray();
                 }
-                return File(ReportArray, XlsxContentType, "EPT" + System.DateTime.Now.ToString("ddMMyyyy") + ".xlsx");
+                return File(ReportArray, XlsxContentType, "EPT_" + folio +"_"+ System.DateTime.Now.ToString("ddMMyyyy") + ".xlsx");
             }
             catch (Exception ex){ ViewBag.datashow = ex.Message; return View(); }
         }
