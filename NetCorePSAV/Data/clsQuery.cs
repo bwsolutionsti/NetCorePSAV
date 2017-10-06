@@ -160,7 +160,7 @@ namespace GCCorePSAV.Data
             switch (oper)
             {
                 case 0:
-                    QueryCoin = "insert into psav_dev.tm_users (tmu_username,tmu_pwd,tmu_active,tmu_expire) values('" + mod.Username + "'," + mod.Password + "," + mod.Active + ",'"+mod.Expira+"')";
+                    QueryCoin = "insert into psav_dev.tm_users (tmu_username,tmu_pwd,tmu_active,tmu_expire) values('" + mod.Username + "','" + mod.Password + "'," + mod.Active + ",'"+mod.Expira+"')";
                     Retorno = SaveWithIDReturn(QueryCoin);
                     break;
                 case 1:

@@ -913,7 +913,7 @@ namespace GCCorePSAV.Controllers
                     wkCotizacion.Cells["G16"].Value = ModEptFill.StartHour;//Razon
                     wkCotizacion.Cells["G17"].Value = ModEptFill.FinishDate;//Razon
                     wkCotizacion.Cells["G18"].Value = ModEptFill.FinishHour;//Razon
-                    wkCotizacion.Cells["G19"].Value = ModEptFill.Place;//Razon
+                    wkCotizacion.Cells["G19"].Value = ModEptFill.Place;//Razonr
                     wkCotizacion.Cells["G20"].Value = ModEptFill.Address;//Razon
                     wkCotizacion.Cells["G22"].Value = "MXN Mexican Peso";//Razon
                                                                          //fill psav manager
