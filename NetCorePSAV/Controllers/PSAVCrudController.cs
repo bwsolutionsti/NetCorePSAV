@@ -109,7 +109,7 @@ namespace GCCorePSAV.Controllers
         public static List<Models.PSAVCrud.SyncModels.UsersModel> UsersList = new List<Models.PSAVCrud.SyncModels.UsersModel>();
         public ActionResult Usuarios()
         {
-            if (UsersList.Count.Equals(0))
+            //if (UsersList.Count.Equals(0))
                 BindDataSourceUsers();
             ViewBag.datasource = UsersList;
             return View();
