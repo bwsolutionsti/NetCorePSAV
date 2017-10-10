@@ -517,6 +517,126 @@ namespace GCCorePSAV.Controllers
             FOList = new List<Models.SyncPSAV.FreelanceOL>(); ViaticosL = new List<Models.SyncPSAV.Viaticos>(); ComVenL = new List<Models.SyncPSAV.VentasFeeTot>();
             GasFinL = new List<Models.SyncPSAV.GastosFinancieros>(); ConsuL = new List<Models.SyncPSAV.Consumibles>(); CIntL = new List<Models.SyncPSAV.CargosInternos>();
         }
+        #region OLList
+        public ActionResult FOLNormalUpdate([FromBody]CRUDModel<Models.SyncPSAV.FreelanceOL> myObject)
+        {
+            var ord = myObject.Value;
+            Models.SyncPSAV.FreelanceOL val = FOList.Where(or => or.Nombres == ord.Nombres).FirstOrDefault();
+            val.Condiciones = ord.Condiciones;val.CostoCarga = ord.CostoCarga;val.CostoTotal = ord.CostoTotal;val.Dias = ord.Dias;val.Nombres = ord.Nombres;val.Puesto = ord.Puesto;val.Sueldo = ord.Sueldo;
+            return Json(myObject.Value);
+        }
+        public ActionResult FOLNormalInsert([FromBody]CRUDModel<Models.SyncPSAV.FreelanceOL> value)
+        {
+            Models.SyncPSAV.FreelanceOL val = value.Value;
+            FOList.Insert(FOList.Count, val);
+            return Json(FOList);
+        }
+        public ActionResult FOLNormalDelete([FromBody]CRUDModel<Models.SyncPSAV.FreelanceOL> value)
+        {
+            FOList.Remove(FOList.Where(or => or.Nombres == value.Key.ToString()).FirstOrDefault());
+            return Json(value);
+        }
+        #endregion
+        #region viaticosList
+        public ActionResult ViaticosNormalUpdate([FromBody]CRUDModel<Models.SyncPSAV.Viaticos> myObject)
+        {
+            var ord = myObject.Value;
+            Models.SyncPSAV.Viaticos val = ViaticosL.Where(or => or.Nombres == ord.Nombres).FirstOrDefault();
+            val.Nombres = ord.Nombres;val.Observaciones = ord.Observaciones;val.Puesto = ord.Puesto;val.TotalSol = ord.TotalSol;
+            return Json(myObject.Value);
+        }
+        public ActionResult ViaticosNormalInsert([FromBody]CRUDModel<Models.SyncPSAV.Viaticos> value)
+        {
+            Models.SyncPSAV.Viaticos val = value.Value;
+            ViaticosL.Insert(ViaticosL.Count, val);
+            return Json(ViaticosL);
+        }
+        public ActionResult ViaticosNormalDelete([FromBody]CRUDModel<Models.SyncPSAV.Viaticos> value)
+        {
+            ViaticosL.Remove(ViaticosL.Where(or => or.Nombres == value.Key.ToString()).FirstOrDefault());
+            return Json(value);
+        }
+        #endregion
+        #region ComisionVtaL
+        public ActionResult ComVtaNormalUpdate([FromBody]CRUDModel<Models.SyncPSAV.VentasFeeTot> myObject)
+        {
+            var ord = myObject.Value;
+            Models.SyncPSAV.VentasFeeTot val = ComVenL.Where(or => or.Nombres == ord.Nombres).FirstOrDefault();
+            val.Comision = ord.Comision;val.Comisiontot = ord.Comisiontot;val.Nombres = ord.Nombres;val.Puesto = ord.Puesto;val.VentaNeta = ord.VentaNeta;
+            return Json(myObject.Value);
+        }
+        public ActionResult ComVtaNormalInsert([FromBody]CRUDModel<Models.SyncPSAV.VentasFeeTot> value)
+        {
+            Models.SyncPSAV.VentasFeeTot val = value.Value;
+            ComVenL.Insert(ComVenL.Count, val);
+            return Json(ComVenL);
+        }
+        public ActionResult ComVtaNormalDelete([FromBody]CRUDModel<Models.SyncPSAV.VentasFeeTot> value)
+        {
+            ComVenL.Remove(ComVenL.Where(or => or.Nombres == value.Key.ToString()).FirstOrDefault());
+            return Json(value);
+        }
+        #endregion
+        #region GFinanlist
+        public ActionResult GFinanNormalUpdate([FromBody]CRUDModel<Models.SyncPSAV.GastosFinancieros> myObject)
+        {
+            var ord = myObject.Value;
+            Models.SyncPSAV.GastosFinancieros val = GasFinL.Where(or => or.Importe == ord.Importe).FirstOrDefault();
+            val.Comision = ord.Comision; val.Importe = ord.Importe;val.ImporteCom = ord.ImporteCom;val.PorcCom = ord.PorcCom;
+            return Json(myObject.Value);
+        }
+        public ActionResult GFinanNormalInsert([FromBody]CRUDModel<Models.SyncPSAV.GastosFinancieros> value)
+        {
+            Models.SyncPSAV.GastosFinancieros val = value.Value;
+            GasFinL.Insert(GasFinL.Count, val);
+            return Json(ComVenL);
+        }
+        public ActionResult GFinanNormalDelete([FromBody]CRUDModel<Models.SyncPSAV.GastosFinancieros> value)
+        {
+            GasFinL.Remove(GasFinL.Where(or => or.Importe == value.Key.ToString()).FirstOrDefault());
+            return Json(value);
+        }
+        #endregion
+        #region fletesl
+        public ActionResult FletesNormalUpdate([FromBody]CRUDModel<Models.SyncPSAV.Consumibles> myObject)
+        {
+            var ord = myObject.Value;
+            Models.SyncPSAV.Consumibles val = ConsuL.Where(or => or.Cotizacion == ord.Cotizacion).FirstOrDefault();
+            val.Costo = ord.Costo;val.Cotizacion = ord.Cotizacion;val.Description = ord.Description;val.Supplier = ord.Supplier;
+            return Json(myObject.Value);
+        }
+        public ActionResult FletesNormalInsert([FromBody]CRUDModel<Models.SyncPSAV.Consumibles> value)
+        {
+            Models.SyncPSAV.Consumibles val = value.Value;
+            ConsuL.Insert(ConsuL.Count, val);
+            return Json(ComVenL);
+        }
+        public ActionResult FletesNormalDelete([FromBody]CRUDModel<Models.SyncPSAV.Consumibles> value)
+        {
+            ConsuL.Remove(ConsuL.Where(or => or.Cotizacion == value.Key.ToString()).FirstOrDefault());
+            return Json(value);
+        }
+        #endregion
+        #region cargosinternos
+        public ActionResult CINormalUpdate([FromBody]CRUDModel<Models.SyncPSAV.CargosInternos> myObject)
+        {
+            var ord = myObject.Value;
+            Models.SyncPSAV.CargosInternos val = CIntL.Where(or => or.MontoCargo == ord.MontoCargo).FirstOrDefault();
+            val.Categoria = ord.Categoria;val.Equipo = ord.Equipo;val.MontoCargo = ord.MontoCargo;val.PorcCargo = ord.PorcCargo;val.PrecioLista = ord.PrecioLista;val.TipoOper = ord.TipoOper;
+            return Json(myObject.Value);
+        }
+        public ActionResult CINormalInsert([FromBody]CRUDModel<Models.SyncPSAV.CargosInternos> value)
+        {
+            Models.SyncPSAV.CargosInternos val = value.Value;
+            CIntL.Insert(CIntL.Count, val);
+            return Json(ComVenL);
+        }
+        public ActionResult CINormalDelete([FromBody]CRUDModel<Models.SyncPSAV.CargosInternos> value)
+        {
+            CIntL.Remove(CIntL.Where(or => or.MontoCargo == value.Key.ToString()).FirstOrDefault());
+            return Json(value);
+        }
+        #endregion
         #endregion
         #region editEPT
         #region resumeEPT

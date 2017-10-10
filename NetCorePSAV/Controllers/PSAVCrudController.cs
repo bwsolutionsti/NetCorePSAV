@@ -12,48 +12,7 @@ namespace GCCorePSAV.Controllers
     {
         Data.clsQuery ConSQL = new Data.clsQuery();
         // GET: /<controller>/
-        //public IActionResult Usuarios()
-        //{
-        //    List<Models.PSAVCrud.Returning.UsuariosReturnModel> URMList = ConSQL.SearchUsers(string.Empty);
-        //    ViewBag.URMList = URMList;
-        //    return View();
-        //}
-        //[HttpPost]
-        //public async Task<IActionResult> Usuarios(Models.PSAVCrud.UsuariosConsulta.UsuarioBuscar model)
-        //{
-
-        //    List<Models.PSAVCrud.Returning.UsuariosReturnModel> URMList = ConSQL.SearchUsers(model.UserFind);
-        //    ViewBag.URMList = URMList;
-        //    return View();
-        //}
-        //[HttpPost]
-        //public IActionResult EditUser()
-        //{
-        //    return View();
-        //}
-        //public IActionResult Coins()
-        //{
-        //    List<Models.PSAVCrud.CoinsModel> CoinsList = ConSQL.GetCoin(string.Empty);
-        //    ViewBag.CoinsList = CoinsList;
-        //    return View();
-        //}
-        //[HttpPost]
-        //public async Task<IActionResult> Coins(Models.PSAVCrud.CoinsModel model)
-        //{
-        //    List<Models.PSAVCrud.CoinsModel> CoinsList = ConSQL.GetCoin(model.CoinName);
-        //    ViewBag.CoinsList = CoinsList;
-        //    return View();
-        //}
-        //[HttpGet]
-        //public IActionResult NewCoin()
-        //{
-        //    return View();
-        //}
-        //[HttpPost]
-        //public async Task<IActionResult> NewCoin(Models.PSAVCrud.CoinsModel model)
-        //{
-        //    return View();
-        //}
+        
         public IActionResult ViewsManager()
         {
             List<Models.PSAVCrud.ViewManagerModel.ViewManagerList> VMList = ConSQL.GetVMList(string.Empty);
