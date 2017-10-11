@@ -1138,7 +1138,7 @@ namespace GCCorePSAV.Data
 " inner join tm_client cli on cli.tmc_id = ept.tmc_id" +
 " inner join tm_person per on per.tmp_id = cli.tmp_id" +
 " inner join tm_personaddress tmpa on tmpa.tmp_id = per.tmp_id" +
-" inner join td_eptrep tder on tder.tme_folio=ept.tme_folio "+
+" left join td_eptrep tder on tder.tme_folio=ept.tme_folio "+
 " where ept.tme_folio = '" +folio.Trim()+"'";
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(ConsSQL, conn);

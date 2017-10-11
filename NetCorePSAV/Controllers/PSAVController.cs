@@ -322,7 +322,7 @@ namespace GCCorePSAV.Controllers
         [HttpPost]
         public IActionResult EditVtaDesc(string Advance)
         {
-            if (!string.IsNullOrEmpty(Advance))
+            if (string.IsNullOrEmpty(Advance))
             {
                 VDescList = ConSQL.GetVtaDesc(Request.Cookies["IDEVT"].ToString());
                 ViewBag.datasource = VDescList;
@@ -337,7 +337,7 @@ namespace GCCorePSAV.Controllers
         [HttpPost]
         public IActionResult EditVtaFee(string Advance)
         {
-            if (!string.IsNullOrEmpty(Advance))
+            if (string.IsNullOrEmpty(Advance))
             {
                 VFeeList = ConSQL.GetVFee(Request.Cookies["IDEVT"].ToString());
                 ViewBag.datasource = VFeeList;
@@ -352,7 +352,7 @@ namespace GCCorePSAV.Controllers
         [HttpPost]
         public IActionResult EditSubrenta(string Advance)
         {
-            if (!string.IsNullOrEmpty(Advance))
+            if (string.IsNullOrEmpty(Advance))
             {
                 SubRentaList = ConSQL.GetSubRenta(Request.Cookies["IDEVT"].ToString());
                 ViewBag.datasource = SubRentaList;
@@ -653,10 +653,20 @@ namespace GCCorePSAV.Controllers
             Response.Cookies.Append("IDEVT", IDEvent, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
             return View(eptM);
         }
+
         public IActionResult ResumeEPT()
         {
             string folio = "";
-            if (!string.IsNullOrEmpty(Request.Cookies["folio"].ToString())) { folio = Request.Cookies["folio"].ToString(); }
+            if (Request.Cookies["folio"] != null)
+            {
+                if (!string.IsNullOrEmpty(Request.Cookies["folio"].ToString()))
+                {
+                    if (folio != Request.Cookies["folio"].ToString())
+                    {
+                        folio = Request.Cookies["folio"].ToString();
+                    }
+                }
+            }
             Models.EPTModel eptM = ConSQL.GetEPTToEdit(folio);
             string IDEvent = eptM.IDEvent;
             //itemlist
@@ -665,6 +675,7 @@ namespace GCCorePSAV.Controllers
             ViewBag.ILListWF = ConSQL.GetSalonsWF(IDEvent);
             Response.Cookies.Append("IDEVT", IDEvent, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
             return View(eptM);
+
         }
         [HttpPost]
         public IActionResult ResumeEPT(string folio)
