@@ -49,22 +49,22 @@
                             <e-column field="MonthOp" header-text="Mes Operación" edit-type="Datepicker"format="{0:MM/yyyy}" ></e-column>
                             <e-column field="StartDate" header-text="Fecha Inicio" edit-type="Datepicker" format="{0:MM/dd/yyyy}"></e-column>
                             <e-column field="EndDate" header-text="Fecha Fin" edit-type="Datepicker" format="{0:MM//dd/yyyy}"></e-column>
-                            <e-column field="EventName" header-text="Nombre Evento" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="80"></e-column>
-                            <e-column field="IDClient" header-text="Nombre Cliente" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="80"></e-column>
-                            <e-column field="ContactName" header-text="Nombre Contacto" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="100"></e-column>
-                            <e-column field="ContactContact" header-text="Contacto" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="100"></e-column>
-                            <e-column field="Agency" header-text="Agencia" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
-                            <e-column field="IDEventType" header-text="Tipo Evento" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
-                            <e-column field="EmpresaAV" header-text="Empresa AV" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
-                            <e-column field="ResponsableVtas" header-text="Responsable PSAV" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
-                            <e-column field="VtasPSAV" header-text="Ventas PSAV" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
-                            <e-column field="LB" header-text="LB" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
-                            <e-column field="Suma" header-text="Suma" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
-                            <e-column field="CRatio" header-text="CRatio" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
-                            <e-column field="HotelFee" header-text="Hotel Fee" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
-                            <e-column field="LBCause" header-text="Causa LB" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
+                            <e-column field="EventName" header-text="Nombre Evento" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
+                            <e-column field="IDClient" header-text="Nombre Cliente" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
+                            <e-column field="ContactName" header-text="Nombre Contacto" validation-rules='new Dictionary<string, object>() { {"required",true} }' text-align="Right" width="100"></e-column>
+                            <e-column field="ContactContact" header-text="Contacto" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="100"></e-column>
+                            <e-column field="Agency" header-text="Agencia" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="100"></e-column>
+                            <e-column field="IDEventType" header-text="Tipo Evento" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="100"></e-column>
+                            <e-column field="EmpresaAV" header-text="Empresa AV" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="100"></e-column>
+                            <e-column field="ResponsableVtas" header-text="Responsable PSAV" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="100"></e-column>
+                            <e-column field="VtasPSAV" header-text="Ventas PSAV" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="100"></e-column>
+                            <e-column field="LB" header-text="LB" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="100"></e-column>
+                            <e-column field="Suma" header-text="Suma" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="100"></e-column>
+                            <e-column field="CRatio" header-text="CRatio" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="100"></e-column>
+                            <e-column field="HotelFee" header-text="Hotel Fee" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="100"></e-column>
+                            <e-column field="LBCause" header-text="Causa LB" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="100"></e-column>
                             <e-column field="NextEventDate" header-text="Fecha Siguiente Evento" edit-type="Datepicker" format="{0:MM/dd/yyyy}"></e-column>
-                            <e-column field="NextEventPlace" header-text="Lugar Siguiente Evento" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="100"></e-column>
+                            <e-column field="NextEventPlace" header-text="Lugar Siguiente Evento" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="100"></e-column>
                         </e-columns>
                     </ej-grid>
                 </div>

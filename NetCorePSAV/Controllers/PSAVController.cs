@@ -367,7 +367,7 @@ namespace GCCorePSAV.Controllers
         [HttpPost]
         public IActionResult EditOL(string Advance)
         {
-            if (!string.IsNullOrEmpty(Advance))
+            if (string.IsNullOrEmpty(Advance))
             {
                 ViewBag.datasource1 = FOList;
                 ViewBag.datasource2 = ViaticosL;

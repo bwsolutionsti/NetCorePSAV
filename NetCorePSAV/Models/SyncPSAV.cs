@@ -61,6 +61,8 @@ namespace GCCorePSAV.Models
         }
         public class VentaDes
         {
+            [Key]
+            public string ID { get; set; }
             public string Category { get; set; }
             public string VentaEqui { get; set; }
             public string VentaEquEx { get; set; }
@@ -75,6 +77,8 @@ namespace GCCorePSAV.Models
         }
         public class VentaFee
         {
+            [Key]
+            public string ID { get; set; }
             public string Category { get; set; }
             public string BaseFee { get; set; }
             public string PorcFee { get; set; }
@@ -83,6 +87,8 @@ namespace GCCorePSAV.Models
         }
         public class SubRenta
         {
+            [Key]
+            public string ID { get; set; }
             public string Category { get; set; }
             public string Invoice { get; set; }
             public string Supplier { get; set; }
@@ -92,6 +98,8 @@ namespace GCCorePSAV.Models
         }
         public class FreelanceOL
         {
+            [Key]
+            public string ID { get; set; }
             public string Nombres { get; set; }
             public string Puesto { get; set; }
             public string Dias { get; set; }
@@ -102,6 +110,8 @@ namespace GCCorePSAV.Models
         }
         public class Viaticos
         {
+            [Key]
+            public string ID { get; set; }
             public string Nombres { get; set; }
             public string Puesto { get; set; }
             public string Observaciones { get; set; }
@@ -109,6 +119,8 @@ namespace GCCorePSAV.Models
         }
         public class VentasFeeTot
         {
+            [Key]
+            public string ID { get; set; }
             public string Nombres { get; set; }
             public string Puesto { get; set; }
             public string Comision { get; set; }
@@ -117,6 +129,8 @@ namespace GCCorePSAV.Models
         }
         public class GastosFinancieros
         {
+            [Key]
+            public string ID { get; set; }
             public string Comision { get; set; }
             public string Importe { get; set; }
             public string PorcCom { get; set; }
@@ -124,6 +138,8 @@ namespace GCCorePSAV.Models
         }
         public class Consumibles
         {
+            [Key]
+            public string ID { get; set; }
             public string Cotizacion { get; set; }
             public string Supplier { get; set; }
             public string Description { get; set; }
@@ -131,6 +147,8 @@ namespace GCCorePSAV.Models
         }
         public class CargosInternos
         {
+            [Key]
+            public string ID { get; set; }
             public string Equipo { get; set; }
             public string Categoria { get; set; }
             public string PrecioLista { get; set; }
@@ -140,6 +158,7 @@ namespace GCCorePSAV.Models
         }
         public class SalonIL
         {
+
             public string ID { get; set; }
             public string IDEvt { get; set; }
             public string Salon { get; set; }

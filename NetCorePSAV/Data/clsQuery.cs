@@ -505,6 +505,7 @@ namespace GCCorePSAV.Data
                 SR.Descripcion = msdr.GetValue(4).ToString();
                 SR.Gastosub = msdr.GetValue(5).ToString();
                 SR.Ventasub = msdr.GetValue(6).ToString();
+                SR.ID = msdr.GetValue(0).ToString();
                 SRL.Add(SR);
             }
             conn.Close();
@@ -536,6 +537,7 @@ namespace GCCorePSAV.Data
                 VF.PorcFee = msdr.GetValue(3).ToString();
                 VF.SubFee = msdr.GetValue(4).ToString();
                 VF.ImporteFee = msdr.GetValue(5).ToString();
+                VF.ID = msdr.GetValue(0).ToString();
                 VFEe.Add(VF);
             }
             conn.Close();
@@ -573,6 +575,7 @@ namespace GCCorePSAV.Data
                 VD.TotalDesc = msdr.GetValue(9).ToString();
                 VD.PorcTotalDesc = msdr.GetValue(10).ToString();
                 VD.AplicaAut = msdr.GetValue(11).ToString();
+                VD.ID = msdr.GetValue(0).ToString();
                 Vdes.Add(VD);
             }
             conn.Close();
