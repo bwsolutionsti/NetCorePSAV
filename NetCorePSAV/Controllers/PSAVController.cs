@@ -980,6 +980,7 @@ namespace GCCorePSAV.Controllers
             CDets = ConSQL.GetCD(IDC);
             if (Request.Cookies["IDCOne"] != null) { Response.Cookies.Delete("IDCOne"); }
             Response.Cookies.Append("IDCOne", IDC, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
+            Response.Cookies.Append("IDCR", IDC, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
             ViewBag.CRLIt = CDets;
             for (int i = 0; i < CVR.Count; i++)
             {
