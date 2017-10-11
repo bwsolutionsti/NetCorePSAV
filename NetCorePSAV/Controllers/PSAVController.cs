@@ -688,6 +688,7 @@ namespace GCCorePSAV.Controllers
             //itemlistworkforce
             ViewBag.ILListWF = ConSQL.GetSalonsWF(IDEvent);
             Response.Cookies.Append("IDEVT", IDEvent, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
+            Response.Cookies.Append("folio", folio, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
             return View(eptM);
         }
         [HttpGet]
