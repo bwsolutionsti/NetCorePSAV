@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace GCCorePSAV.Models.PSAVCrud
 {
@@ -22,6 +23,21 @@ namespace GCCorePSAV.Models.PSAVCrud
             public string Active { get; set; }
             public string Persona { get; set; }
             public string Expira { get; set; }
+        }
+        public class NewUser
+        {
+            [Required]
+            [DataType(DataType.EmailAddress)]
+            public string UserName { get; set; }
+            [Required ]
+            [DataType(DataType.Password)]
+            public string Password { get; set; }
+            [DataType(DataType.Date)]
+            public string Expira { get; set; }
+            public string PrimerNombre { get; set; }
+            public string PrimerApellido { get; set; }
+            public string SegundoNombre { get; set; }
+            public string SegundoApellido { get; set; }
         }
     }
 }

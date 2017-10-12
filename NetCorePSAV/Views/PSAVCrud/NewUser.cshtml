@@ -1,0 +1,40 @@
+﻿@using Syncfusion.JavaScript
+@using Syncfusion.MVC.EJ
+@using GCCorePSAV.Controllers.Services
+@inject LoggedInComponent Lgc
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model GCCorePSAV.Models.PSAVCrud.SyncModels.NewUser
+@await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+    <br /><br /><br />
+    <form method="post" asp-action="SaveNewUser" asp-controller="PSAVCrud">
+        <table class="table table-bordered">
+            <tr>
+                <th>Usuario</th>
+                <th>Contraseña</th>
+                <th>Expira</th>
+            </tr>
+            <tr>
+                <td><input asp-for="UserName" class="form-control" /></td>
+                <td><input asp-for="Password" class="form-control" /></td>
+                <td><input asp-for="Expira" class="form-control" /></td>
+            </tr>
+            <tr>
+                <th>Primer Nombre</th>
+                <th>Segundo Nombre</th>
+                <th>Primer Apellido</th>
+                <th>Segundo Apellido</th>
+            </tr>
+            <tr>
+                <td><input asp-for="PrimerNombre" class="form-control" /></td>
+                <td><input asp-for="SegundoNombre" class="form-control" /></td>
+                <td><input asp-for="PrimerApellido" class="form-control" /></td>
+                <td><input asp-for="SegundoApellido" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td><button type="submit" class="btn btn-default">Guardar</button></td>
+            </tr>
+        </table>
+    </form>
+}

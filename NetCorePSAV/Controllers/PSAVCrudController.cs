@@ -66,6 +66,35 @@ namespace GCCorePSAV.Controllers
         #region NewSyncFCrud
         #region Users
         public static List<Models.PSAVCrud.SyncModels.UsersModel> UsersList = new List<Models.PSAVCrud.SyncModels.UsersModel>();
+        [HttpPost]
+        public ActionResult EditUsuario(string usn)
+        {
+            Models.PSAVCrud.SyncModels.UsersModel UM = ConSQL.GetUser(usn);
+            return View(UM);
+        }
+        [HttpPost]
+        public ActionResult NewUser()
+        {
+            return View();
+        }
+        public ActionResult SaveNewUser(Models.PSAVCrud.SyncModels.NewUser model)
+        {
+            string IDClient = ConSQL.SavePerson(model);
+            Models.PSAVCrud.SyncModels.UsersModel UM = new Models.PSAVCrud.SyncModels.UsersModel();
+            UM.Active = "1";
+            UM.Expira = model.Expira;
+            UM.Persona = IDClient;
+            UM.Username = model.UserName;
+            UM.Password = model.Password;
+            string IDU=ConSQL.UpdateUsers(UM, 0);
+            ConSQL.SaveRolUser(IDU, "1");
+            return RedirectToAction("Usuarios");
+        }
+        public ActionResult SaveUserEdit(Models.PSAVCrud.SyncModels.UsersModel model)
+        {
+            ConSQL.UpdateUsers(model, 1);
+            return RedirectToAction("Usuarios");
+        }
         public ActionResult Usuarios()
         {
             //if (UsersList.Count.Equals(0))

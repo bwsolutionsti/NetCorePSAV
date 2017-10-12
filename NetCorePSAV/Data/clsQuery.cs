@@ -86,6 +86,26 @@ namespace GCCorePSAV.Data
         #endregion
         #region CRUD
         #region usuarios
+        public Models.PSAVCrud.SyncModels.UsersModel GetUser(string usn)
+        {
+            string QuerySearchAll = "SELECT tmu_id,concat(tmp_firstname,' ',tmp_secondname,' ',tmp_lastname,' ',tmp_seclastname) as Nombre,tmu.tmu_username,tmu.tmu_expire,tmu.tmu_active " +
+                                        "FROM psav_dev.tm_person tmp inner join psav_dev.tm_users tmu on tmu.tmp_id = tmp.tmp_id where tmu.tmu_username='"+usn+"' order by tmu.tmu_active";
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QuerySearchAll, conn);
+            conn.Open();
+            MySqlDataReader sdr = cmd.ExecuteReader();
+            Models.PSAVCrud.SyncModels.UsersModel UMO = new Models.PSAVCrud.SyncModels.UsersModel();
+            while (sdr.Read())
+            {
+               
+                UMO.ID = sdr.GetValue(0).ToString();
+                UMO.Persona = sdr.GetValue(1).ToString();
+                UMO.Username = sdr.GetValue(2).ToString();
+                UMO.Expira = sdr.GetValue(3).ToString();
+                UMO.Active = sdr.GetValue(4).ToString();
+            }
+            return UMO;
+        }
         public List<Models.PSAVCrud.SyncModels.UsersModel> GetUsers()
         {
             string QuerySearchAll = "SELECT tmu_id,concat(tmp_firstname,' ',tmp_secondname,' ',tmp_lastname,' ',tmp_seclastname) as Nombre,tmu.tmu_username,tmu.tmu_expire,tmu.tmu_active " +
@@ -153,6 +173,16 @@ namespace GCCorePSAV.Data
             }
             return new List<Models.PSAVCrud.Returning.UsuariosReturnModel>();
         }
+        public string SavePerson(Models.PSAVCrud.SyncModels.NewUser model)
+        {
+            string queryPerson = "insert into psav_dev.tm_person (tmp_firstname,tmp_secondname,tmp_lastname,tmp_seclastname) values('"+model.PrimerNombre+ "','" + model.SegundoNombre + "','"+model.PrimerApellido+"','" + model.SegundoApellido + "')";
+            return SaveWithIDReturn(queryPerson);
+        }
+        public void SaveRolUser(string usuario,string rol)
+        {
+            string query = "insert into psav_dev.tr_userroles(tmr_id,tmu_id) values(" + rol + "," + usuario + ")";
+            SaveWithoutValidation(query);
+        }
         public string UpdateUsers(Models.PSAVCrud.SyncModels.UsersModel mod, int oper)
         {
             string Retorno = "";
@@ -160,11 +190,11 @@ namespace GCCorePSAV.Data
             switch (oper)
             {
                 case 0:
-                    QueryCoin = "insert into psav_dev.tm_users (tmu_username,tmu_pwd,tmu_active,tmu_expire) values('" + mod.Username + "','" + mod.Password + "'," + mod.Active + ",'"+mod.Expira+"')";
+                    QueryCoin = "insert into psav_dev.tm_users (tmu_username,tmu_pwd,tmu_active,tmu_expire,tmp_id) values('" + mod.Username + "','" + mod.Password + "'," + mod.Active + ",'"+mod.Expira+"',"+mod.Persona+")";
                     Retorno = SaveWithIDReturn(QueryCoin);
                     break;
                 case 1:
-                    QueryCoin = "update psav_dev.tm_users set tmu_username='" + mod.Username + "', tmu_pwd='" + mod.Password + "', tmu_active=" + mod.Active + " where tmu_id=" + mod.ID;
+                    QueryCoin = "update psav_dev.tm_users set tmu_username='" + mod.Username + "', tmu_pwd='" + mod.Password + "', tmu_active=" + mod.Active + " where tmu_username='"+mod.Username+"'";
                     SaveWithoutValidation(QueryCoin);
                     break;
                 case 2:
