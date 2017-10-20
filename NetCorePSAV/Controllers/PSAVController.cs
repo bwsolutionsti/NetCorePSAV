@@ -149,6 +149,7 @@ namespace GCCorePSAV.Controllers
                     Models.SyncPSAV.SalonIL ILS = new Models.SyncPSAV.SalonIL();
                     ServList = new List<Models.SyncPSAV.ItemListServices>();
                     ViewBag.datasource = ServList;
+                    ViewBag.datasourcedrop = ConSQL.GetListCategory("1");
                     Response.Cookies.Append("IDEVNN", ConSQL.GetEPTToEdit(EVT).IDEvent, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                     return View(ILS);
                 }
@@ -157,6 +158,7 @@ namespace GCCorePSAV.Controllers
                     Models.SyncPSAV.SalonIL ILS = ConSQL.GetOneSalonIL(IDIL);
                     ServList = ConSQL.LILS(IDIL);
                     ViewBag.datasource = ServList;
+                    ViewBag.datasourcedrop = ConSQL.GetListCategory("1");
                     Response.Cookies.Append("IDEVNN", ILS.IDEvt, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                     return View(ILS);
                 }
@@ -181,6 +183,7 @@ namespace GCCorePSAV.Controllers
             if (ServList.Count.Equals(0))
             {
                 BindServList();
+                ViewBag.datasourcedrop = ConSQL.GetListCategory("1");
                 ViewBag.datasource = ServList;
             }
             return View(mod);
@@ -940,7 +943,7 @@ namespace GCCorePSAV.Controllers
             val.IDCratio = Request.Cookies["IDCR"].ToString();
             val.IDCratioDets = ConSQL.SaveCRDet(value.Value, 0);
             CDets.Insert(CDets.Count, val);
-            ConSQL.SaveCRDet(val, 0);
+            //ConSQL.SaveCRDet(val, 0);
             return Json(CDets);
         }
         public ActionResult CratioNormalDelete([FromBody]CRUDModel<Models.SyncPSAV.CratioDets> value)

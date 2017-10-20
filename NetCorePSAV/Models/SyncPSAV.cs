@@ -8,6 +8,10 @@ namespace GCCorePSAV.Models
 {
     public class SyncPSAV
     {
+        public class ItemCategory
+        {
+            public string Categoria { get; set; }
+        }
         public class CratioDets
         {
             public string MonthOp { get; set; }

@@ -419,7 +419,23 @@ namespace GCCorePSAV.Data
 #endregion
         #endregion
         #region EPT
-        
+        public List<Models.SyncPSAV.ItemCategory> GetListCategory(string type)
+        {
+            List<Models.SyncPSAV.ItemCategory> list = new List<Models.SyncPSAV.ItemCategory>();
+            string QuerySearch = "SELECT tcc_name FROM psav_dev.tc_category where tcc_type=" + type;
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                Models.SyncPSAV.ItemCategory itemCategory = new Models.SyncPSAV.ItemCategory();
+                itemCategory.Categoria = msdr.GetValue(0).ToString();
+                list.Add(itemCategory);
+            }
+            conn.Close();
+            return list;
+        }
         public void UpdateOL(List<Models.SyncPSAV.FreelanceOL> FOList, List<Models.SyncPSAV.Viaticos> ViaticosL, List<Models.SyncPSAV.VentasFeeTot> ComVenL,
             List<Models.SyncPSAV.GastosFinancieros> GasFinL, List<Models.SyncPSAV.Consumibles> ConsuL, List<Models.SyncPSAV.CargosInternos> CIntL, string idevt)
         {
