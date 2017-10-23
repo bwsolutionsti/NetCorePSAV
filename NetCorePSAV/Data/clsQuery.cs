@@ -422,7 +422,7 @@ namespace GCCorePSAV.Data
         public List<Models.SyncPSAV.ItemCategory> GetListCategory(string type)
         {
             List<Models.SyncPSAV.ItemCategory> list = new List<Models.SyncPSAV.ItemCategory>();
-            string QuerySearch = "SELECT tcc_type,tcc_name FROM psav_dev.tc_category where tcc_type=" + type;
+            string QuerySearch = "SELECT tcc_id,tcc_name FROM psav_dev.tc_category where tcc_type=" + type;
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
             conn.Open();

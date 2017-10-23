@@ -246,6 +246,7 @@ namespace GCCorePSAV.Controllers
                     WFList = ConSQL.LILSWF(IDIL);
                     Response.Cookies.Append("IDEVNN", ILS.IDEvt, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                     ViewBag.datasource = WFList;
+                    ViewBag.datasourcedrop = ConSQL.GetListCategory("2").ToList();
                     return View(ILS);
                 }
                 else
@@ -254,6 +255,7 @@ namespace GCCorePSAV.Controllers
                     WFList = new List<Models.SyncPSAV.ItemListWorkForce>();
                     Response.Cookies.Append("IDEVNN", ConSQL.GetEPTToEdit(EVT).IDEvent, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                     ViewBag.datasource = WFList;
+                    ViewBag.datasourcedrop = ConSQL.GetListCategory("2").ToList();
                     return View(ILS);
                 }
             }
@@ -278,11 +280,13 @@ namespace GCCorePSAV.Controllers
                 mod.EventoName = Request.Cookies["EVN"].ToString();
                 mod.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());
                 ConSQL.SaveItemListWFDetail(WFList, IDITL, Request.Cookies["IDE"].ToString());
+                ViewBag.datasourcedrop = ConSQL.GetListCategory("2").ToList();
                 return View(mod);
             }
             else
             {
                 WFList = new List<Models.SyncPSAV.ItemListWorkForce>();
+                ViewBag.datasourcedrop = ConSQL.GetListCategory("2").ToList();
                 return RedirectToAction("VtaDesc");
             }
         }
@@ -295,7 +299,9 @@ namespace GCCorePSAV.Controllers
             {
                 BindServListWF();
                 ViewBag.datasource = WFList;
+                ViewBag.datasourcedrop = ConSQL.GetListCategory("2").ToList();
             }
+            ViewBag.datasourcedrop = ConSQL.GetListCategory("2").ToList();
             return View(mod);
         }
         public static List<Models.SyncPSAV.ItemListWorkForce> WFList = new List<Models.SyncPSAV.ItemListWorkForce>();
