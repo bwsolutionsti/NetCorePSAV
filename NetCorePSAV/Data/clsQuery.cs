@@ -708,7 +708,8 @@ namespace GCCorePSAV.Data
                 Ils.Descripcion = msdr.GetValue(4).ToString();
                 Ils.PrecioUnit = msdr.GetValue(5).ToString();
                 Ils.Categoria = msdr.GetValue(6).ToString();
-                Ils.IDEvento = Convert.ToInt32(msdr.GetValue(7).ToString());
+                Ils.IDEvento = Convert.ToInt32(msdr.GetValue(8).ToString());
+                Ils.Seccion = string.IsNullOrEmpty(msdr.GetValue(7).ToString()) ? "" : msdr.GetValue(7).ToString();
                 ILIL.Add(Ils);
             }
             conn.Close();
