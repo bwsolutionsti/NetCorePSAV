@@ -710,6 +710,7 @@ namespace GCCorePSAV.Data
                 Ils.Categoria = msdr.GetValue(6).ToString();
                 Ils.IDEvento = Convert.ToInt32(msdr.GetValue(8).ToString());
                 Ils.Seccion = string.IsNullOrEmpty(msdr.GetValue(7).ToString()) ? "" : msdr.GetValue(7).ToString();
+                Ils.Dias= string.IsNullOrEmpty(msdr.GetValue(9).ToString()) ? "" : msdr.GetValue(7).ToString();
                 ILIL.Add(Ils);
             }
             conn.Close();
@@ -734,6 +735,7 @@ namespace GCCorePSAV.Data
                 Ils.PrecioUnit = msdr.GetValue(5).ToString();
                 Ils.Categoria = msdr.GetValue(6).ToString();
                 Ils.IDEvento = Convert.ToInt32(msdr.GetValue(7).ToString());
+                Ils.Dias=string.IsNullOrEmpty(msdr.GetValue(8).ToString()) ? "" : msdr.GetValue(7).ToString();
                 ILIL.Add(Ils);
             }
             conn.Close();
@@ -844,6 +846,7 @@ namespace GCCorePSAV.Data
                 Ils.PrecioUnit = msdr.GetValue(5).ToString();
                 Ils.Categoria = msdr.GetValue(6).ToString();
                 Ils.IDEvento = Convert.ToInt32(msdr.GetValue(7).ToString());
+                Ils.Dias= string.IsNullOrEmpty(msdr.GetValue(8).ToString()) ? "" : msdr.GetValue(7).ToString();
                 ILIL.Add(Ils);
             }
             conn.Close();
@@ -1095,7 +1098,7 @@ namespace GCCorePSAV.Data
         {
             for (int i = 0; i < lmo.Count; i++)
             {
-                string ConsSQL = "insert into td_itemlist(tmilt_id,tdil_clave,tdil_cantidad,tdil_des,tdil_preciounit,tcct_id,tme_id) values(" + IDITLE + ",'" + lmo[i].Clave + "','" + lmo[i].Cantidad + "','" + lmo[i].Descripcion + "','" + lmo[i].PrecioUnit + "','" + lmo[i].Categoria + "',"+IDEVN+")";
+                string ConsSQL = "insert into td_itemlist(tmilt_id,tdil_clave,tdil_cantidad,tdil_des,tdil_preciounit,tcct_id,tme_id,tdil_dias) values(" + IDITLE + ",'" + lmo[i].Clave + "','" + lmo[i].Cantidad + "','" + lmo[i].Descripcion + "','" + lmo[i].PrecioUnit + "','" + lmo[i].Categoria + "',"+IDEVN+",'"+lmo[i].Dias+"')";
                 MySqlConnection conn = new MySqlConnection(con);
                 MySqlCommand cmd = new MySqlCommand(ConsSQL, conn);
                 conn.Open();
@@ -1107,7 +1110,7 @@ namespace GCCorePSAV.Data
         {
             for (int i = 0; i < model.Count; i++)
             {
-                string ConsSQL = "insert into td_itemlistwf(tmilt_id,tdil_clave,tdil_cantidad,tdil_des,tdil_preciounit,tcct_id,tdil_seccion,tme_id) values(" + IDITL + ",'" + model[i].Clave + "','" + model[i].Cantidad + "','" + model[i].Descripcion + "','" + model[i].PrecioUnit + "','" + model[i].Categoria + "','" + model[i].Seccion + "',"+IDEVN+")";
+                string ConsSQL = "insert into td_itemlistwf(tmilt_id,tdil_clave,tdil_cantidad,tdil_des,tdil_preciounit,tcct_id,tdil_seccion,tme_id,tdil_dias) values(" + IDITL + ",'" + model[i].Clave + "','" + model[i].Cantidad + "','" + model[i].Descripcion + "','" + model[i].PrecioUnit + "','" + model[i].Categoria + "','" + model[i].Seccion + "',"+IDEVN+",'"+model[i].Dias+"')";
                 MySqlConnection conn = new MySqlConnection(con);
                 MySqlCommand cmd = new MySqlCommand(ConsSQL, conn);
                 conn.Open();
