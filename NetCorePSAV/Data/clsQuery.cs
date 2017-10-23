@@ -648,7 +648,7 @@ namespace GCCorePSAV.Data
             if (string.IsNullOrEmpty(idtl)) { idtl = iltt; }
             for(int i = 0; i < Ilserv.Count; i++)
             {
-                string ConsSQL = "insert into td_itemlist(tmilt_id,tdil_clave,tdil_cantidad,tdil_des,tdil_preciounit,tcct_id,tme_id) values(" + idtl + ",'" + Ilserv[i].Clave + "','" + Ilserv[i].Cantidad + "','" + Ilserv[i].Descripcion + "','" + Ilserv[i].PrecioUnit + "','" + Ilserv[i].Categoria + "'," + Salon.IDEvt + ")";
+                string ConsSQL = "insert into td_itemlist(tmilt_id,tdil_clave,tdil_cantidad,tdil_des,tdil_preciounit,tcct_id,tme_id,tdil_dias) values(" + idtl + ",'" + Ilserv[i].Clave + "','" + Ilserv[i].Cantidad + "','" + Ilserv[i].Descripcion + "','" + Ilserv[i].PrecioUnit + "','" + Ilserv[i].Categoria + "'," + Salon.IDEvt + ",'"+Ilserv[i].Dias+"')";
                 SaveWithoutValidation(ConsSQL);
             }
         }
@@ -674,7 +674,7 @@ namespace GCCorePSAV.Data
                 if (string.IsNullOrEmpty(idtl)) { idtl = ILTT; }
                 for (int i = 0; i < Ilserv.Count; i++)
                 {
-                    string ConsSQL = "insert into td_itemlistwf(tmilt_id,tdil_clave,tdil_cantidad,tdil_des,tdil_preciounit,tcct_id,tme_id) values(" + idtl + ",'" + Ilserv[i].Clave + "','" + Ilserv[i].Cantidad + "','" + Ilserv[i].Descripcion + "','" + Ilserv[i].PrecioUnit + "','" + Ilserv[i].Categoria + "'," + Salon.IDEvt + ")";
+                    string ConsSQL = "insert into td_itemlistwf(tmilt_id,tdil_clave,tdil_cantidad,tdil_des,tdil_preciounit,tcct_id,tme_id,tdil_seccion,tdil_dias) values(" + idtl + ",'" + Ilserv[i].Clave + "','" + Ilserv[i].Cantidad + "','" + Ilserv[i].Descripcion + "','" + Ilserv[i].PrecioUnit + "','" + Ilserv[i].Categoria + "'," + Salon.IDEvt + ",'"+Ilserv[i].Seccion+"','"+Ilserv[i].Dias+"')";
                     SaveWithoutValidation(ConsSQL);
                 }
             }
@@ -710,7 +710,7 @@ namespace GCCorePSAV.Data
                 Ils.Categoria = msdr.GetValue(6).ToString();
                 Ils.IDEvento = Convert.ToInt32(msdr.GetValue(8).ToString());
                 Ils.Seccion = string.IsNullOrEmpty(msdr.GetValue(7).ToString()) ? "" : msdr.GetValue(7).ToString();
-                Ils.Dias= string.IsNullOrEmpty(msdr.GetValue(9).ToString()) ? "" : msdr.GetValue(7).ToString();
+                Ils.Dias= string.IsNullOrEmpty(msdr.GetValue(9).ToString()) ? "" : msdr.GetValue(9).ToString();
                 ILIL.Add(Ils);
             }
             conn.Close();
@@ -735,7 +735,7 @@ namespace GCCorePSAV.Data
                 Ils.PrecioUnit = msdr.GetValue(5).ToString();
                 Ils.Categoria = msdr.GetValue(6).ToString();
                 Ils.IDEvento = Convert.ToInt32(msdr.GetValue(7).ToString());
-                Ils.Dias=string.IsNullOrEmpty(msdr.GetValue(8).ToString()) ? "" : msdr.GetValue(7).ToString();
+                Ils.Dias=string.IsNullOrEmpty(msdr.GetValue(8).ToString()) ? "" : msdr.GetValue(8).ToString();
                 ILIL.Add(Ils);
             }
             conn.Close();
@@ -846,7 +846,7 @@ namespace GCCorePSAV.Data
                 Ils.PrecioUnit = msdr.GetValue(5).ToString();
                 Ils.Categoria = msdr.GetValue(6).ToString();
                 Ils.IDEvento = Convert.ToInt32(msdr.GetValue(7).ToString());
-                Ils.Dias= string.IsNullOrEmpty(msdr.GetValue(8).ToString()) ? "" : msdr.GetValue(7).ToString();
+                Ils.Dias= string.IsNullOrEmpty(msdr.GetValue(8).ToString()) ? "" : msdr.GetValue(8).ToString();
                 ILIL.Add(Ils);
             }
             conn.Close();
@@ -855,7 +855,27 @@ namespace GCCorePSAV.Data
         public List<Models.SyncPSAV.ItemListWorkForce> GetOneILWF(string idevt)
         {
             List<Models.SyncPSAV.ItemListWorkForce> ILWF = new List<Models.SyncPSAV.ItemListWorkForce>();
-            string QueryILIL = "SELECT * FROM psav_dev.td_itemlist where tme_id=" + idevt;
+            string QueryILIL = "SELECT * FROM psav_dev.td_itemlistwf where tme_id=" + idevt;
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QueryILIL, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                Models.SyncPSAV.ItemListWorkForce ILWFO = new Models.SyncPSAV.ItemListWorkForce();
+                ILWFO.ID = msdr.GetValue(0).ToString();
+                ILWFO.IDITL = msdr.GetValue(1).ToString();
+                ILWFO.Clave = msdr.GetValue(2).ToString();
+                ILWFO.Cantidad = msdr.GetValue(3).ToString();
+                ILWFO.Descripcion = msdr.GetValue(4).ToString();
+                ILWFO.PrecioUnit = msdr.GetValue(5).ToString();
+                ILWFO.Categoria = msdr.GetValue(6).ToString();
+                ILWFO.Seccion = string.IsNullOrEmpty(msdr.GetValue(7).ToString()) ? "" : msdr.GetValue(7).ToString();
+                ILWFO.IDEvento = Convert.ToInt32(msdr.GetValue(8).ToString());
+                ILWFO.Dias = string.IsNullOrEmpty(msdr.GetValue(9).ToString()) ? "" : msdr.GetValue(9).ToString();
+                ILWF.Add(ILWFO);
+            }
+            conn.Close();
             return ILWF;
         }
         public List<Models.PSAVCrud.ClientModel.ClientAutoComplete> GetAutoClients()

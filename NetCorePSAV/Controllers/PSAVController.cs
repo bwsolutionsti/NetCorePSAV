@@ -1075,7 +1075,7 @@ namespace GCCorePSAV.Controllers
                         wkItemList.Cells["E19"].Value = SILList[i].Montaje;//Event
                         wkItemList.Cells["E20"].Value = SILList[i].Horario;//Event
                                                                            ///get itemlist services by salon
-                        List<Models.SyncPSAV.ItemListServices> LILS = ConSQL.GetOneILIL(SILList[i].IDITL);
+                        List<Models.SyncPSAV.ItemListServices> LILS = ConSQL.GetOneILIL(SILList[i].IDEvt);
                         //fill items
                         for (int a = 0; a < LILS.Count; a++)
                         {
@@ -1087,7 +1087,7 @@ namespace GCCorePSAV.Controllers
                             wkItemList.Cells["I" + (21 + a).ToString()].Value = LILS[a].Categoria;//Event
                         }
                         //fill workforce
-                        List<Models.SyncPSAV.ItemListWorkForce> LIWF = ConSQL.GetOneILWF(SILList[i].IDITL);
+                        List<Models.SyncPSAV.ItemListWorkForce> LIWF = ConSQL.GetOneILWF(SILList[i].IDEvt);
                         for (int o = 0; o < LIWF.Count; o++)
                         {
                             wkItemList.Cells["B" + (55 + o).ToString()].Value = LIWF[o].Clave;//Event
