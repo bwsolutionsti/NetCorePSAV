@@ -10,6 +10,7 @@ namespace GCCorePSAV.Models
     {
         public class ItemCategory
         {
+            public string ID { get; set; }
             public string Categoria { get; set; }
         }
         public class CratioDets

@@ -149,7 +149,7 @@ namespace GCCorePSAV.Controllers
                     Models.SyncPSAV.SalonIL ILS = new Models.SyncPSAV.SalonIL();
                     ServList = new List<Models.SyncPSAV.ItemListServices>();
                     ViewBag.datasource = ServList;
-                    ViewBag.datasourcedrop = ConSQL.GetListCategory("1");
+                    ViewBag.datasourcedrop = ConSQL.GetListCategory("1").ToList();
                     Response.Cookies.Append("IDEVNN", ConSQL.GetEPTToEdit(EVT).IDEvent, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                     return View(ILS);
                 }
@@ -158,7 +158,7 @@ namespace GCCorePSAV.Controllers
                     Models.SyncPSAV.SalonIL ILS = ConSQL.GetOneSalonIL(IDIL);
                     ServList = ConSQL.LILS(IDIL);
                     ViewBag.datasource = ServList;
-                    ViewBag.datasourcedrop = ConSQL.GetListCategory("1");
+                    ViewBag.datasourcedrop = ConSQL.GetListCategory("1").ToList();
                     Response.Cookies.Append("IDEVNN", ILS.IDEvt, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                     return View(ILS);
                 }
