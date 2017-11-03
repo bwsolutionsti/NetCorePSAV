@@ -26,9 +26,21 @@
                     <tr>
                         <td><div class="form-group"><label asp-for="EventoName" class="control-label"></label><input asp-for="EventoName" class="form-control" disabled value="@HttpContextAccessor.HttpContext.Request.Cookies["EVN"]" /></div></td>
                     </tr>
+                    <tr>
+                        <th>Salon</th>
+                    </tr>
                     <tr><td><div class="form-group"><input asp-for="Salon" class="form-control" /></div></td></tr>
+                    <tr>
+                        <th># Asistentes</th>
+                    </tr>
                     <tr><td><div class="form-group"><input asp-for="Asistentes" class="form-control" /></div></td></tr>
+                    <tr>
+                        <th>Fecha Montaje</th>
+                    </tr>
                     <tr><td><div class="form-group"><input asp-for="Montaje" class="form-control" /></div></td></tr>
+                    <tr>
+                        <th>Horario</th>
+                    </tr>
                     <tr><td><div class="form-group"><input asp-for="Horario" class="form-control" /></div></td></tr>
                 </table>
             </div>

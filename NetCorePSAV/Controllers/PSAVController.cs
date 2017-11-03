@@ -224,6 +224,9 @@ namespace GCCorePSAV.Controllers
         public ActionResult ItemListNormalInsert([FromBody]CRUDModel<Models.SyncPSAV.ItemListServices> value)
         {
             Models.SyncPSAV.ItemListServices val = value.Value;
+            val.IDEvento = Convert.ToInt32(Request.Cookies["IDEVNN"].ToString());
+            val.ID = ServList.Count.ToString();
+            val.IDITL= ServList.Count.ToString();
             ServList.Insert(ServList.Count, val);
             ViewBag.datasourcedrop = ConSQL.GetListCategory("1");
             ViewBag.datasource = ServList;
