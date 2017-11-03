@@ -794,7 +794,7 @@ namespace GCCorePSAV.Data
                 Models.SyncPSAV.SalonIL SIL = new Models.SyncPSAV.SalonIL();
                 SIL.IDEvt = idevt;
                 SIL.ID = msdr.GetValue(0).ToString();
-                SIL.IDITL = msdr.GetValue(0).ToString();
+                SIL.IDITL = msdr.GetValue(1).ToString();
                 SIL.Salon = msdr.GetValue(2).ToString();
                 SIL.Asistentes = msdr.GetValue(3).ToString();
                 SIL.Montaje = msdr.GetValue(4).ToString();
@@ -827,9 +827,9 @@ namespace GCCorePSAV.Data
             conn.Close();
             return LSIL;
         }
-        public List<Models.SyncPSAV.ItemListServices> GetOneILIL(string idevt)
+        public List<Models.SyncPSAV.ItemListServices> GetOneILIL(string idevt,string tmilt)
         {
-            string QueryILIL = "SELECT * FROM psav_dev.td_itemlist where tme_id="+idevt;
+            string QueryILIL = "SELECT * FROM psav_dev.td_itemlist where tme_id="+idevt+"and tmilt_id="+tmilt;
             List<Models.SyncPSAV.ItemListServices> ILIL = new List<Models.SyncPSAV.ItemListServices>();
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(QueryILIL, conn);

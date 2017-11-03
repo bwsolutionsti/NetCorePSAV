@@ -225,6 +225,8 @@ namespace GCCorePSAV.Controllers
         {
             Models.SyncPSAV.ItemListServices val = value.Value;
             ServList.Insert(ServList.Count, val);
+            ViewBag.datasourcedrop = ConSQL.GetListCategory("1");
+            ViewBag.datasource = ServList;
             return Json(ServList);
         }
         public ActionResult ItemListNormalDelete([FromBody]CRUDModel<Models.SyncPSAV.ItemListServices> value)
@@ -1065,26 +1067,44 @@ namespace GCCorePSAV.Controllers
                     wkCotizacion.Cells["G28"].Value = ModEptFill.PMLocation;//Razon
                                                          ///////////Get Item List Sheet
                     ExcelWorksheet wkItemList = package.Workbook.Worksheets[3];
+
+
+
                     ///get item list salons
+                    ///
+                    int lastPos = 0;
                     List<Models.SyncPSAV.SalonIL> SILList = ConSQL.GetSalons(ModEptFill.IDEvent);
                     for (int i = 0; i < SILList.Count; i++)
                     {
-                        wkItemList.Cells["E16"].Value = ModEptFill.EventName;//Event
-                        wkItemList.Cells["E17"].Value = SILList[i].Salon;//Event
-                        wkItemList.Cells["E18"].Value = SILList[i].Asistentes;//Event
-                        wkItemList.Cells["E19"].Value = SILList[i].Montaje;//Event
-                        wkItemList.Cells["E20"].Value = SILList[i].Horario;//Event
-                                                                           ///get itemlist services by salon
-                        List<Models.SyncPSAV.ItemListServices> LILS = ConSQL.GetOneILIL(SILList[i].IDEvt);
+                        if (i == 0)
+                        {
+                            wkItemList.Cells["E16"].Value = ModEptFill.EventName;//Event
+                            wkItemList.Cells["E17"].Value = SILList[i].Salon;//Event
+                            wkItemList.Cells["E18"].Value = SILList[i].Asistentes;//Event
+                            wkItemList.Cells["E19"].Value = SILList[i].Montaje;//Event
+                            wkItemList.Cells["E20"].Value = SILList[i].Horario;//Event
+                            lastPos = 21;
+                        }
+                        else
+                        {
+                            wkItemList.Cells["E16"].Value = ModEptFill.EventName;//Event
+                            wkItemList.Cells["E17"].Value = SILList[i].Salon;//Event
+                            wkItemList.Cells["E18"].Value = SILList[i].Asistentes;//Event
+                            wkItemList.Cells["E19"].Value = SILList[i].Montaje;//Event
+                            wkItemList.Cells["E20"].Value = SILList[i].Horario;//Event
+                        }
+                        ///get itemlist services by salon
+                        List<Models.SyncPSAV.ItemListServices> LILS = ConSQL.GetOneILIL(SILList[i].IDEvt,SILList[i].IDITL);
                         //fill items
                         for (int a = 0; a < LILS.Count; a++)
                         {
-                            wkItemList.Cells["B" + (21 + a).ToString()].Value = LILS[a].Clave;//Event
-                            wkItemList.Cells["C" + (21 + a).ToString()].Value = LILS[a].Cantidad;//Event
-                            wkItemList.Cells["D" + (21 + a).ToString()].Value = LILS[a].Dias;//Event
-                            wkItemList.Cells["E" + (21 + a).ToString()].Value = LILS[a].Descripcion;//Event
-                            wkItemList.Cells["F" + (21 + a).ToString()].Value = LILS[a].PrecioUnit;//Event
-                            wkItemList.Cells["I" + (21 + a).ToString()].Value = LILS[a].Categoria;//Event
+                            lastPos = lastPos + a;
+                            wkItemList.Cells["B" + (lastPos).ToString()].Value = LILS[a].Clave;//Event
+                            wkItemList.Cells["C" + (lastPos).ToString()].Value = LILS[a].Cantidad;//Event
+                            wkItemList.Cells["D" + (lastPos).ToString()].Value = LILS[a].Dias;//Event
+                            wkItemList.Cells["E" + (lastPos).ToString()].Value = LILS[a].Descripcion;//Event
+                            wkItemList.Cells["F" + (lastPos).ToString()].Value = LILS[a].PrecioUnit;//Event
+                            wkItemList.Cells["I" + (lastPos).ToString()].Value = LILS[a].Categoria;//Event
                         }
                         //fill workforce
                         List<Models.SyncPSAV.ItemListWorkForce> LIWF = ConSQL.GetOneILWF(SILList[i].IDEvt);

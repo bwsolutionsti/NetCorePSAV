@@ -121,7 +121,7 @@
             <tr>
                 <form method="post" asp-action="EditItemList" asp-controller="PSAV">
                     <td>
-                        <input type="hidden" name="EVT" id="EVT" value="@Model.EPTNumber" /><input type="hidden" name="IDIL" id="IDIL" value="@itemlist.IDITL" />@itemlist.Salon
+                        <input type="hidden" name="EVT" id="EVT" value="@Model.EPTNumber" /><input type="hidden" name="IDIL" id="IDIL" value="@itemlist.ID" />@itemlist.Salon
                     </td>
                     <td>@itemlist.Asistentes</td>
                     <td><button type="submit" class="btn btn-default">Editar</button></td>
