@@ -829,7 +829,7 @@ namespace GCCorePSAV.Data
         }
         public List<Models.SyncPSAV.ItemListServices> GetOneILIL(string idevt,string tmilt)
         {
-            string QueryILIL = "SELECT * FROM psav_dev.td_itemlist where tme_id="+idevt+"and tmilt_id="+tmilt;
+            string QueryILIL = "SELECT * FROM psav_dev.td_itemlist where tme_id="+idevt+" and tmilt_id="+tmilt;
             List<Models.SyncPSAV.ItemListServices> ILIL = new List<Models.SyncPSAV.ItemListServices>();
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(QueryILIL, conn);
