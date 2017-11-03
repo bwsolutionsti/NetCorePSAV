@@ -131,7 +131,11 @@
         }
 
     </table>
-
+    <form method="post" asp-action="EditItemList" asp-controller="PSAV">
+        <input type="hidden" name="EVT" id="EVT" value="@Model.EPTNumber" />
+        <input type="hidden" name="IDIL" id="IDIL" value="" />
+        <button type="submit" class="btn btn-default">Agregar Salón</button>
+    </form>
     <!--ItemList Workforce-->
 
 
@@ -148,7 +152,11 @@
                     <tr><form method="post" asp-action="EditItemListWF" asp-controller="PSAV"><td><input type="hidden" name="EVT" id="EVT" value="@Model.EPTNumber" /><input type="hidden" name="IDIL" id="IDIL" value="@itemlist.IDITL" />@itemlist.Salon</td><td>@itemlist.Asistentes</td><td><button type="submit" class="btn btn-default">Editar</button></td></form></tr>
                 }
             </table>
-
+            <form method="post" asp-action="EditItemListWF" asp-controller="PSAV">
+                <input type="hidden" name="EVT" id="EVT" value="@Model.EPTNumber" />
+                <input type="hidden" name="IDIL" id="IDIL" value="" />
+                <button type="submit" class="btn btn-default">Agregar Salón</button>
+            </form>
     <!--Venta Descuento-->
             <form method="post" asp-action="EditVtaDesc" asp-controller="PSAV">
                 <h4>Venta Descuento</h4>
