@@ -165,6 +165,7 @@ namespace GCCorePSAV.Controllers
             }
             else
             {
+                if (Advance.Equals("2")) { string folio1 = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString()); Response.Cookies.Append("folio", folio1, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true }); return RedirectToAction("ResumeEPT"); }
                 string folio = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString());
                 model.IDEvt = Request.Cookies["IDEVNN"].ToString();
 
@@ -196,6 +197,15 @@ namespace GCCorePSAV.Controllers
         [HttpPost]
         public IActionResult ItemList(Models.ItemListModel.ItemListEventModel mod, string Advance)
         {
+            if (Advance.Equals("2"))
+            {
+                string IDITL = ConSQL.InsertTMItemList(mod, Request.Cookies["IDE"].ToString());
+                mod = new Models.ItemListModel.ItemListEventModel();
+                mod.EventoName = Request.Cookies["EVN"].ToString();
+                mod.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());
+                ConSQL.SaveItemListDetail(ServList, IDITL, Request.Cookies["IDE"].ToString());
+                return RedirectToAction("EPT");
+            }
             if (Advance.Equals("0"))
             {
                 string IDITL = ConSQL.InsertTMItemList(mod, Request.Cookies["IDE"].ToString());
@@ -266,6 +276,7 @@ namespace GCCorePSAV.Controllers
             }
             else
             {
+                if (Advance.Equals("2")) { string folio1 = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString()); Response.Cookies.Append("folio", folio1, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true }); return RedirectToAction("ResumeEPT"); }
                 string folio = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString());
                 model.IDEvt = Request.Cookies["IDEVNN"].ToString();
                 ConSQL.UpdateITLWF(model, WFList, WFList[0].IDITL);
@@ -278,6 +289,16 @@ namespace GCCorePSAV.Controllers
         [HttpPost]
         public IActionResult ItemListWorkForce(Models.ItemListModel.ItemListEventModel mod, string Advance)
         {
+            if (Advance.Equals("2"))
+            {
+                string IDITL = ConSQL.InsertTMItemListWF(mod, Request.Cookies["IDE"].ToString());
+                mod = new Models.ItemListModel.ItemListEventModel();
+                mod.EventoName = Request.Cookies["EVN"].ToString();
+                mod.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());
+                ConSQL.SaveItemListWFDetail(WFList, IDITL, Request.Cookies["IDE"].ToString());
+                ViewBag.datasourcedrop = ConSQL.GetListCategory("2").ToList();
+                return RedirectToAction("EPT");
+            }
             if (Advance.Equals("0"))
             {
                 string IDITL = ConSQL.InsertTMItemListWF(mod, Request.Cookies["IDE"].ToString());
@@ -1095,6 +1116,7 @@ namespace GCCorePSAV.Controllers
                             wkItemList.Cells["E18"].Value = SILList[i].Asistentes;//Event
                             wkItemList.Cells["E19"].Value = SILList[i].Montaje;//Event
                             wkItemList.Cells["E20"].Value = SILList[i].Horario;//Event
+                            lastPos = 21;
                         }
                         ///get itemlist services by salon
                         List<Models.SyncPSAV.ItemListServices> LILS = ConSQL.GetOneILIL(SILList[i].IDEvt,SILList[i].IDITL);
