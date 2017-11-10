@@ -168,7 +168,6 @@ namespace GCCorePSAV.Controllers
                 if (Advance.Equals("2")) { string folio1 = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString()); Response.Cookies.Append("folio", folio1, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true }); return RedirectToAction("ResumeEPT"); }
                 string folio = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString());
                 model.IDEvt = Request.Cookies["IDEVNN"].ToString();
-
                 ConSQL.UpdateITL(model, ServList, ServList[0].IDITL);
                 Response.Cookies.Append("folio", folio, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                 ServList = new List<Models.SyncPSAV.ItemListServices>();
