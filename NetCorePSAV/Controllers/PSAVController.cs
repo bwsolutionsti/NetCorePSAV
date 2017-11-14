@@ -141,14 +141,14 @@ namespace GCCorePSAV.Controllers
         #region Itemlist
         #region editItemlist
         [HttpPost]
-        public IActionResult EditItemList2(Models.SyncPSAV.SalonIL model,string Clave,string Cantidad,string Dias,string Descripcion,string PrecioUnit,string Categoria)
+        public IActionResult EditItemList2(Models.SyncPSAV.SalonIL model, string Clave, string Cantidad, string Dias, string Descripcion, string PrecioUnit, string Categoria)
         {
             ServList.Add(new Models.SyncPSAV.ItemListServices() { Clave = Clave, Cantidad = Cantidad, Dias = Dias, Descripcion = Descripcion, PrecioUnit = PrecioUnit, Categoria = Categoria, IDEvento = Convert.ToInt32(Request.Cookies["IDEVNN"].ToString()), IDITL = Request.Cookies["IDIL"].ToString() });
-                string folio = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString());
-                model.IDEvt = Request.Cookies["IDEVNN"].ToString();
-                model.IDITL = Request.Cookies["IDIL"].ToString();
-                ConSQL.SaveOneItilEdit(model, ServList, ServList[0].IDITL);
-                ServList = new List<Models.SyncPSAV.ItemListServices>();
+            string folio = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString());
+            model.IDEvt = Request.Cookies["IDEVNN"].ToString();
+            model.IDITL = Request.Cookies["IDIL"].ToString();
+            ConSQL.SaveOneItilEdit(model, ServList, ServList[0].IDITL);
+            ServList = new List<Models.SyncPSAV.ItemListServices>();
             return RedirectToAction("EdititemList");
         }
         [HttpGet]
@@ -176,7 +176,7 @@ namespace GCCorePSAV.Controllers
         {
             if (string.IsNullOrEmpty(Advance))
             {
-                if (string.IsNullOrEmpty(IDIL)&& Request.Cookies["IDIL"]==null)
+                if (string.IsNullOrEmpty(IDIL) && Request.Cookies["IDIL"] == null)
                 {
                     Models.SyncPSAV.SalonIL ILS = new Models.SyncPSAV.SalonIL();
                     ServList = new List<Models.SyncPSAV.ItemListServices>();
@@ -184,7 +184,7 @@ namespace GCCorePSAV.Controllers
                     //                    ViewBag.datasourcedrop = ConSQL.GetListCategory("1").ToList();
                     List<Models.SyncPSAV.ItemCategory> IC = ConSQL.GetListCategory("1");
                     List<Models.SyncPSAV.Caategoria> Catego = new List<Models.SyncPSAV.Caategoria>();
-                    for(int i = 0; i < IC.Count; i++)
+                    for (int i = 0; i < IC.Count; i++)
                     {
                         Catego.Add(new Models.SyncPSAV.Caategoria(IC[i].Categoria, IC[i].Categoria));
                     }
@@ -217,7 +217,7 @@ namespace GCCorePSAV.Controllers
                 string folio = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString());
                 model.IDEvt = Request.Cookies["IDEVNN"].ToString();
                 if (ServList.Count.Equals(0)) { ConSQL.UpdateITL(model, ServList, ""); } else { ConSQL.UpdateITL(model, ServList, ServList[0].IDITL); }
-                
+
                 Response.Cookies.Append("folio", folio, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                 ServList = new List<Models.SyncPSAV.ItemListServices>();
                 return RedirectToAction("ResumeEPT");
@@ -313,11 +313,11 @@ namespace GCCorePSAV.Controllers
             return View(ILS);
         }
         [HttpPost]
-        public IActionResult EditItemListWF2(Models.SyncPSAV.SalonILWF model,string Seccion, string Clave, string Cantidad, string Dias, string Descripcion, string PrecioUnit, string Categoria)
+        public IActionResult EditItemListWF2(Models.SyncPSAV.SalonILWF model, string Seccion, string Clave, string Cantidad, string Dias, string Descripcion, string PrecioUnit, string Categoria)
         {
             string folio = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString());
             model.IDEvt = Request.Cookies["IDEVNN"].ToString();
-            WFList.Add(new Models.SyncPSAV.ItemListWorkForce() { Cantidad = Cantidad, Categoria = Categoria, Clave = Clave, Descripcion = Descripcion, Dias = Dias, PrecioUnit = PrecioUnit, Seccion = Seccion, IDITL = Request.Cookies["IDIL"].ToString(), IDEvento= Convert.ToInt32(Request.Cookies["IDEVNN"].ToString()) });
+            WFList.Add(new Models.SyncPSAV.ItemListWorkForce() { Cantidad = Cantidad, Categoria = Categoria, Clave = Clave, Descripcion = Descripcion, Dias = Dias, PrecioUnit = PrecioUnit, Seccion = Seccion, IDITL = Request.Cookies["IDIL"].ToString(), IDEvento = Convert.ToInt32(Request.Cookies["IDEVNN"].ToString()) });
             ConSQL.SaveOneItilWF(model, WFList, WFList[0].IDITL);
             Response.Cookies.Append("folio", folio, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
             WFList = new List<Models.SyncPSAV.ItemListWorkForce>();
@@ -354,7 +354,7 @@ namespace GCCorePSAV.Controllers
                 if (Advance.Equals("2")) { Response.Cookies.Delete("IDIL"); string folio1 = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString()); Response.Cookies.Append("folio", folio1, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true }); return RedirectToAction("ResumeEPT"); }
                 string folio = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString());
                 model.IDEvt = Request.Cookies["IDEVNN"].ToString();
-                if (WFList.Count.Equals(0)) { ConSQL.UpdateITLWF(model, WFList, ""); } else { ConSQL.UpdateITLWF(model, WFList, WFList[0].IDITL); }                
+                if (WFList.Count.Equals(0)) { ConSQL.UpdateITLWF(model, WFList, ""); } else { ConSQL.UpdateITLWF(model, WFList, WFList[0].IDITL); }
                 Response.Cookies.Append("folio", folio, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                 WFList = new List<Models.SyncPSAV.ItemListWorkForce>();
                 return RedirectToAction("ResumeEPT");
@@ -632,7 +632,7 @@ namespace GCCorePSAV.Controllers
         {
             var ord = myObject.Value;
             Models.SyncPSAV.FreelanceOL val = FOList.Where(or => or.Nombres == ord.Nombres).FirstOrDefault();
-            val.Condiciones = ord.Condiciones;val.CostoCarga = ord.CostoCarga;val.CostoTotal = ord.CostoTotal;val.Dias = ord.Dias;val.Nombres = ord.Nombres;val.Puesto = ord.Puesto;val.Sueldo = ord.Sueldo;
+            val.Condiciones = ord.Condiciones; val.CostoCarga = ord.CostoCarga; val.CostoTotal = ord.CostoTotal; val.Dias = ord.Dias; val.Nombres = ord.Nombres; val.Puesto = ord.Puesto; val.Sueldo = ord.Sueldo;
             return Json(myObject.Value);
         }
         public ActionResult FOLNormalInsert([FromBody]CRUDModel<Models.SyncPSAV.FreelanceOL> value)
@@ -652,7 +652,7 @@ namespace GCCorePSAV.Controllers
         {
             var ord = myObject.Value;
             Models.SyncPSAV.Viaticos val = ViaticosL.Where(or => or.Nombres == ord.Nombres).FirstOrDefault();
-            val.Nombres = ord.Nombres;val.Observaciones = ord.Observaciones;val.Puesto = ord.Puesto;val.TotalSol = ord.TotalSol;
+            val.Nombres = ord.Nombres; val.Observaciones = ord.Observaciones; val.Puesto = ord.Puesto; val.TotalSol = ord.TotalSol;
             return Json(myObject.Value);
         }
         public ActionResult ViaticosNormalInsert([FromBody]CRUDModel<Models.SyncPSAV.Viaticos> value)
@@ -672,7 +672,7 @@ namespace GCCorePSAV.Controllers
         {
             var ord = myObject.Value;
             Models.SyncPSAV.VentasFeeTot val = ComVenL.Where(or => or.Nombres == ord.Nombres).FirstOrDefault();
-            val.Comision = ord.Comision;val.Comisiontot = ord.Comisiontot;val.Nombres = ord.Nombres;val.Puesto = ord.Puesto;val.VentaNeta = ord.VentaNeta;
+            val.Comision = ord.Comision; val.Comisiontot = ord.Comisiontot; val.Nombres = ord.Nombres; val.Puesto = ord.Puesto; val.VentaNeta = ord.VentaNeta;
             return Json(myObject.Value);
         }
         public ActionResult ComVtaNormalInsert([FromBody]CRUDModel<Models.SyncPSAV.VentasFeeTot> value)
@@ -692,7 +692,7 @@ namespace GCCorePSAV.Controllers
         {
             var ord = myObject.Value;
             Models.SyncPSAV.GastosFinancieros val = GasFinL.Where(or => or.Importe == ord.Importe).FirstOrDefault();
-            val.Comision = ord.Comision; val.Importe = ord.Importe;val.ImporteCom = ord.ImporteCom;val.PorcCom = ord.PorcCom;
+            val.Comision = ord.Comision; val.Importe = ord.Importe; val.ImporteCom = ord.ImporteCom; val.PorcCom = ord.PorcCom;
             return Json(myObject.Value);
         }
         public ActionResult GFinanNormalInsert([FromBody]CRUDModel<Models.SyncPSAV.GastosFinancieros> value)
@@ -712,7 +712,7 @@ namespace GCCorePSAV.Controllers
         {
             var ord = myObject.Value;
             Models.SyncPSAV.Consumibles val = ConsuL.Where(or => or.Cotizacion == ord.Cotizacion).FirstOrDefault();
-            val.Costo = ord.Costo;val.Cotizacion = ord.Cotizacion;val.Description = ord.Description;val.Supplier = ord.Supplier;
+            val.Costo = ord.Costo; val.Cotizacion = ord.Cotizacion; val.Description = ord.Description; val.Supplier = ord.Supplier;
             return Json(myObject.Value);
         }
         public ActionResult FletesNormalInsert([FromBody]CRUDModel<Models.SyncPSAV.Consumibles> value)
@@ -732,7 +732,7 @@ namespace GCCorePSAV.Controllers
         {
             var ord = myObject.Value;
             Models.SyncPSAV.CargosInternos val = CIntL.Where(or => or.MontoCargo == ord.MontoCargo).FirstOrDefault();
-            val.Categoria = ord.Categoria;val.Equipo = ord.Equipo;val.MontoCargo = ord.MontoCargo;val.PorcCargo = ord.PorcCargo;val.PrecioLista = ord.PrecioLista;val.TipoOper = ord.TipoOper;
+            val.Categoria = ord.Categoria; val.Equipo = ord.Equipo; val.MontoCargo = ord.MontoCargo; val.PorcCargo = ord.PorcCargo; val.PrecioLista = ord.PrecioLista; val.TipoOper = ord.TipoOper;
             return Json(myObject.Value);
         }
         public ActionResult CINormalInsert([FromBody]CRUDModel<Models.SyncPSAV.CargosInternos> value)
@@ -784,7 +784,7 @@ namespace GCCorePSAV.Controllers
             //itemlistworkforce
             ViewBag.ILListWF = ConSQL.GetSalonsWF(IDEvent);
             Response.Cookies.Append("IDEVT", IDEvent, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
-            Response.Cookies.Delete("IDEVNN");Response.Cookies.Delete("IDIL");
+            Response.Cookies.Delete("IDEVNN"); Response.Cookies.Delete("IDIL");
             return View(eptM);
 
         }
@@ -1122,10 +1122,10 @@ namespace GCCorePSAV.Controllers
                 var fileDownloadName = "EPTTem.xlsx";
                 var reportsFolder = "reports";
                 var fileInfo = new FileInfo(Path.Combine(_hostingEnvironment.WebRootPath, reportsFolder, fileDownloadName));
-                byte[] ReportArray;                
+                byte[] ReportArray;
                 using (ExcelPackage package = new ExcelPackage(fileInfo))
                 {
-                    
+
                     //start opening workbook Cotizacion
                     ExcelWorksheet wkCotizacion = package.Workbook.Worksheets[2];
                     //fill cotizacion info from DB
@@ -1148,7 +1148,7 @@ namespace GCCorePSAV.Controllers
                     wkCotizacion.Cells["C25"].Value = ModEptFill.SMJob;//Razon
                     wkCotizacion.Cells["C26"].Value = ModEptFill.SMEmail;//Razon
                     wkCotizacion.Cells["C27"].Value = ModEptFill.SMPhone;//Razon
-                                                         //fill event info
+                                                                         //fill event info
                     wkCotizacion.Cells["G10"].Value = ModEptFill.EventName;//Razon
                     wkCotizacion.Cells["G11"].Value = ModEptFill.MountDate;//Razon
                     wkCotizacion.Cells["G12"].Value = ModEptFill.MountHour;//Razon
@@ -1166,35 +1166,40 @@ namespace GCCorePSAV.Controllers
                     wkCotizacion.Cells["G25"].Value = ModEptFill.PMMobile;//Razon
                     wkCotizacion.Cells["G27"].Value = ModEptFill.PMEmail;//Razon
                     wkCotizacion.Cells["G28"].Value = ModEptFill.PMLocation;//Razon
-                                                         ///////////Get Item List Sheet
+                                                                            ///////////Get Item List Sheet
                     ExcelWorksheet wkItemList = package.Workbook.Worksheets[3];
                     ///itemlist sheet
                     int lastPos = 0;
                     //get all areas
                     List<Models.SyncPSAV.SalonIL> SILList = ConSQL.GetSalons(ModEptFill.IDEvent);
                     lastPos = 16;
-                    for(int x = 0; x < SILList.Count; x++)
+                    for (int x = 0; x < SILList.Count; x++)
                     {
                         //fill gray blanks
                         if (x > 0)
                         {
-                            wkItemList.Cells[lastPos,1,lastPos,7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                            wkItemList.Cells[lastPos,1,lastPos,7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
-                            wkItemList.Cells[(lastPos+1),1,(lastPos+1),7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                            wkItemList.Cells[(lastPos+1),1,(lastPos+1),7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
-                            wkItemList.Cells[(lastPos+2),1,(lastPos+2),7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                            wkItemList.Cells[(lastPos+2),1,(lastPos+2),7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
-                            wkItemList.Cells[(lastPos+3),1,(lastPos+3),7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                            wkItemList.Cells[(lastPos+3),1,(lastPos+3),7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
-                            wkItemList.Cells[(lastPos+4),1,(lastPos+4),7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                            wkItemList.Cells[(lastPos+4), 1, (lastPos+4), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
+                            wkItemList.Cells["B" + (lastPos).ToString()].Value = "EVENTO:";
+                            wkItemList.Cells["B" + (lastPos + 1).ToString()].Value = "Salón/Area:";
+                            wkItemList.Cells["B" + (lastPos + 2).ToString()].Value = "# de Asistentes:";
+                            wkItemList.Cells["B" + (lastPos + 3).ToString()].Value = "Montaje:";
+                            wkItemList.Cells["B" + (lastPos + 4).ToString()].Value = "Horario de Evento:";
+                            wkItemList.Cells[lastPos, 1, lastPos, 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                            wkItemList.Cells[lastPos, 1, lastPos, 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
+                            wkItemList.Cells[(lastPos + 1), 1, (lastPos + 1), 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                            wkItemList.Cells[(lastPos + 1), 1, (lastPos + 1), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
+                            wkItemList.Cells[(lastPos + 2), 1, (lastPos + 2), 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                            wkItemList.Cells[(lastPos + 2), 1, (lastPos + 2), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
+                            wkItemList.Cells[(lastPos + 3), 1, (lastPos + 3), 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                            wkItemList.Cells[(lastPos + 3), 1, (lastPos + 3), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
+                            wkItemList.Cells[(lastPos + 4), 1, (lastPos + 4), 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                            wkItemList.Cells[(lastPos + 4), 1, (lastPos + 4), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
                         }
                         //fill headers services
-                        wkItemList.Cells["E"+(lastPos).ToString()].Value = ModEptFill.EventName;//Event
-                        wkItemList.Cells["E" + (lastPos+1).ToString()].Value = SILList[x].Salon;//Event
-                        wkItemList.Cells["E"+(lastPos+2).ToString()].Value = SILList[x].Asistentes;//Event
-                        wkItemList.Cells["E"+(lastPos+3).ToString()].Value = SILList[x].Montaje;//Event
-                        wkItemList.Cells["E"+(lastPos+4).ToString()].Value = SILList[x].Horario;//Event
+                        wkItemList.Cells["E" + (lastPos).ToString()].Value = ModEptFill.EventName;//Event
+                        wkItemList.Cells["E" + (lastPos + 1).ToString()].Value = SILList[x].Salon;//Event
+                        wkItemList.Cells["E" + (lastPos + 2).ToString()].Value = SILList[x].Asistentes;//Event
+                        wkItemList.Cells["E" + (lastPos + 3).ToString()].Value = SILList[x].Montaje;//Event
+                        wkItemList.Cells["E" + (lastPos + 4).ToString()].Value = SILList[x].Horario;//Event
                         lastPos = lastPos + 5;
                         //fill itemlist 
                         List<Models.SyncPSAV.ItemListServices> LILS = ConSQL.GetOneILIL(SILList[x].IDEvt, SILList[x].IDITL);
@@ -1207,24 +1212,28 @@ namespace GCCorePSAV.Controllers
                             wkItemList.Cells["F" + (lastPos).ToString()].Value = LILS[a].PrecioUnit;//Event
                             wkItemList.Cells["I" + (lastPos).ToString()].Value = LILS[a].Categoria;//Event
                             lastPos++;
-                        }                        
+                        }
                     }
                     List<Models.SyncPSAV.SalonILWF> SILWF = ConSQL.GetSalonsWF(ModEptFill.IDEvent);
-                    for(int x = 0; x < SILWF.Count; x++)
+                    for (int x = 0; x < SILWF.Count; x++)
                     {
                         //fill gray blanks
-                        
-                            wkItemList.Cells[lastPos, 1, lastPos, 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                            wkItemList.Cells[lastPos, 1, lastPos, 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
-                            wkItemList.Cells[(lastPos + 1), 1, (lastPos + 1), 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                            wkItemList.Cells[(lastPos + 1), 1, (lastPos + 1), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
-                            wkItemList.Cells[(lastPos + 2), 1, (lastPos + 2), 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                            wkItemList.Cells[(lastPos + 2), 1, (lastPos + 2), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
-                            wkItemList.Cells[(lastPos + 3), 1, (lastPos + 3), 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                            wkItemList.Cells[(lastPos + 3), 1, (lastPos + 3), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
-                            wkItemList.Cells[(lastPos + 4), 1, (lastPos + 4), 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                            wkItemList.Cells[(lastPos + 4), 1, (lastPos + 4), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
-                        
+                        wkItemList.Cells["B" + (lastPos).ToString()].Value = "EVENTO:";
+                        wkItemList.Cells["B" + (lastPos + 1).ToString()].Value = "Salón/Area:";
+                        wkItemList.Cells["B" + (lastPos + 2).ToString()].Value = "# de Asistentes:";
+                        wkItemList.Cells["B" + (lastPos + 3).ToString()].Value = "Montaje:";
+                        wkItemList.Cells["B" + (lastPos + 4).ToString()].Value = "Horario de Evento:";
+                        wkItemList.Cells[lastPos, 1, lastPos, 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                        wkItemList.Cells[lastPos, 1, lastPos, 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
+                        wkItemList.Cells[(lastPos + 1), 1, (lastPos + 1), 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                        wkItemList.Cells[(lastPos + 1), 1, (lastPos + 1), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
+                        wkItemList.Cells[(lastPos + 2), 1, (lastPos + 2), 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                        wkItemList.Cells[(lastPos + 2), 1, (lastPos + 2), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
+                        wkItemList.Cells[(lastPos + 3), 1, (lastPos + 3), 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                        wkItemList.Cells[(lastPos + 3), 1, (lastPos + 3), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
+                        wkItemList.Cells[(lastPos + 4), 1, (lastPos + 4), 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                        wkItemList.Cells[(lastPos + 4), 1, (lastPos + 4), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
+
                         //fill headers workforce
                         wkItemList.Cells["E" + (lastPos).ToString()].Value = ModEptFill.EventName;//Event
                         wkItemList.Cells["E" + (lastPos + 1).ToString()].Value = SILWF[x].Salon;//Event
@@ -1248,18 +1257,18 @@ namespace GCCorePSAV.Controllers
                     //check discount
                     ExcelWorksheet VdItemList = package.Workbook.Worksheets[4];
                     List<Models.SyncPSAV.VentaDes> VDes = ConSQL.VDesCount(ModEptFill.IDEvent);
-                    for(int i = 0; i < VDes.Count; i++)
+                    for (int i = 0; i < VDes.Count; i++)
                     {
                         if (!string.IsNullOrEmpty(VDes[i].DesPorEq))
                         {
                             switch (VDes[i].Category)
                             {
-                                case "AUDIO":VdItemList.Cells["F19"].Value = VDes[i].DesPorEq;break;
+                                case "AUDIO": VdItemList.Cells["F19"].Value = VDes[i].DesPorEq; break;
                                 case "VIDEO": VdItemList.Cells["F20"].Value = VDes[i].DesPorEq; break;
                                 case "ACCESORIOS": VdItemList.Cells["F21"].Value = VDes[i].DesPorEq; break;
-                                case "ILUMINACIÓN": VdItemList.Cells["F22"].Value = VDes[i].DesPorEq; break;
-                                case "VIDEO PRODUCCIÓN": VdItemList.Cells["F23"].Value = VDes[i].DesPorEq; break;
-                                case "ESCENOGRAFÍA": VdItemList.Cells["F24"].Value = VDes[i].DesPorEq; break;
+                                case "ILUMINACION": VdItemList.Cells["F22"].Value = VDes[i].DesPorEq; break;
+                                case "VIDEO PRODUCCION": VdItemList.Cells["F23"].Value = VDes[i].DesPorEq; break;
+                                case "ESCENOGRAFIA": VdItemList.Cells["F24"].Value = VDes[i].DesPorEq; break;
                                 case "COMPUTO": VdItemList.Cells["F25"].Value = VDes[i].DesPorEq; break;
                                 case "RIGGING EQUIPO": VdItemList.Cells["F26"].Value = VDes[i].DesPorEq; break;
                                 case "GASTOS": VdItemList.Cells["F27"].Value = VDes[i].DesPorEq; break;
@@ -1271,9 +1280,9 @@ namespace GCCorePSAV.Controllers
                     ////package.Save();
                     ReportArray = package.GetAsByteArray();
                 }
-                return File(ReportArray, XlsxContentType, "EPT_" + folio +"_"+ System.DateTime.Now.ToString("ddMMyyyy") + ".xlsx");
+                return File(ReportArray, XlsxContentType, "EPT_" + folio + "_" + System.DateTime.Now.ToString("ddMMyyyy") + ".xlsx");
             }
-            catch (Exception ex){ ViewBag.datashow = ex.Message; return View(); }
+            catch (Exception ex) { ViewBag.datashow = ex.Message; return View(); }
         }
         #endregion
         #region CRATIOOne
@@ -1283,16 +1292,16 @@ namespace GCCorePSAV.Controllers
             var fileDownloadName = "CROne.xlsx";
             var reportsFolder = "reports";
             var fileInfo = new FileInfo(Path.Combine(_hostingEnvironment.WebRootPath, reportsFolder, fileDownloadName));
-            byte[] ReportArray=null;
+            byte[] ReportArray = null;
             using (ExcelPackage package = new ExcelPackage(fileInfo))
             {
-                
+
                 ExcelWorksheet exlWork = package.Workbook.Worksheets[5];
                 List<Models.CaptureRatio.CRVResumenModel> CRVRM = ConSQL.GetCRatioExport(IDC);
                 //fill header
                 exlWork.Cells["B2"].Value = CRVRM[0].HotelName;
                 exlWork.Cells["B3"].Value = CRVRM[0].CityLoc;
-                exlWork.Cells["B4"].Value = CRVRM[0].LocationHotel;                                                                  
+                exlWork.Cells["B4"].Value = CRVRM[0].LocationHotel;
                 exlWork.Cells["B5"].Value = CRVRM[0].DET;
                 exlWork.Cells["B6"].Value = CRVRM[0].Contact;
                 exlWork.Cells["B7"].Value = CRVRM[0].FillFormName;
@@ -1302,15 +1311,16 @@ namespace GCCorePSAV.Controllers
                 int cellHeader2 = 13;
                 int cellBody = 14;
                 int cellCount = 0;
-                for(int a = 1; a <= 12; a++)
-                {                    
+                for (int a = 1; a <= 12; a++)
+                {
                     var varCRLF = CRL.Where(p => p.MesFiltro.Contains(a.ToString("00")));
                     List<Models.CaptureRatio.CRatioList> CRLF = new List<Models.CaptureRatio.CRatioList>();
-                    foreach(Models.CaptureRatio.CRatioList inListCR in varCRLF)
+                    foreach (Models.CaptureRatio.CRatioList inListCR in varCRLF)
                     {
                         CRLF.Add(inListCR);
                     }
-                    if (!CRLF.Count.Equals(0)) {
+                    if (!CRLF.Count.Equals(0))
+                    {
                         exlWork.Cells["C" + cellHeader1.ToString()].Value = GetMonth(a.ToString("00"));
                         exlWork.Cells["C" + cellHeader1.ToString()].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
                         exlWork.Cells["C" + cellHeader1.ToString()].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
@@ -1390,13 +1400,13 @@ namespace GCCorePSAV.Controllers
                         exlWork.Cells["N" + cellBody.ToString()].Calculate();
                         exlWork.Cells["O" + cellBody.ToString()].Value = CRL[i].HotelFee;
                         exlWork.Cells["P" + cellBody.ToString()].Value = CRL[i].LBCause;
-                        exlWork.Cells["Q" + cellBody.ToString()].Value = CRL[i].NextEventDate+" " +CRL[i].NextEventPlace;
+                        exlWork.Cells["Q" + cellBody.ToString()].Value = CRL[i].NextEventDate + " " + CRL[i].NextEventPlace;
                         cellCount++;
                         cellHeader1 = cellHeader1 + cellCount;
                         cellHeader2 = cellHeader2 + cellCount;
                         cellBody = cellBody + cellCount;
-                    }                    
-                }                
+                    }
+                }
                 ReportArray = package.GetAsByteArray();
             }
             return File(ReportArray, XlsxContentType, "CRatioOne.xlsx");
@@ -1406,7 +1416,7 @@ namespace GCCorePSAV.Controllers
             string ValReturn = "";
             switch (MonthsStr)
             {
-                case "01":ValReturn = "ENERO"; break;
+                case "01": ValReturn = "ENERO"; break;
                 case "02": ValReturn = "FEBRERO"; break;
                 case "03": ValReturn = "MARZO"; break;
                 case "04": ValReturn = "ABRIL"; break;
