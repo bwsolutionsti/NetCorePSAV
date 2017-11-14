@@ -216,7 +216,8 @@ namespace GCCorePSAV.Controllers
                 if (Advance.Equals("2")) { Response.Cookies.Delete("IDIL"); string folio1 = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString()); Response.Cookies.Append("folio", folio1, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true }); return RedirectToAction("ResumeEPT"); }
                 string folio = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString());
                 model.IDEvt = Request.Cookies["IDEVNN"].ToString();
-                ConSQL.UpdateITL(model, ServList, ServList[0].IDITL);
+                if (ServList.Count.Equals(0)) { ConSQL.UpdateITL(model, ServList, ""); } else { ConSQL.UpdateITL(model, ServList, ServList[0].IDITL); }
+                
                 Response.Cookies.Append("folio", folio, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                 ServList = new List<Models.SyncPSAV.ItemListServices>();
                 return RedirectToAction("ResumeEPT");
@@ -342,7 +343,7 @@ namespace GCCorePSAV.Controllers
                     Models.SyncPSAV.SalonILWF ILS = new Models.SyncPSAV.SalonILWF();
                     WFList = new List<Models.SyncPSAV.ItemListWorkForce>();
                     Response.Cookies.Append("IDEVNN", ConSQL.GetEPTToEdit(EVT).IDEvent, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
-                    Response.Cookies.Append("IDIL", IDIL, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
+                    //Response.Cookies.Append("IDIL", IDIL, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                     ViewBag.datasource = WFList;
                     ViewBag.datasourcedrop = ConSQL.GetListCategory("2").ToList();
                     return View(ILS);
@@ -353,7 +354,7 @@ namespace GCCorePSAV.Controllers
                 if (Advance.Equals("2")) { Response.Cookies.Delete("IDIL"); string folio1 = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString()); Response.Cookies.Append("folio", folio1, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true }); return RedirectToAction("ResumeEPT"); }
                 string folio = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString());
                 model.IDEvt = Request.Cookies["IDEVNN"].ToString();
-                ConSQL.UpdateITLWF(model, WFList, WFList[0].IDITL);
+                if (WFList.Count.Equals(0)) { ConSQL.UpdateITLWF(model, WFList, ""); } else { ConSQL.UpdateITLWF(model, WFList, WFList[0].IDITL); }                
                 Response.Cookies.Append("folio", folio, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                 WFList = new List<Models.SyncPSAV.ItemListWorkForce>();
                 return RedirectToAction("ResumeEPT");
@@ -783,6 +784,7 @@ namespace GCCorePSAV.Controllers
             //itemlistworkforce
             ViewBag.ILListWF = ConSQL.GetSalonsWF(IDEvent);
             Response.Cookies.Append("IDEVT", IDEvent, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
+            Response.Cookies.Delete("IDEVNN");Response.Cookies.Delete("IDIL");
             return View(eptM);
 
         }
@@ -798,6 +800,7 @@ namespace GCCorePSAV.Controllers
             ViewBag.ILListWF = ConSQL.GetSalonsWF(IDEvent);
             Response.Cookies.Append("IDEVT", IDEvent, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
             Response.Cookies.Append("folio", folio, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
+            Response.Cookies.Delete("IDEVNN"); Response.Cookies.Delete("IDIL");
             return View(eptM);
         }
         [HttpGet]
