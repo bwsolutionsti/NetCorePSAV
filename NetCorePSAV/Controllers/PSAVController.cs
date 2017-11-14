@@ -283,8 +283,7 @@ namespace GCCorePSAV.Controllers
         {
             Models.SyncPSAV.ItemListServices val = value.Value;
             val.IDEvento = Convert.ToInt32(Request.Cookies["IDEVNN"].ToString());
-            val.ID = ServList.Count.ToString();
-            ServList.Insert(ServList.Count, val);
+            ServList.Add(val);
             return Json(ServList);
         }
         public ActionResult EditItemListNormalInsert([FromBody]CRUDModel<Models.SyncPSAV.ItemListServices> value)
