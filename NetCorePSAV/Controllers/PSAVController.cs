@@ -1176,15 +1176,15 @@ namespace GCCorePSAV.Controllers
                         if (x > 0)
                         {
                             wkItemList.Cells[lastPos,1,lastPos,7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                            wkItemList.Cells[lastPos,1,lastPos,7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
+                            wkItemList.Cells[lastPos,1,lastPos,7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
                             wkItemList.Cells[(lastPos+1),1,(lastPos+1),7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                            wkItemList.Cells[(lastPos+1),1,(lastPos+1),7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
+                            wkItemList.Cells[(lastPos+1),1,(lastPos+1),7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
                             wkItemList.Cells[(lastPos+2),1,(lastPos+2),7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                            wkItemList.Cells[(lastPos+2),1,(lastPos+2),7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
+                            wkItemList.Cells[(lastPos+2),1,(lastPos+2),7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
                             wkItemList.Cells[(lastPos+3),1,(lastPos+3),7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                            wkItemList.Cells[(lastPos+3),1,(lastPos+3),7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
+                            wkItemList.Cells[(lastPos+3),1,(lastPos+3),7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
                             wkItemList.Cells[(lastPos+4),1,(lastPos+4),7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                            wkItemList.Cells[(lastPos+4), 1, (lastPos+4), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
+                            wkItemList.Cells[(lastPos+4), 1, (lastPos+4), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
                         }
                         //fill headers services
                         wkItemList.Cells["E"+(lastPos).ToString()].Value = ModEptFill.EventName;//Event
@@ -1212,15 +1212,15 @@ namespace GCCorePSAV.Controllers
                         //fill gray blanks
                         
                             wkItemList.Cells[lastPos, 1, lastPos, 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                            wkItemList.Cells[lastPos, 1, lastPos, 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
+                            wkItemList.Cells[lastPos, 1, lastPos, 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
                             wkItemList.Cells[(lastPos + 1), 1, (lastPos + 1), 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                            wkItemList.Cells[(lastPos + 1), 1, (lastPos + 1), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
+                            wkItemList.Cells[(lastPos + 1), 1, (lastPos + 1), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
                             wkItemList.Cells[(lastPos + 2), 1, (lastPos + 2), 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                            wkItemList.Cells[(lastPos + 2), 1, (lastPos + 2), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
+                            wkItemList.Cells[(lastPos + 2), 1, (lastPos + 2), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
                             wkItemList.Cells[(lastPos + 3), 1, (lastPos + 3), 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                            wkItemList.Cells[(lastPos + 3), 1, (lastPos + 3), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
+                            wkItemList.Cells[(lastPos + 3), 1, (lastPos + 3), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
                             wkItemList.Cells[(lastPos + 4), 1, (lastPos + 4), 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                            wkItemList.Cells[(lastPos + 4), 1, (lastPos + 4), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
+                            wkItemList.Cells[(lastPos + 4), 1, (lastPos + 4), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Gray);
                         
                         //fill headers workforce
                         wkItemList.Cells["E" + (lastPos).ToString()].Value = ModEptFill.EventName;//Event
