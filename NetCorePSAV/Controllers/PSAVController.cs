@@ -213,7 +213,7 @@ namespace GCCorePSAV.Controllers
             }
             else
             {
-                if (Advance.Equals("2")) { string folio1 = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString()); Response.Cookies.Append("folio", folio1, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true }); return RedirectToAction("ResumeEPT"); }
+                if (Advance.Equals("2")) { Response.Cookies.Delete("IDIL"); string folio1 = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString()); Response.Cookies.Append("folio", folio1, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true }); return RedirectToAction("ResumeEPT"); }
                 string folio = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString());
                 model.IDEvt = Request.Cookies["IDEVNN"].ToString();
                 ConSQL.UpdateITL(model, ServList, ServList[0].IDITL);
@@ -350,7 +350,7 @@ namespace GCCorePSAV.Controllers
             }
             else
             {
-                if (Advance.Equals("2")) { string folio1 = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString()); Response.Cookies.Append("folio", folio1, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true }); return RedirectToAction("ResumeEPT"); }
+                if (Advance.Equals("2")) { Response.Cookies.Delete("IDIL"); string folio1 = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString()); Response.Cookies.Append("folio", folio1, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true }); return RedirectToAction("ResumeEPT"); }
                 string folio = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString());
                 model.IDEvt = Request.Cookies["IDEVNN"].ToString();
                 ConSQL.UpdateITLWF(model, WFList, WFList[0].IDITL);
