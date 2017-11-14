@@ -51,6 +51,20 @@ namespace GCCorePSAV.Models
             public string PrecioUnit { get; set; }
             public string Categoria { get; set; }
         }
+        public class ItemListServicesEdit
+        {
+            public int IDEvento { get; set; }
+            [Key]
+            public string ID { get; set; }
+            public string IDITL { get; set; }
+            public string Clave { get; set; }
+            public string Cantidad { get; set; }
+            public string Dias { get; set; }
+            public string Descripcion { get; set; }
+            public string PrecioUnit { get; set; }
+            public Caategoria Categoria { get; set; }
+        }
+        public class Caategoria {[Key] public string ID { get; set; } public string Categoria { get; set; } public Caategoria() { } public Caategoria(string val, string txt) { this.ID = val;this.Categoria = txt; } }
         public class ItemListWorkForce
         {
             public int IDEvento { get; set; }

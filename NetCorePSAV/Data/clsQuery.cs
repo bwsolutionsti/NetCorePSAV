@@ -628,6 +628,19 @@ namespace GCCorePSAV.Data
             conn.Close();
             return Vdes;
         }
+        public void SaveOneItilEdit(Models.SyncPSAV.SalonIL Salon, List<Models.SyncPSAV.ItemListServices> Ilserv, string idtl)
+        {
+            try
+            {
+                SaveWithoutValidation("delete from td_itemlist where tmilt_id=" + idtl);
+            }
+            catch { }
+            for (int i = 0; i < Ilserv.Count; i++)
+            {
+                string ConsSQL = "insert into td_itemlist(tmilt_id,tdil_clave,tdil_cantidad,tdil_des,tdil_preciounit,tcct_id,tme_id,tdil_dias) values(" + idtl + ",'" + Ilserv[i].Clave + "','" + Ilserv[i].Cantidad + "','" + Ilserv[i].Descripcion + "','" + Ilserv[i].PrecioUnit + "','" + Ilserv[i].Categoria + "'," + Salon.IDEvt + ",'" + Ilserv[i].Dias + "')";
+                SaveWithoutValidation(ConsSQL);
+            }
+        }
         public void UpdateITL(Models.SyncPSAV.SalonIL Salon,List<Models.SyncPSAV.ItemListServices> Ilserv,string idtl)
         {
             string iltt = "";
@@ -651,6 +664,23 @@ namespace GCCorePSAV.Data
                 string ConsSQL = "insert into td_itemlist(tmilt_id,tdil_clave,tdil_cantidad,tdil_des,tdil_preciounit,tcct_id,tme_id,tdil_dias) values(" + idtl + ",'" + Ilserv[i].Clave + "','" + Ilserv[i].Cantidad + "','" + Ilserv[i].Descripcion + "','" + Ilserv[i].PrecioUnit + "','" + Ilserv[i].Categoria + "'," + Salon.IDEvt + ",'"+Ilserv[i].Dias+"')";
                 SaveWithoutValidation(ConsSQL);
             }
+        }
+        public void SaveOneItilWF(Models.SyncPSAV.SalonILWF Salon, List<Models.SyncPSAV.ItemListWorkForce> Ilserv, string idtl)
+        {
+            try
+            {
+                SaveWithoutValidation("delete from td_itemlistwf where tmilt_id=" + idtl);
+            }
+            catch { }
+            try
+            {
+                for (int i = 0; i < Ilserv.Count; i++)
+                {
+                    string ConsSQL = "insert into td_itemlistwf(tmilt_id,tdil_clave,tdil_cantidad,tdil_des,tdil_preciounit,tcct_id,tme_id,tdil_seccion,tdil_dias) values(" + idtl + ",'" + Ilserv[i].Clave + "','" + Ilserv[i].Cantidad + "','" + Ilserv[i].Descripcion + "','" + Ilserv[i].PrecioUnit + "','" + Ilserv[i].Categoria + "'," + Salon.IDEvt + ",'" + Ilserv[i].Seccion + "','" + Ilserv[i].Dias + "')";
+                    SaveWithoutValidation(ConsSQL);
+                }
+            }
+            catch { }
         }
         public void UpdateITLWF(Models.SyncPSAV.SalonILWF Salon, List<Models.SyncPSAV.ItemListWorkForce> Ilserv, string idtl)
         {
@@ -711,6 +741,31 @@ namespace GCCorePSAV.Data
                 Ils.IDEvento = Convert.ToInt32(msdr.GetValue(8).ToString());
                 Ils.Seccion = string.IsNullOrEmpty(msdr.GetValue(7).ToString()) ? "" : msdr.GetValue(7).ToString();
                 Ils.Dias= string.IsNullOrEmpty(msdr.GetValue(9).ToString()) ? "" : msdr.GetValue(9).ToString();
+                ILIL.Add(Ils);
+            }
+            conn.Close();
+            return ILIL;
+        }
+        public List<Models.SyncPSAV.ItemListServicesEdit> LILSE(string idtl)
+        {
+            string QueryILIL = "SELECT * FROM psav_dev.td_itemlist where tmilt_id=" + idtl;
+            List<Models.SyncPSAV.ItemListServicesEdit> ILIL = new List<Models.SyncPSAV.ItemListServicesEdit>();
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QueryILIL, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                Models.SyncPSAV.ItemListServicesEdit Ils = new Models.SyncPSAV.ItemListServicesEdit();
+                Ils.ID = msdr.GetValue(0).ToString();
+                Ils.IDITL = msdr.GetValue(1).ToString();
+                Ils.Clave = msdr.GetValue(2).ToString();
+                Ils.Cantidad = msdr.GetValue(3).ToString();
+                Ils.Descripcion = msdr.GetValue(4).ToString();
+                Ils.PrecioUnit = msdr.GetValue(5).ToString();
+                Ils.Categoria = new Models.SyncPSAV.Caategoria(msdr.GetValue(6).ToString(), msdr.GetValue(6).ToString());
+                Ils.IDEvento = Convert.ToInt32(msdr.GetValue(7).ToString());
+                Ils.Dias = string.IsNullOrEmpty(msdr.GetValue(8).ToString()) ? "" : msdr.GetValue(8).ToString();
                 ILIL.Add(Ils);
             }
             conn.Close();

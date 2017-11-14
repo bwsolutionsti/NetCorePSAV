@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
 using System.IO;
+using System.Linq.Expressions;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -140,26 +141,73 @@ namespace GCCorePSAV.Controllers
         #region Itemlist
         #region editItemlist
         [HttpPost]
+        public IActionResult EditItemList2(Models.SyncPSAV.SalonIL model,string Clave,string Cantidad,string Dias,string Descripcion,string PrecioUnit,string Categoria)
+        {
+            ServList.Add(new Models.SyncPSAV.ItemListServices() { Clave = Clave, Cantidad = Cantidad, Dias = Dias, Descripcion = Descripcion, PrecioUnit = PrecioUnit, Categoria = Categoria, IDEvento = Convert.ToInt32(Request.Cookies["IDEVNN"].ToString()), IDITL = Request.Cookies["IDIL"].ToString() });
+                string folio = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString());
+                model.IDEvt = Request.Cookies["IDEVNN"].ToString();
+                model.IDITL = Request.Cookies["IDIL"].ToString();
+                ConSQL.SaveOneItilEdit(model, ServList, ServList[0].IDITL);
+                ServList = new List<Models.SyncPSAV.ItemListServices>();
+            return RedirectToAction("EdititemList");
+        }
+        [HttpGet]
+        public IActionResult EditItemList()
+        {
+            string IDIL = "";
+            if (string.IsNullOrEmpty(IDIL)) { IDIL = Request.Cookies["IDIL"].ToString(); }
+            Models.SyncPSAV.SalonIL ILS = ConSQL.GetOneSalonIL(IDIL);
+            ServList = ConSQL.LILS(IDIL);
+            ViewBag.datasource = ServList;
+            //                    ViewBag.datasourcedrop = ConSQL.GetListCategory("1").ToList();
+            List<Models.SyncPSAV.ItemCategory> IC = ConSQL.GetListCategory("1");
+            List<Models.SyncPSAV.Caategoria> Catego = new List<Models.SyncPSAV.Caategoria>();
+            for (int i = 0; i < IC.Count; i++)
+            {
+                Catego.Add(new Models.SyncPSAV.Caategoria(IC[i].Categoria, IC[i].Categoria));
+            }
+            ViewBag.datasourcedrop = Catego.ToList();
+            Response.Cookies.Append("IDEVNN", ILS.IDEvt, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
+            Response.Cookies.Append("IDIL", IDIL, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
+            return View(ILS);
+        }
+        [HttpPost]
         public IActionResult EditItemList(string IDIL, string Advance, Models.SyncPSAV.SalonIL model, string EVT)
         {
             if (string.IsNullOrEmpty(Advance))
             {
-                if (string.IsNullOrEmpty(IDIL))
+                if (string.IsNullOrEmpty(IDIL)&& Request.Cookies["IDIL"]==null)
                 {
                     Models.SyncPSAV.SalonIL ILS = new Models.SyncPSAV.SalonIL();
                     ServList = new List<Models.SyncPSAV.ItemListServices>();
                     ViewBag.datasource = ServList;
-                    ViewBag.datasourcedrop = ConSQL.GetListCategory("1").ToList();
+                    //                    ViewBag.datasourcedrop = ConSQL.GetListCategory("1").ToList();
+                    List<Models.SyncPSAV.ItemCategory> IC = ConSQL.GetListCategory("1");
+                    List<Models.SyncPSAV.Caategoria> Catego = new List<Models.SyncPSAV.Caategoria>();
+                    for(int i = 0; i < IC.Count; i++)
+                    {
+                        Catego.Add(new Models.SyncPSAV.Caategoria(IC[i].Categoria, IC[i].Categoria));
+                    }
+                    ViewBag.datasourcedrop = Catego.ToList();
                     Response.Cookies.Append("IDEVNN", ConSQL.GetEPTToEdit(EVT).IDEvent, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                     return View(ILS);
                 }
                 else
                 {
+                    if (string.IsNullOrEmpty(IDIL)) { IDIL = Request.Cookies["IDIL"].ToString(); }
                     Models.SyncPSAV.SalonIL ILS = ConSQL.GetOneSalonIL(IDIL);
                     ServList = ConSQL.LILS(IDIL);
                     ViewBag.datasource = ServList;
-                    ViewBag.datasourcedrop = ConSQL.GetListCategory("1").ToList();
+                    //                    ViewBag.datasourcedrop = ConSQL.GetListCategory("1").ToList();
+                    List<Models.SyncPSAV.ItemCategory> IC = ConSQL.GetListCategory("1");
+                    List<Models.SyncPSAV.Caategoria> Catego = new List<Models.SyncPSAV.Caategoria>();
+                    for (int i = 0; i < IC.Count; i++)
+                    {
+                        Catego.Add(new Models.SyncPSAV.Caategoria(IC[i].Categoria, IC[i].Categoria));
+                    }
+                    ViewBag.datasourcedrop = Catego.ToList();
                     Response.Cookies.Append("IDEVNN", ILS.IDEvt, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
+                    Response.Cookies.Append("IDIL", IDIL, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                     return View(ILS);
                 }
             }
@@ -221,6 +269,7 @@ namespace GCCorePSAV.Controllers
             }
         }
         public static List<Models.SyncPSAV.ItemListServices> ServList = new List<Models.SyncPSAV.ItemListServices>();
+        public static List<Models.SyncPSAV.ItemListServicesEdit> ServListe = new List<Models.SyncPSAV.ItemListServicesEdit>();
         public void BindServList() { ServList = new List<Models.SyncPSAV.ItemListServices>(); }
         public ActionResult ItemListNormalUpdate([FromBody]CRUDModel<Models.SyncPSAV.ItemListServices> myObject)
         {
@@ -235,10 +284,14 @@ namespace GCCorePSAV.Controllers
             Models.SyncPSAV.ItemListServices val = value.Value;
             val.IDEvento = Convert.ToInt32(Request.Cookies["IDEVNN"].ToString());
             val.ID = ServList.Count.ToString();
-            val.IDITL= ServList.Count.ToString();
             ServList.Insert(ServList.Count, val);
-            ViewBag.datasourcedrop = ConSQL.GetListCategory("1");
-            ViewBag.datasource = ServList;
+            return Json(ServList);
+        }
+        public ActionResult EditItemListNormalInsert([FromBody]CRUDModel<Models.SyncPSAV.ItemListServices> value)
+        {
+            Models.SyncPSAV.ItemListServices val = value.Value;
+            val.IDEvento = Convert.ToInt32(Request.Cookies["IDEVNN"].ToString());
+            ServList.Add(val);
             return Json(ServList);
         }
         public ActionResult ItemListNormalDelete([FromBody]CRUDModel<Models.SyncPSAV.ItemListServices> value)
@@ -249,6 +302,27 @@ namespace GCCorePSAV.Controllers
         #endregion
         #region ItemListWorkForce
         #region EditItemListWF
+        [HttpGet]
+        public IActionResult EditItemListWF()
+        {
+            Models.SyncPSAV.SalonILWF ILS = ConSQL.GetOneSalonILWF(Request.Cookies["IDIL"].ToString());
+            WFList = ConSQL.LILSWF(Request.Cookies["IDIL"].ToString());
+            Response.Cookies.Append("IDEVNN", ILS.IDEvt, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
+            ViewBag.datasource = WFList;
+            ViewBag.datasourcedrop = ConSQL.GetListCategory("2").ToList();
+            return View(ILS);
+        }
+        [HttpPost]
+        public IActionResult EditItemListWF2(Models.SyncPSAV.SalonILWF model,string Seccion, string Clave, string Cantidad, string Dias, string Descripcion, string PrecioUnit, string Categoria)
+        {
+            string folio = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString());
+            model.IDEvt = Request.Cookies["IDEVNN"].ToString();
+            WFList.Add(new Models.SyncPSAV.ItemListWorkForce() { Cantidad = Cantidad, Categoria = Categoria, Clave = Clave, Descripcion = Descripcion, Dias = Dias, PrecioUnit = PrecioUnit, Seccion = Seccion, IDITL = Request.Cookies["IDIL"].ToString(), IDEvento= Convert.ToInt32(Request.Cookies["IDEVNN"].ToString()) });
+            ConSQL.SaveOneItilWF(model, WFList, WFList[0].IDITL);
+            Response.Cookies.Append("folio", folio, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
+            WFList = new List<Models.SyncPSAV.ItemListWorkForce>();
+            return RedirectToAction("EditItemListWF");
+        }
         [HttpPost]
         public IActionResult EditItemListWF(string IDIL, string Advance, Models.SyncPSAV.SalonILWF model, string EVT)
         {
@@ -259,6 +333,7 @@ namespace GCCorePSAV.Controllers
                     Models.SyncPSAV.SalonILWF ILS = ConSQL.GetOneSalonILWF(IDIL);
                     WFList = ConSQL.LILSWF(IDIL);
                     Response.Cookies.Append("IDEVNN", ILS.IDEvt, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
+                    Response.Cookies.Append("IDIL", IDIL, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                     ViewBag.datasource = WFList;
                     ViewBag.datasourcedrop = ConSQL.GetListCategory("2").ToList();
                     return View(ILS);
@@ -268,6 +343,7 @@ namespace GCCorePSAV.Controllers
                     Models.SyncPSAV.SalonILWF ILS = new Models.SyncPSAV.SalonILWF();
                     WFList = new List<Models.SyncPSAV.ItemListWorkForce>();
                     Response.Cookies.Append("IDEVNN", ConSQL.GetEPTToEdit(EVT).IDEvent, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
+                    Response.Cookies.Append("IDIL", IDIL, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                     ViewBag.datasource = WFList;
                     ViewBag.datasourcedrop = ConSQL.GetListCategory("2").ToList();
                     return View(ILS);

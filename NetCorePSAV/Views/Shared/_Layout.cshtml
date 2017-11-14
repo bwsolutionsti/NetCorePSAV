@@ -38,12 +38,12 @@
 
     <script src="~/SyncEj/js/jsviews.min.js"></script>
     <script src="~/SyncEj/js/jsrender.js"></script>
-    <script src="~/SyncEj/js/jsrender.min.js"></script>
     <script src="~/SyncEj/js/ej.web.all.min.js"></script>
     <script src="~/SyncEj/js/properties.js"></script>
     <script src="~/SyncEj/js/ZeroClipboard.js"></script>
-    <script src="~/SyncEj/js/jquery.validate.min.js"></script>
-    <script src="~/SyncEj/js/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/SyncEj/js/jquery.validate.js"></script>
+    <script src="~/SyncEj/js/jquery.validate.unobtrusive.js"></script>
+    <script src="~/SyncEj/js/jquery.easing.js"></script>
     @*<script src="~/SyncEj/js/jquery-3.1.1.min.js"></script>*@
     
 
@@ -69,6 +69,7 @@
     </nav>
     <div class="container body-content">
         @RenderBody()
+        <ej-script-manager></ej-script-manager>
         <hr />
         <footer>
             <p>&copy; 2017 - CorePSAV</p>
@@ -97,7 +98,7 @@
     </environment>
     
     @RenderSection("Scripts", required: false)
-    <ej-script-manager></ej-script-manager>
+    
 </body>
 
 </html>
