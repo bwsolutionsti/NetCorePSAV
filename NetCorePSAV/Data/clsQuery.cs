@@ -419,6 +419,33 @@ namespace GCCorePSAV.Data
 #endregion
         #endregion
         #region EPT
+        public List<Models.SyncPSAV.VentaDes> VDesCount (string ide)
+        {
+            List<Models.SyncPSAV.VentaDes> VD = new List<Models.SyncPSAV.VentaDes>();
+            string QuerySearch = "SELECT * FROM psav_dev.td_eptvdesc where tme_id=" + ide;
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                Models.SyncPSAV.VentaDes VDM = new Models.SyncPSAV.VentaDes();
+                VDM.ID = msdr.GetValue(0).ToString();
+                VDM.Category = msdr.GetValue(1).ToString();
+                VDM.VentaEqui = msdr.GetValue(2).ToString();
+                VDM.VentaEquEx = msdr.GetValue(3).ToString();
+                VDM.TotalVenta = msdr.GetValue(4).ToString();
+                VDM.DesPorEq = msdr.GetValue(5).ToString();
+                VDM.TotalDescEPS = msdr.GetValue(6).ToString();
+                VDM.DescExt = msdr.GetValue(7).ToString();
+                VDM.TotalExt = msdr.GetValue(8).ToString();
+                VDM.TotalDesc = msdr.GetValue(9).ToString();
+                VDM.PorcTotalDesc = msdr.GetValue(10).ToString();
+                VDM.AplicaAut = msdr.GetValue(11).ToString();
+                VD.Add(VDM);
+            }
+            return VD;
+        }
         public List<Models.SyncPSAV.ItemCategory> GetListCategory(string type)
         {
             List<Models.SyncPSAV.ItemCategory> list = new List<Models.SyncPSAV.ItemCategory>();
@@ -849,7 +876,7 @@ namespace GCCorePSAV.Data
                 Models.SyncPSAV.SalonIL SIL = new Models.SyncPSAV.SalonIL();
                 SIL.IDEvt = idevt;
                 SIL.ID = msdr.GetValue(0).ToString();
-                SIL.IDITL = msdr.GetValue(1).ToString();
+                SIL.IDITL = msdr.GetValue(0).ToString();
                 SIL.Salon = msdr.GetValue(2).ToString();
                 SIL.Asistentes = msdr.GetValue(3).ToString();
                 SIL.Montaje = msdr.GetValue(4).ToString();
@@ -1195,7 +1222,7 @@ namespace GCCorePSAV.Data
         }
         public List<Models.SyncPSAV.VentaDes> GetCategoryEvent(string IDEvent)
         {
-            string query = "SELECT distinct itl.tcct_id FROM psav_dev.td_itemlist itl where itl.tme_id="+IDEvent+" union select distinct itlwf.tcct_id from psav_dev.td_itemlistwf itlwf where itlwf.tme_id="+IDEvent;
+            string query = "SELECT distinct itl.tcct_id FROM psav_dev.td_itemlist itl where itl.tme_id="+IDEvent;
             List<Models.SyncPSAV.VentaDes> lVD = new List<Models.SyncPSAV.VentaDes>();
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(query, conn);

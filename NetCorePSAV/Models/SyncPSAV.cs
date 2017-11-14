@@ -196,6 +196,7 @@ namespace GCCorePSAV.Models
             public string Asistentes { get; set; }
             public string Montaje { get; set; }
             public string Horario { get; set; }
+            
         }
     }
 }

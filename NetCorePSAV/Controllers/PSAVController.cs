@@ -1166,56 +1166,104 @@ namespace GCCorePSAV.Controllers
                     wkCotizacion.Cells["G28"].Value = ModEptFill.PMLocation;//Razon
                                                          ///////////Get Item List Sheet
                     ExcelWorksheet wkItemList = package.Workbook.Worksheets[3];
-
-
-
-                    ///get item list salons
-                    ///
+                    ///itemlist sheet
                     int lastPos = 0;
+                    //get all areas
                     List<Models.SyncPSAV.SalonIL> SILList = ConSQL.GetSalons(ModEptFill.IDEvent);
-                    for (int i = 0; i < SILList.Count; i++)
+                    lastPos = 16;
+                    for(int x = 0; x < SILList.Count; x++)
                     {
-                        if (i == 0)
+                        //fill gray blanks
+                        if (x > 0)
                         {
-                            wkItemList.Cells["E16"].Value = ModEptFill.EventName;//Event
-                            wkItemList.Cells["E17"].Value = SILList[i].Salon;//Event
-                            wkItemList.Cells["E18"].Value = SILList[i].Asistentes;//Event
-                            wkItemList.Cells["E19"].Value = SILList[i].Montaje;//Event
-                            wkItemList.Cells["E20"].Value = SILList[i].Horario;//Event
-                            lastPos = 21;
+                            wkItemList.Cells[lastPos,1,lastPos,7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                            wkItemList.Cells[lastPos,1,lastPos,7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
+                            wkItemList.Cells[(lastPos+1),1,(lastPos+1),7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                            wkItemList.Cells[(lastPos+1),1,(lastPos+1),7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
+                            wkItemList.Cells[(lastPos+2),1,(lastPos+2),7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                            wkItemList.Cells[(lastPos+2),1,(lastPos+2),7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
+                            wkItemList.Cells[(lastPos+3),1,(lastPos+3),7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                            wkItemList.Cells[(lastPos+3),1,(lastPos+3),7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
+                            wkItemList.Cells[(lastPos+4),1,(lastPos+4),7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                            wkItemList.Cells[(lastPos+4), 1, (lastPos+4), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
                         }
-                        else
-                        {
-                            wkItemList.Cells["E16"].Value = ModEptFill.EventName;//Event
-                            wkItemList.Cells["E17"].Value = SILList[i].Salon;//Event
-                            wkItemList.Cells["E18"].Value = SILList[i].Asistentes;//Event
-                            wkItemList.Cells["E19"].Value = SILList[i].Montaje;//Event
-                            wkItemList.Cells["E20"].Value = SILList[i].Horario;//Event
-                            lastPos = 21;
-                        }
-                        ///get itemlist services by salon
-                        List<Models.SyncPSAV.ItemListServices> LILS = ConSQL.GetOneILIL(SILList[i].IDEvt,SILList[i].IDITL);
-                        //fill items
+                        //fill headers services
+                        wkItemList.Cells["E"+(lastPos).ToString()].Value = ModEptFill.EventName;//Event
+                        wkItemList.Cells["E" + (lastPos+1).ToString()].Value = SILList[x].Salon;//Event
+                        wkItemList.Cells["E"+(lastPos+2).ToString()].Value = SILList[x].Asistentes;//Event
+                        wkItemList.Cells["E"+(lastPos+3).ToString()].Value = SILList[x].Montaje;//Event
+                        wkItemList.Cells["E"+(lastPos+4).ToString()].Value = SILList[x].Horario;//Event
+                        lastPos = lastPos + 5;
+                        //fill itemlist 
+                        List<Models.SyncPSAV.ItemListServices> LILS = ConSQL.GetOneILIL(SILList[x].IDEvt, SILList[x].IDITL);
                         for (int a = 0; a < LILS.Count; a++)
                         {
-                            lastPos = lastPos + a;
                             wkItemList.Cells["B" + (lastPos).ToString()].Value = LILS[a].Clave;//Event
                             wkItemList.Cells["C" + (lastPos).ToString()].Value = LILS[a].Cantidad;//Event
                             wkItemList.Cells["D" + (lastPos).ToString()].Value = LILS[a].Dias;//Event
                             wkItemList.Cells["E" + (lastPos).ToString()].Value = LILS[a].Descripcion;//Event
                             wkItemList.Cells["F" + (lastPos).ToString()].Value = LILS[a].PrecioUnit;//Event
                             wkItemList.Cells["I" + (lastPos).ToString()].Value = LILS[a].Categoria;//Event
+                            lastPos++;
+                        }                        
+                    }
+                    List<Models.SyncPSAV.SalonILWF> SILWF = ConSQL.GetSalonsWF(ModEptFill.IDEvent);
+                    for(int x = 0; x < SILWF.Count; x++)
+                    {
+                        //fill gray blanks
+                        if (x > 0)
+                        {
+                            wkItemList.Cells[lastPos, 1, lastPos, 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                            wkItemList.Cells[lastPos, 1, lastPos, 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
+                            wkItemList.Cells[(lastPos + 1), 1, (lastPos + 1), 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                            wkItemList.Cells[(lastPos + 1), 1, (lastPos + 1), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
+                            wkItemList.Cells[(lastPos + 2), 1, (lastPos + 2), 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                            wkItemList.Cells[(lastPos + 2), 1, (lastPos + 2), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
+                            wkItemList.Cells[(lastPos + 3), 1, (lastPos + 3), 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                            wkItemList.Cells[(lastPos + 3), 1, (lastPos + 3), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
+                            wkItemList.Cells[(lastPos + 4), 1, (lastPos + 4), 7].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                            wkItemList.Cells[(lastPos + 4), 1, (lastPos + 4), 7].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Black);
                         }
-                        //fill workforce
-                        List<Models.SyncPSAV.ItemListWorkForce> LIWF = ConSQL.GetOneILWF(SILList[i].IDEvt);
+                        //fill headers workforce
+                        wkItemList.Cells["E" + (lastPos).ToString()].Value = ModEptFill.EventName;//Event
+                        wkItemList.Cells["E" + (lastPos + 1).ToString()].Value = SILWF[x].Salon;//Event
+                        wkItemList.Cells["E" + (lastPos + 2).ToString()].Value = SILWF[x].Asistentes;//Event
+                        wkItemList.Cells["E" + (lastPos + 3).ToString()].Value = SILWF[x].Montaje;//Event
+                        wkItemList.Cells["E" + (lastPos + 4).ToString()].Value = SILWF[x].Horario;//Event
+                        lastPos = lastPos + 5;
+                        //fill itemlist wf
+                        List<Models.SyncPSAV.ItemListWorkForce> LIWF = ConSQL.GetOneILWF(SILWF[x].IDEvt);
                         for (int o = 0; o < LIWF.Count; o++)
                         {
-                            wkItemList.Cells["B" + (55 + o).ToString()].Value = LIWF[o].Clave;//Event
-                            wkItemList.Cells["C" + (55 + o).ToString()].Value = LIWF[o].Cantidad;//Event
-                            wkItemList.Cells["D" + (55 + o).ToString()].Value = LIWF[o].Dias;//Event
-                            wkItemList.Cells["E" + (55 + o).ToString()].Value = LIWF[o].Descripcion;//Event
-                            wkItemList.Cells["F" + (55 + o).ToString()].Value = LIWF[o].PrecioUnit;//Event
-                            wkItemList.Cells["I" + (55 + o).ToString()].Value = LIWF[o].Categoria;//Event
+                            wkItemList.Cells["B" + (lastPos).ToString()].Value = LIWF[o].Clave;//Event
+                            wkItemList.Cells["C" + (lastPos).ToString()].Value = LIWF[o].Cantidad;//Event
+                            wkItemList.Cells["D" + (lastPos).ToString()].Value = LIWF[o].Dias;//Event
+                            wkItemList.Cells["E" + (lastPos).ToString()].Value = LIWF[o].Descripcion;//Event
+                            wkItemList.Cells["F" + (lastPos).ToString()].Value = LIWF[o].PrecioUnit;//Event
+                            wkItemList.Cells["I" + (lastPos).ToString()].Value = LIWF[o].Categoria;//Event
+                            lastPos++;
+                        }
+                    }
+                    //check discount
+                    ExcelWorksheet VdItemList = package.Workbook.Worksheets[4];
+                    List<Models.SyncPSAV.VentaDes> VDes = ConSQL.VDesCount(ModEptFill.IDEvent);
+                    for(int i = 0; i < VDes.Count; i++)
+                    {
+                        if (!string.IsNullOrEmpty(VDes[i].DesPorEq))
+                        {
+                            switch (VDes[i].Category)
+                            {
+                                case "AUDIO":VdItemList.Cells["F19"].Value = VDes[i].DesPorEq;break;
+                                case "VIDEO": VdItemList.Cells["F20"].Value = VDes[i].DesPorEq; break;
+                                case "ACCESORIOS": VdItemList.Cells["F21"].Value = VDes[i].DesPorEq; break;
+                                case "ILUMINACIÓN": VdItemList.Cells["F22"].Value = VDes[i].DesPorEq; break;
+                                case "VIDEO PRODUCCIÓN": VdItemList.Cells["F23"].Value = VDes[i].DesPorEq; break;
+                                case "ESCENOGRAFÍA": VdItemList.Cells["F24"].Value = VDes[i].DesPorEq; break;
+                                case "COMPUTO": VdItemList.Cells["F25"].Value = VDes[i].DesPorEq; break;
+                                case "RIGGING EQUIPO": VdItemList.Cells["F26"].Value = VDes[i].DesPorEq; break;
+                                case "GASTOS": VdItemList.Cells["F27"].Value = VDes[i].DesPorEq; break;
+                                case "OTROS": VdItemList.Cells["F28"].Value = VDes[i].DesPorEq; break;
+                            }
                         }
                     }
                     //finally save the EPT document
