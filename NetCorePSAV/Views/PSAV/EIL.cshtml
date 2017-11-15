@@ -11,10 +11,8 @@
 @if (Lgc.isAuth)
 {
     <br />
-
-
     <div class="container-fluid">
-        <form method="post" asp-action="EditItemList" asp-controller="PSAV">
+        <form method="post" asp-action="EIL" asp-controller="PSAV">
             <input type="hidden" name="Advance" id="Advance" value="0" />
             <div class="row">
                 <h5>Detalle Evento</h5>
@@ -24,9 +22,6 @@
                     <thead>
                         <tr><th>Evento</th></tr>
                     </thead>
-                    <tr>
-                        @*<td><div class="form-group"><label asp-for="EventoName" class="control-label"></label><input asp-for="EventoName" class="form-control" disabled value="@HttpContextAccessor.HttpContext.Request.Cookies["EVN"]" /></div></td>*@
-                    </tr>
                     <tr>
                         <th>Salon</th>
                     </tr>
@@ -47,7 +42,6 @@
                 <table border="0">
                     <tr><td><button type="submit" class="btn btn-default">Guardar</button></td></tr>
                 </table>
-
             </div>
         </form>
         <form method="post" asp-action="EditItemList" asp-controller="PSAV">
@@ -56,10 +50,10 @@
             </table>
             <input type="hidden" name="Advance" id="Advance" value="2" />
         </form>
-
         <div class="row">
             <h4>Agregar Item a lista</h4>
-            <form method="post" asp-action="EditItemList2" asp-controller="PSAV">
+            <form method="post" asp-action="EIL2" asp-controller="PSAV">
+                <input type="hidden" value="1" name="config" id="config" />
                 <table class="table">
                     <thead>
                         <tr>
@@ -81,9 +75,9 @@
                             <td>
                                 <select class="form-control" name="Categoria" id="Categoria">
                                     @foreach (var item in ViewBag.datasourcedrop)
-                                        {
+                                    {
                                         <option value="@item.Categoria">@item.Categoria</option>
-                                        }
+                                    }
                                 </select>
                             </td>
                         </tr>
@@ -119,7 +113,71 @@
                 </tbody>
             </table>
         </div>
-
+        <div class="row">
+            <h4>Agregar Item a lista</h4>
+            <form method="post" asp-action="EIL2" asp-controller="PSAV">
+                <input type="hidden" value="2" name="config" id="config" />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Sección</th>
+                            <th>Clave</th>
+                            <th>Cantidad</th>
+                            <th>Dias</th>
+                            <th>Descripcion</th>
+                            <th>PrecioUnit</th>
+                            <th>Categoria</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" class="form-control" name="Seccion" id="Seccion" /></td>
+                            <td><input type="text" class="form-control" name="Clave" id="Clave" /></td>
+                            <td><input type="text" class="form-control" name="Cantidad" id="Cantidad" /></td>
+                            <td><input type="text" class="form-control" name="Dias" id="Dias" /></td>
+                            <td><input type="text" class="form-control" name="Descripcion" id="Descripcion" /></td>
+                            <td><input type="text" class="form-control" name="PrecioUnit" id="PrecioUnit" /></td>
+                            <td>
+                                <select class="form-control" name="Categoria" id="Categoria">
+                                    @foreach (var item in ViewBag.datasourcedrop2)
+                                    {
+                                        <option value="@item.Categoria">@item.Categoria</option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                        <tr><td><button type="submit" class="btn btn-default">Agregar</button></td></tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+        <div class="row">
+            <table border="0" class="table" width="100%">
+                <thead>
+                    <tr><th>Mano de obra</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <ej-grid id="FlatGrid" allow-paging="true">
+                                <e-datamanager json="(IEnumerable<object>)ViewBag.datasource" update-url="ItemListWFNormalUpdate" insert-url="ItemListWFNormalInsert" remove-url="ItemListWFNormalDelete" adaptor="remoteSaveAdaptor" />
+                                <e-edit-settings allow-adding="false" allow-editing="true" allow-deleting="true" edit-mode="@(EditMode.Normal)"></e-edit-settings>
+                                <e-toolbar-settings show-toolbar="true" toolbar-items="@(new List<string>() { "edit", "delete", "update", "cancel" })"></e-toolbar-settings>
+                                <e-columns>
+                                    <e-column field="ID" header-text="ID" is-identity="true" is-primary-key="true" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                                    <e-column field="Seccion" header-text="Seccion" validation-rules='new Dictionary<string, object>() { {"required",true}}' text-align="Right" width="75"></e-column>
+                                    <e-column field="Clave" header-text="Clave" validation-rules='new Dictionary<string, object>() { {"required",true} }' text-align="Right" width="75"></e-column>
+                                    <e-column field="Cantidad" header-text="Cantidad" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
+                                    <e-column field="Dias" header-text="Dias" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
+                                    <e-column field="Descripcion" header-text="Descripcion" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
+                                    <e-column field="PrecioUnit" header-text="PrecioUnit" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
+                                    <e-column field="Categoria" header-text="Categoria" foreign-key-field="Categoria" foreign-key-value="Categoria" datasource="ViewBag.datasourcedrop" edit-type="Dropdown"></e-column>
+                                </e-columns>
+                            </ej-grid>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-
 }

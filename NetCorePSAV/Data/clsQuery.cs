@@ -457,7 +457,7 @@ namespace GCCorePSAV.Data
             while (msdr.Read())
             {
                 Models.SyncPSAV.ItemCategory itemCategory = new Models.SyncPSAV.ItemCategory();
-                itemCategory.ID = msdr.GetValue(0).ToString();
+                itemCategory.ID = msdr.GetValue(1).ToString();
                 itemCategory.Categoria = msdr.GetValue(1).ToString();
                 list.Add(itemCategory);
             }

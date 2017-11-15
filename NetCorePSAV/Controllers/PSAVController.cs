@@ -115,7 +115,7 @@ namespace GCCorePSAV.Controllers
                         Response.Cookies.Append("IDE", IDEvent, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                         Response.Cookies.Append("EVN", model.EventName, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                         ViewBag.CategoriaList = ConSQL.GetCategoryItemList(1);
-                        return RedirectToAction("ItemList");
+                        return RedirectToAction("IL");
                     }
                     else
                     {
@@ -139,6 +139,7 @@ namespace GCCorePSAV.Controllers
         public List<Models.ItemListModel.ItemListServices> serv { get; set; }
         #region itemlists
         #region Itemlist
+
         #region editItemlist
         [HttpPost]
         public IActionResult EditItemList2(Models.SyncPSAV.SalonIL model, string Clave, string Cantidad, string Dias, string Descripcion, string PrecioUnit, string Categoria)
@@ -242,6 +243,77 @@ namespace GCCorePSAV.Controllers
         //{           
         //        return View("ItemListWorkForce");            
         //}
+        #region newitemlist
+        [HttpGet]
+        public IActionResult IL()
+        {
+            Models.ItemListModel.ItemListEventModel mode = new Models.ItemListModel.ItemListEventModel();
+            mode.EventoName = Request.Cookies["EVN"].ToString();
+            mode.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());
+            if (ServList.Count.Equals(0))
+            {
+                BindServList(); BindServListWF();
+                ViewBag.datasourcedrop = ConSQL.GetListCategory("1");
+                ViewBag.datasourcedrop2 = ConSQL.GetListCategory("2");
+                ViewBag.datasource = ServList;
+                ViewBag.datasource2 = WFList;
+            }
+            return View(mode);
+        }
+        [HttpPost]
+        public IActionResult IL(Models.ItemListModel.ItemListEventModel mod, string Advance)
+        {
+            if (!string.IsNullOrEmpty(Advance))
+            {
+                string IDITL = ""; string IDITLWF = "";
+                switch (Advance)
+                {
+                    case "0":
+                        IDITL = ConSQL.InsertTMItemList(mod, Request.Cookies["IDE"].ToString());
+                        IDITLWF = ConSQL.InsertTMItemListWF(mod, Request.Cookies["IDE"].ToString());
+                        mod = new Models.ItemListModel.ItemListEventModel();
+                        mod.EventoName = Request.Cookies["EVN"].ToString();
+                        mod.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());
+                        ConSQL.SaveItemListDetail(ServList, IDITL, Request.Cookies["IDE"].ToString());
+                        ConSQL.SaveItemListWFDetail(WFList, IDITLWF, Request.Cookies["IDE"].ToString());
+                        ViewBag.datasourcedrop = ConSQL.GetListCategory("1");
+                        ViewBag.datasourcedrop2 = ConSQL.GetListCategory("2");
+                        ServList = new List<Models.SyncPSAV.ItemListServices>(); WFList = new List<Models.SyncPSAV.ItemListWorkForce>(); mod = new Models.ItemListModel.ItemListEventModel();
+                        ViewBag.datasource = ServList;
+                        ViewBag.datasource2 = WFList;
+                        return View(); break;
+                    case "1":
+                        ServList = new List<Models.SyncPSAV.ItemListServices>();
+                        return RedirectToAction("VtaDesc"); break;
+                    case "2":
+                        IDITL = ConSQL.InsertTMItemList(mod, Request.Cookies["IDE"].ToString());
+                        IDITLWF = ConSQL.InsertTMItemListWF(mod, Request.Cookies["IDE"].ToString());
+                        mod = new Models.ItemListModel.ItemListEventModel();
+                        mod.EventoName = Request.Cookies["EVN"].ToString();
+                        mod.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());
+                        ConSQL.SaveItemListDetail(ServList, IDITL, Request.Cookies["IDE"].ToString());
+                        ConSQL.SaveItemListWFDetail(WFList, IDITLWF, Request.Cookies["IDE"].ToString());
+                        return RedirectToAction("EPT"); break;
+                }
+            }
+            else
+            {
+                Models.ItemListModel.ItemListEventModel mode = new Models.ItemListModel.ItemListEventModel();
+                mode.EventoName = Request.Cookies["EVN"].ToString();
+                mode.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());
+                if (ServList.Count.Equals(0))
+                {
+                    BindServList(); BindServListWF();
+                    ViewBag.datasourcedrop = ConSQL.GetListCategory("1");
+                    ViewBag.datasourcedrop2 = ConSQL.GetListCategory("2");
+                    ViewBag.datasource = ServList;
+                    ViewBag.datasource2 = WFList;
+                }
+                return View(mod);
+            }
+            return View();
+        }
+        #endregion
         [HttpPost]
         public IActionResult ItemList(Models.ItemListModel.ItemListEventModel mod, string Advance)
         {
@@ -283,7 +355,7 @@ namespace GCCorePSAV.Controllers
         public ActionResult ItemListNormalInsert([FromBody]CRUDModel<Models.SyncPSAV.ItemListServices> value)
         {
             Models.SyncPSAV.ItemListServices val = value.Value;
-            val.IDEvento = Convert.ToInt32(Request.Cookies["IDEVNN"].ToString());
+            val.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());
             ServList.Add(val);
             return Json(ServList);
         }
@@ -1263,16 +1335,16 @@ namespace GCCorePSAV.Controllers
                         {
                             switch (VDes[i].Category)
                             {
-                                case "AUDIO": VdItemList.Cells["F19"].Value = VDes[i].DesPorEq; break;
-                                case "VIDEO": VdItemList.Cells["F20"].Value = VDes[i].DesPorEq; break;
-                                case "ACCESORIOS": VdItemList.Cells["F21"].Value = VDes[i].DesPorEq; break;
-                                case "ILUMINACION": VdItemList.Cells["F22"].Value = VDes[i].DesPorEq; break;
-                                case "VIDEO PRODUCCION": VdItemList.Cells["F23"].Value = VDes[i].DesPorEq; break;
-                                case "ESCENOGRAFIA": VdItemList.Cells["F24"].Value = VDes[i].DesPorEq; break;
-                                case "COMPUTO": VdItemList.Cells["F25"].Value = VDes[i].DesPorEq; break;
-                                case "RIGGING EQUIPO": VdItemList.Cells["F26"].Value = VDes[i].DesPorEq; break;
-                                case "GASTOS": VdItemList.Cells["F27"].Value = VDes[i].DesPorEq; break;
-                                case "OTROS": VdItemList.Cells["F28"].Value = VDes[i].DesPorEq; break;
+                                case "AUDIO": VdItemList.Cells["F19"].Value = VDes[i].DesPorEq+"%"; break;
+                                case "VIDEO": VdItemList.Cells["F20"].Value = VDes[i].DesPorEq + "%"; break;
+                                case "ACCESORIOS": VdItemList.Cells["F21"].Value = VDes[i].DesPorEq + "%"; break;
+                                case "ILUMINACION": VdItemList.Cells["F22"].Value = VDes[i].DesPorEq + "%"; break;
+                                case "VIDEO PRODUCCION": VdItemList.Cells["F23"].Value = VDes[i].DesPorEq + "%"; break;
+                                case "ESCENOGRAFIA": VdItemList.Cells["F24"].Value = VDes[i].DesPorEq + "%"; break;
+                                case "COMPUTO": VdItemList.Cells["F25"].Value = VDes[i].DesPorEq + "%"; break;
+                                case "RIGGING EQUIPO": VdItemList.Cells["F26"].Value = VDes[i].DesPorEq + "%"; break;
+                                case "GASTOS": VdItemList.Cells["F27"].Value = VDes[i].DesPorEq + "%"; break;
+                                case "OTROS": VdItemList.Cells["F28"].Value = VDes[i].DesPorEq + "%"    ; break;
                             }
                         }
                     }

@@ -24,20 +24,11 @@
                             <td>
                                 <ej-grid id="FlatGrid" allow-paging="true">
                                     <e-datamanager json="(IEnumerable<object>)ViewBag.datasource" update-url="VtaDctoNormalUpdate" insert-url="VtaDctoNormalInsert" remove-url="VtaDctoNormalDelete" adaptor="remoteSaveAdaptor" />
-                                    <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" edit-mode="@(EditMode.Dialog)"></e-edit-settings>
-                                    <e-toolbar-settings show-toolbar="true" toolbar-items="@(new List<string>() { "add", "edit", "delete", "update", "cancel" })"></e-toolbar-settings>
+                                    <e-edit-settings allow-adding="false" allow-editing="true" allow-deleting="true" edit-mode="@(EditMode.Normal)"></e-edit-settings>
+                                    <e-toolbar-settings show-toolbar="true" toolbar-items="@(new List<string>() { "edit", "delete", "update", "cancel" })"></e-toolbar-settings>
                                     <e-columns>
                                         <e-column field="Category" header-text="Categoría" validation-rules='new Dictionary<string, object>() { {"required",true} }' text-align="Right" width="75"></e-column>
-                                        <e-column field="VentaEqui" header-text="Venta Equipo PS" validation-rules='new Dictionary<string, object>() { {"required",true}}' text-align="Right" width="75"></e-column>
-                                        <e-column field="VentaEquEx" header-text="Venta Equipo Externo" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
-                                        <e-column field="TotalVenta" header-text="Total de Venta" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
                                         <e-column field="DesPorEq" header-text="% Equipo PS" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
-                                        <e-column field="TotalDescEPS" header-text="Total Descuento PS" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
-                                        <e-column field="DescExt" header-text="% Equipo Externo" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
-                                        <e-column field="TotalExt" header-text="Total Desc Externo" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
-                                        <e-column field="TotalDesc" header-text="Total Descuento" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
-                                        <e-column field="PorcTotalDesc" header-text="% Total Desc" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
-                                        <e-column field="AplicaAut" header-text="Solicita Autorización" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
                                     </e-columns>
                                 </ej-grid>
                             </td>
