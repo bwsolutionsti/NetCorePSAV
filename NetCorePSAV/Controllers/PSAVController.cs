@@ -1250,6 +1250,7 @@ namespace GCCorePSAV.Controllers
                         //fill gray blanks
                         if (x > 0)
                         {
+                            if ((lastPos + SILList.Count+5) >= 41) { wkItemList.InsertRow(lastPos, (SILList.Count+5));wkItemList.Cells[lastPos, 1, lastPos, 40].Copy(wkItemList.Cells[lastPos + 1, 1, (SILList.Count + 5), 40]); }
                             wkItemList.Cells["B" + (lastPos).ToString()].Value = "EVENTO:";
                             wkItemList.Cells["B" + (lastPos + 1).ToString()].Value = "Salón/Area:";
                             wkItemList.Cells["B" + (lastPos + 2).ToString()].Value = "# de Asistentes:";
@@ -1277,6 +1278,7 @@ namespace GCCorePSAV.Controllers
                         List<Models.SyncPSAV.ItemListServices> LILS = ConSQL.GetOneILIL(SILList[x].IDEvt, SILList[x].IDITL);
                         for (int a = 0; a < LILS.Count; a++)
                         {
+                            if ((lastPos + LILS.Count) >= 41) { wkItemList.InsertRow(lastPos, (LILS.Count)); wkItemList.Cells[lastPos, 1, lastPos, 40].Copy(wkItemList.Cells[lastPos + 1, 1, (LILS.Count), 40]); }
                             wkItemList.Cells["B" + (lastPos).ToString()].Value = LILS[a].Clave;//Event
                             wkItemList.Cells["C" + (lastPos).ToString()].Value = LILS[a].Cantidad;//Event
                             wkItemList.Cells["D" + (lastPos).ToString()].Value = LILS[a].Dias;//Event
@@ -1286,10 +1288,12 @@ namespace GCCorePSAV.Controllers
                             lastPos++;
                         }
                     }
+                    lastPos = lastPos + 6;
                     List<Models.SyncPSAV.SalonILWF> SILWF = ConSQL.GetSalonsWF(ModEptFill.IDEvent);
                     for (int x = 0; x < SILWF.Count; x++)
                     {
                         //fill gray blanks
+                        if ((lastPos + SILWF.Count+5) >= 68) { wkItemList.InsertRow(lastPos, (SILWF.Count+5)); wkItemList.Cells[lastPos, 1, lastPos, 40].Copy(wkItemList.Cells[lastPos + 1, 1, (SILWF.Count + 5), 40]); }
                         wkItemList.Cells["B" + (lastPos).ToString()].Value = "EVENTO:";
                         wkItemList.Cells["B" + (lastPos + 1).ToString()].Value = "Salón/Area:";
                         wkItemList.Cells["B" + (lastPos + 2).ToString()].Value = "# de Asistentes:";
@@ -1317,6 +1321,7 @@ namespace GCCorePSAV.Controllers
                         List<Models.SyncPSAV.ItemListWorkForce> LIWF = ConSQL.GetOneILWF(SILWF[x].IDEvt);
                         for (int o = 0; o < LIWF.Count; o++)
                         {
+                            if ((lastPos + LIWF.Count) >= 68) { wkItemList.InsertRow(lastPos, (LIWF.Count)); wkItemList.Cells[lastPos, 1, lastPos, 40].Copy(wkItemList.Cells[lastPos + 1, 1, (LIWF.Count), 40]); }
                             wkItemList.Cells["B" + (lastPos).ToString()].Value = LIWF[o].Clave;//Event
                             wkItemList.Cells["C" + (lastPos).ToString()].Value = LIWF[o].Cantidad;//Event
                             wkItemList.Cells["D" + (lastPos).ToString()].Value = LIWF[o].Dias;//Event
