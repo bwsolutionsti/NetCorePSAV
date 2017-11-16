@@ -1293,8 +1293,13 @@ namespace GCCorePSAV.Controllers
                         }
                     }
                     int LastPosFormat = lastPos-2;
-                    lastPos = lastPos + 12;
-                    int maxFormula = 2;bool sumaFilas = false;
+                    if (lastPos <= 41) { lastPos = 55; }
+                    else
+                    {
+                        lastPos = lastPos + 12;
+                    }
+                    int maxFormula = 3;bool sumaFilas = false;
+                    
                     List<Models.SyncPSAV.SalonILWF> SILWF = ConSQL.GetSalonsWF(ModEptFill.IDEvent);
                     for (int x = 0; x < SILWF.Count; x++)
                     {
@@ -1364,6 +1369,35 @@ namespace GCCorePSAV.Controllers
                                 case "OTROS": VdItemList.Cells["F28"].Value = VDes[i].DesPorEq + "%"    ; break;
                             }
                         }
+                    }
+                    //check fee sale
+                    ExcelWorksheet FSItemList = package.Workbook.Worksheets[5];
+                    List<Models.SyncPSAV.VentaFee> VFee = ConSQL.GetVFee(ModEptFill.IDEvent);
+                    for (int i = 0; i < VFee.Count; i++)
+                    {
+                        if (!string.IsNullOrEmpty(VFee[i].PorcFee))
+                        {
+                            switch (VFee[i].Category)
+                            {
+                                case "AUDIO": FSItemList.Cells["C59"].Value = VFee[i].PorcFee + "%"; break;
+                                case "VIDEO": FSItemList.Cells["C60"].Value = VFee[i].PorcFee + "%"; break;
+                                case "ACCESORIOS": FSItemList.Cells["C61"].Value = VFee[i].PorcFee + "%"; break;
+                                case "ILUMINACION": FSItemList.Cells["C62"].Value = VFee[i].PorcFee + "%"; break;
+                                case "VIDEO PRODUCCION": FSItemList.Cells["C63"].Value = VFee[i].PorcFee + "%"; break;
+                                case "ESCENOGRAFIA": FSItemList.Cells["C64"].Value = VFee[i].PorcFee + "%"; break;
+                                case "COMPUTO": FSItemList.Cells["C65"].Value = VFee[i].PorcFee + "%"; break;
+                                case "RIGGING EQUIPO": FSItemList.Cells["C66"].Value = VFee[i].PorcFee + "%"; break;
+                                case "GASTOS": FSItemList.Cells["C67"].Value = VFee[i].PorcFee + "%"; break;
+                                case "OTROS": FSItemList.Cells["C68"].Value = VFee[i].PorcFee + "%"; break;
+                            }
+                        }
+                    }
+                    //check for subrent
+                    ExcelWorksheet WSSubrenta = package.Workbook.Worksheets[6];
+                    List<Models.SyncPSAV.SubRenta> SR = ConSQL.GetSubRenta(ModEptFill.IDEvent);
+                    for (int i = 0; i < VFee.Count; i++)
+                    {
+                        
                     }
                     //finally save the EPT document
                     ////package.Save();
