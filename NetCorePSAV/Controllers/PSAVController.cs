@@ -570,7 +570,7 @@ namespace GCCorePSAV.Controllers
         public ActionResult VtaDctoNormalUpdate([FromBody]CRUDModel<Models.SyncPSAV.VentaDes> myObject)
         {
             var ord = myObject.Value;
-            Models.SyncPSAV.VentaDes val = VDescList.Where(or => or.Category == ord.Category).FirstOrDefault();
+            Models.SyncPSAV.VentaDes val = VDescList.Where(or => or.ID == ord.ID).FirstOrDefault();
             val.Category = ord.Category; val.VentaEqui = ord.VentaEqui; val.VentaEquEx = ord.VentaEquEx; val.TotalVenta = ord.TotalVenta;
             val.DesPorEq = ord.DesPorEq; val.TotalDescEPS = ord.TotalDescEPS; val.DescExt = ord.DescExt; val.TotalExt = ord.TotalExt;
             val.TotalDesc = ord.TotalDesc; val.PorcTotalDesc = ord.PorcTotalDesc; val.AplicaAut = ord.AplicaAut;
@@ -584,7 +584,7 @@ namespace GCCorePSAV.Controllers
         }
         public ActionResult VtaDctoNormalDelete([FromBody]CRUDModel<Models.SyncPSAV.VentaDes> value)
         {
-            VDescList.Remove(VDescList.Where(or => or.Category == value.Key.ToString()).FirstOrDefault());
+            VDescList.Remove(VDescList.Where(or => or.ID == value.Key.ToString()).FirstOrDefault());
             return Json(value);
         }
         public IActionResult VtaDesc()
