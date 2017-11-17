@@ -1395,9 +1395,14 @@ namespace GCCorePSAV.Controllers
                     //check for subrent
                     ExcelWorksheet WSSubrenta = package.Workbook.Worksheets[6];
                     List<Models.SyncPSAV.SubRenta> SR = ConSQL.GetSubRenta(ModEptFill.IDEvent);
-                    for (int i = 0; i < VFee.Count; i++)
+                    for (int i = 0; i < SR.Count; i++)
                     {
-                        
+                        WSSubrenta.Cells["A" + (i + 12).ToString()].Value = SR[i].Category;
+                        WSSubrenta.Cells["B" + (i + 12).ToString()].Value = SR[i].Invoice;
+                        WSSubrenta.Cells["C" + (i + 12).ToString()].Value = SR[i].Supplier;
+                        WSSubrenta.Cells["D" + (i + 12).ToString()].Value = SR[i].Descripcion;
+                        WSSubrenta.Cells["E" + (i + 12).ToString()].Value = SR[i].Gastosub;
+                        WSSubrenta.Cells["F" + (i + 12).ToString()].Value = SR[i].Ventasub;
                     }
                     //finally save the EPT document
                     ////package.Save();
