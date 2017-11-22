@@ -19,8 +19,10 @@ namespace GCCorePSAV.Models
             [Display(Prompt ="# Asistentes")]
             public string Asistentes { get; set; }
             [Display(Prompt ="Montaje")]
+            [DataType(DataType.Date)]
             public string Montaje { get; set; }
             [Display(Prompt ="Horario")]
+            [DataType(DataType.Time)]
             public string Horario { get; set; }
             public int IDEvento { get; set; }
             [Display(Prompt ="Clave Servicio")]

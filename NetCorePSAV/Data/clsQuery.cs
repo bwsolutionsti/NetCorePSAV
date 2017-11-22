@@ -1248,11 +1248,14 @@ namespace GCCorePSAV.Data
             MySqlCommand cmd = new MySqlCommand(query, conn);
             conn.Open();
             MySqlDataReader msdr = cmd.ExecuteReader();
+            int contador = 1;
             while (msdr.Read())
             {
                 Models.SyncPSAV.VentaFee mod = new Models.SyncPSAV.VentaFee();
+                mod.ID = contador.ToString();
                 mod.Category = msdr.GetValue(0).ToString();
                 lVD.Add(mod);
+                contador++;
             }
             conn.Close();
             return lVD;

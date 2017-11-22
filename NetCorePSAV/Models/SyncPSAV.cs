@@ -182,7 +182,9 @@ namespace GCCorePSAV.Models
             public string IDEvt { get; set; }
             public string Salon { get; set; }
             public string Asistentes { get; set; }
+            [DataType(DataType.Date)]
             public string Montaje { get; set; }
+            [DataType(DataType.Time)]
             public string Horario { get; set; }
             public string IDITL { get; set; }
             public string EventoName { get; set; }
@@ -194,7 +196,9 @@ namespace GCCorePSAV.Models
             public string IDEvt { get; set; }
             public string Salon { get; set; }
             public string Asistentes { get; set; }
+            [DataType(DataType.Date)]
             public string Montaje { get; set; }
+            [DataType(DataType.Time)]
             public string Horario { get; set; }
             
         }
