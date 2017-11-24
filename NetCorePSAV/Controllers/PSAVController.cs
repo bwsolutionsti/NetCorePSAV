@@ -509,13 +509,14 @@ namespace GCCorePSAV.Controllers
                 VDescList = ConSQL.GetVtaDesc(Request.Cookies["IDEVT"].ToString());
                 if (!VDescList.Equals(list.Count))
                 {
-                    for (int i = 0; i < VDescList.Count; i++)
+                    for (int i = 0; i < list.Count; i++)
                     {
                         bool itemFound = false;
                         string data = "";
-                        for (int x = 0; x < list.Count; x++)
+                        for (int x = 0; x < VDescList.Count; x++)
                         {
-                            data = list[x].Category;
+                            itemFound = false;
+                            data = list[i].Category;
                             if (VDescList[x].Category.Equals(list[i].Category)) { itemFound = true; break; }
                         }
                         if (!itemFound) { VDescList.Add(new Models.SyncPSAV.VentaDes() { Category = data, ID = "0" }); }
@@ -539,13 +540,14 @@ namespace GCCorePSAV.Controllers
                 VFeeList = ConSQL.GetVFee(Request.Cookies["IDEVT"].ToString());
                 if (!VFeeList.Equals(list.Count))
                 {
-                    for (int i = 0; i < VFeeList.Count; i++)
+                    for (int i = 0; i < list.Count; i++)
                     {
                         bool itemFound = false;
                         string data = "";
-                        for (int x = 0; x < list.Count; x++)
+                        for (int x = 0; x < VFeeList.Count; x++)
                         {
-                            data = list[x].Category;
+                            itemFound = false;
+                            data = list[i].Category;
                             if (VFeeList[x].Category.Equals(list[i].Category)) { itemFound = true; break; }
                         }
                         if (!itemFound) { VFeeList.Add(new Models.SyncPSAV.VentaFee() { Category = data, ID = "0" }); }
