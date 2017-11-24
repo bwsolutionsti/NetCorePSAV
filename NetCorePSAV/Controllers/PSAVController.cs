@@ -250,14 +250,13 @@ namespace GCCorePSAV.Controllers
             Models.ItemListModel.ItemListEventModel mode = new Models.ItemListModel.ItemListEventModel();
             mode.EventoName = Request.Cookies["EVN"].ToString();
             mode.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());
-            if (ServList.Count.Equals(0))
-            {
+            
                 BindServList(); BindServListWF();
                 ViewBag.datasourcedrop = ConSQL.GetListCategory("1");
                 ViewBag.datasourcedrop2 = ConSQL.GetListCategory("2");
                 ViewBag.datasource = ServList;
                 ViewBag.datasource2 = WFList;
-            }
+            
             return View(mode);
         }
         [HttpPost]
@@ -506,7 +505,22 @@ namespace GCCorePSAV.Controllers
         {
             if (string.IsNullOrEmpty(Advance))
             {
+                List<Models.SyncPSAV.VentaDes> list=ConSQL.GetCategoryEvent(Request.Cookies["IDEVT"].ToString());
                 VDescList = ConSQL.GetVtaDesc(Request.Cookies["IDEVT"].ToString());
+                if (!VDescList.Equals(list.Count))
+                {
+                    for (int i = 0; i < VDescList.Count; i++)
+                    {
+                        bool itemFound = false;
+                        string data = "";
+                        for (int x = 0; x < list.Count; x++)
+                        {
+                            data = list[x].Category;
+                            if (VDescList[x].Category.Equals(list[i].Category)) { itemFound = true; break; }
+                        }
+                        if (!itemFound) { VDescList.Add(new Models.SyncPSAV.VentaDes() { Category = data, ID = "0" }); }
+                    }
+                }
                 ViewBag.datasource = VDescList;
             }
             else
@@ -521,7 +535,22 @@ namespace GCCorePSAV.Controllers
         {
             if (string.IsNullOrEmpty(Advance))
             {
+                List<Models.SyncPSAV.VentaFee> list=ConSQL.GetCategoryEvtFee(Request.Cookies["IDEVT"].ToString());
                 VFeeList = ConSQL.GetVFee(Request.Cookies["IDEVT"].ToString());
+                if (!VFeeList.Equals(list.Count))
+                {
+                    for (int i = 0; i < VFeeList.Count; i++)
+                    {
+                        bool itemFound = false;
+                        string data = "";
+                        for (int x = 0; x < list.Count; x++)
+                        {
+                            data = list[x].Category;
+                            if (VFeeList[x].Category.Equals(list[i].Category)) { itemFound = true; break; }
+                        }
+                        if (!itemFound) { VFeeList.Add(new Models.SyncPSAV.VentaFee() { Category = data, ID = "0" }); }
+                    }
+                }
                 ViewBag.datasource = VFeeList;
             }
             else
