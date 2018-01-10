@@ -280,7 +280,8 @@ namespace GCCorePSAV.Controllers
                         ServList = new List<Models.SyncPSAV.ItemListServices>(); WFList = new List<Models.SyncPSAV.ItemListWorkForce>(); mod = new Models.ItemListModel.ItemListEventModel();
                         ViewBag.datasource = ServList;
                         ViewBag.datasource2 = WFList;
-                        return View(); break;
+                        mod = new Models.ItemListModel.ItemListEventModel();
+                        return View(mod); break;
                     case "1":
                         ServList = new List<Models.SyncPSAV.ItemListServices>();
                         return RedirectToAction("VtaDesc"); break;
