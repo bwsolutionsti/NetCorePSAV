@@ -1436,6 +1436,10 @@ namespace GCCorePSAV.Controllers
                         WSSubrenta.Cells["E" + (i + 12).ToString()].Value = SR[i].Gastosub;
                         WSSubrenta.Cells["F" + (i + 12).ToString()].Value = SR[i].Ventasub;
                     }
+                    //check for OL
+                    ExcelWorksheet WSOL = package.Workbook.Worksheets[7];
+                    //check freelance
+                    List<Models.SyncPSAV.FreelanceOL> FOL = new List<Models.SyncPSAV.FreelanceOL>();
                     //finally save the EPT document
                     ////package.Save();
                     ReportArray = package.GetAsByteArray();

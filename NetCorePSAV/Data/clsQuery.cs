@@ -536,13 +536,13 @@ namespace GCCorePSAV.Data
             //gastos financieros
             for(int i = 0; i<GasFinL.Count; i++)
             {
-                string QueryInsert = "insert into td_eptgfin(tdegf_comision,tdegf_importe,tdegf_porccom,tegf_imporcom,tme_id) values ('" + GasFinL[i].Comision+"','"+GasFinL[i].Importe+"','"+GasFinL[i].PorcCom+"','"+GasFinL[i].ImporteCom+"',"+idevt+")";
+                string QueryInsert = "insert into td_eptgfin(tdegf_comision,tdegf_importe,tdegf_porccom,tdegf_imporcom,tme_id) values ('" + GasFinL[i].Comision+"','"+GasFinL[i].Importe+"','"+GasFinL[i].PorcCom+"','"+GasFinL[i].ImporteCom+"',"+idevt+")";
                 SaveWithoutValidation(QueryInsert);
             }
             //consul
             for(int i = 0; i < ConsuL.Count; i++)
             {
-                string QueryInsert = "insert into td_eptconsumible(tdec_cotizacion,tdec_supplier,tdec_description,tec_costo,tme_id) values ('"+ConsuL[i].Cotizacion+"','"+ConsuL[i].Supplier+"','"+ConsuL[i].Description+"','"+ConsuL[i].Costo+"',"+idevt+")";
+                string QueryInsert = "insert into td_eptconsumible(tdec_cotizacion,tdec_supplier,tdec_description,tdec_costo,tme_id) values ('"+ConsuL[i].Cotizacion+"','"+ConsuL[i].Supplier+"','"+ConsuL[i].Description+"','"+ConsuL[i].Costo+"',"+idevt+")";
                 SaveWithoutValidation(QueryInsert);
             }
             //cargos internos
