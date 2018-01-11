@@ -1348,6 +1348,138 @@ namespace GCCorePSAV.Data
             conn.Close();
             return eptm;
         }
+        #region xlsOL
+        public List<Models.SyncPSAV.FreelanceOL> GetFOLXls(string IDEvent)
+        {
+            List<Models.SyncPSAV.FreelanceOL> FOL = new List<Models.SyncPSAV.FreelanceOL>();
+            string conSQL = "SELECT * FROM psav_dev.td_eptfreelance where tme_id="+IDEvent;
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(conSQL, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                Models.SyncPSAV.FreelanceOL freelanceOL = new Models.SyncPSAV.FreelanceOL();
+                freelanceOL.ID = msdr.GetValue(0).ToString();
+                freelanceOL.Nombres= msdr.GetValue(1).ToString();
+                freelanceOL.Puesto= msdr.GetValue(2).ToString();
+                freelanceOL.Dias= msdr.GetValue(3).ToString();
+                freelanceOL.Sueldo= msdr.GetValue(4).ToString();
+                freelanceOL.Condiciones= msdr.GetValue(5).ToString();
+                FOL.Add(freelanceOL);
+            }
+            conn.Close();
+            return FOL;
+        }
+        public List<Models.SyncPSAV.Viaticos> GetListVL(string IDEvent)
+        {
+            List<Models.SyncPSAV.Viaticos> VOL = new List<Models.SyncPSAV.Viaticos>();
+            string conSQL = "SELECT * FROM psav_dev.td_eptviaticos where tme_id=" + IDEvent;
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(conSQL, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                Models.SyncPSAV.Viaticos viaticos = new Models.SyncPSAV.Viaticos();
+                viaticos.ID = msdr.GetValue(0).ToString();
+                viaticos.Nombres = msdr.GetValue(1).ToString();
+                viaticos.Puesto = msdr.GetValue(2).ToString();
+                viaticos.Observaciones = msdr.GetValue(3).ToString();
+                viaticos.TotalSol = msdr.GetValue(4).ToString();
+                VOL.Add(viaticos);
+            }
+            conn.Close();
+            return VOL;
+        }
+        public List<Models.SyncPSAV.VentasFeeTot> GetListVFT(string IDEvent)
+        {
+            List<Models.SyncPSAV.VentasFeeTot> list = new List<Models.SyncPSAV.VentasFeeTot>();
+            string conSQL = "SELECT * FROM psav_dev.td_eptvfeetot where tme_id=" + IDEvent;
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(conSQL, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                Models.SyncPSAV.VentasFeeTot ventas = new Models.SyncPSAV.VentasFeeTot();
+                ventas.ID = msdr.GetValue(0).ToString();
+                ventas.Nombres = msdr.GetValue(1).ToString();
+                ventas.Puesto = msdr.GetValue(2).ToString();
+                ventas.Comision = msdr.GetValue(3).ToString();
+                ventas.VentaNeta = msdr.GetValue(4).ToString();
+                ventas.Comisiontot = msdr.GetValue(5).ToString();
+                list.Add(ventas);
+            }
+            conn.Close();
+            return list;
+        }
+        public List<Models.SyncPSAV.GastosFinancieros> GetListGF(string IDEvent)
+        {
+            List<Models.SyncPSAV.GastosFinancieros> list = new List<Models.SyncPSAV.GastosFinancieros>();
+            string conSQL = "SELECT * FROM psav_dev.td_eptgfin where tme_id=" + IDEvent;
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(conSQL, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                Models.SyncPSAV.GastosFinancieros gastos = new Models.SyncPSAV.GastosFinancieros();
+                gastos.ID = msdr.GetValue(0).ToString();
+                gastos.Comision = msdr.GetValue(1).ToString();
+                gastos.Importe = msdr.GetValue(2).ToString();
+                gastos.PorcCom = msdr.GetValue(3).ToString();
+                gastos.ImporteCom = msdr.GetValue(4).ToString();
+                list.Add(gastos);
+            }
+            conn.Close();
+            return list;
+        }
+        public List<Models.SyncPSAV.Consumibles> GetListConsumibles(string IDEvent)
+        {
+            List<Models.SyncPSAV.Consumibles> list = new List<Models.SyncPSAV.Consumibles>();
+            string conSQL = "SELECT * FROM psav_dev.td_eptconsumible where tme_id=" + IDEvent;
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(conSQL, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                Models.SyncPSAV.Consumibles consumibles = new Models.SyncPSAV.Consumibles();
+                consumibles.ID = msdr.GetValue(0).ToString();
+                consumibles.Cotizacion = msdr.GetValue(1).ToString();
+                consumibles.Supplier = msdr.GetValue(2).ToString();
+                consumibles.Description = msdr.GetValue(3).ToString();
+                consumibles.Costo = msdr.GetValue(4).ToString();
+                list.Add(consumibles);
+            }
+            conn.Close();
+            return list;
+        }
+        public List<Models.SyncPSAV.CargosInternos> GetListCI(string IDEvent)
+        {
+            List<Models.SyncPSAV.CargosInternos> list = new List<Models.SyncPSAV.CargosInternos>();
+            string conSQL = "SELECT * FROM psav_dev.td_eptcinternos where tme_id=" + IDEvent;
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(conSQL, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                Models.SyncPSAV.CargosInternos cargos = new Models.SyncPSAV.CargosInternos();
+                cargos.ID = msdr.GetValue(0).ToString();
+                cargos.Equipo = msdr.GetValue(1).ToString();
+                cargos.Categoria = msdr.GetValue(2).ToString();
+                cargos.PrecioLista = msdr.GetValue(3).ToString();
+                cargos.TipoOper = msdr.GetValue(4).ToString();
+                cargos.PorcCargo = msdr.GetValue(5).ToString();
+                cargos.MontoCargo = msdr.GetValue(6).ToString();
+                list.Add(cargos);
+            }
+            conn.Close();
+            return list;
+        }
+#endregion
         #endregion
         #region CaptureRatio
         public List<Models.SyncPSAV.CratioDets> GetCD(string IDEvent)
