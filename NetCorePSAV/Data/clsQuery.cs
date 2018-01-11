@@ -1456,6 +1456,8 @@ namespace GCCorePSAV.Data
             conn.Close();
             return list;
         }
+
+
         public List<Models.SyncPSAV.CargosInternos> GetListCI(string IDEvent)
         {
             List<Models.SyncPSAV.CargosInternos> list = new List<Models.SyncPSAV.CargosInternos>();
