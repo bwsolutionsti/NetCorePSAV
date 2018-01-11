@@ -1439,7 +1439,77 @@ namespace GCCorePSAV.Controllers
                     //check for OL
                     ExcelWorksheet WSOL = package.Workbook.Worksheets[7];
                     //check freelance
-                    List<Models.SyncPSAV.FreelanceOL> FOL = new List<Models.SyncPSAV.FreelanceOL>();
+                    List<Models.SyncPSAV.FreelanceOL> FOL = ConSQL.GetFOLXls(ModEptFill.IDEvent);
+                    //Fill Freelance
+
+                    for (int i=0; i<FOL.Count; i++)
+                    {
+                        WSOL.Cells["A"  + (i + 12).ToString()].Value = FOL[i].Nombres;
+                        WSOL.Cells["B"  + (i + 12).ToString()].Value = FOL[i].Puesto;
+                        WSOL.Cells["C"  + (i + 12).ToString()].Value = FOL[i].Dias;
+                        WSOL.Cells["D"  + (i + 12).ToString()].Value = FOL[i].Sueldo;
+
+                    }
+
+                    //Check viaticos
+                    List<Models.SyncPSAV.Viaticos> VTS = ConSQL.GetListVL(ModEptFill.IDEvent);
+                    for(int i=0; i<VTS.Count; i++)
+                    {
+                        WSOL.Cells["A" + (i + 44).ToString()].Value = VTS[i].Nombres;
+                        WSOL.Cells["B" + (i + 44).ToString()].Value = VTS[i].Puesto;
+                        WSOL.Cells["C" + (i + 44).ToString()].Value = VTS[i].Observaciones;
+                        WSOL.Cells["D" + (i + 44).ToString()].Value = VTS[i].TotalSol;
+                    }
+
+                    //comision de ventas
+                    List<Models.SyncPSAV.VentasFeeTot> VFE = ConSQL.GetListVFT(ModEptFill.IDEvent);
+                    for (int i = 0; i < VFE.Count; i++)
+                    {
+                        WSOL.Cells["A" + (i + 59).ToString()].Value = VFE[i].Nombres;
+                        WSOL.Cells["B" + (i + 59).ToString()].Value = VFE[i].Puesto;
+                        WSOL.Cells["C" + (i + 59).ToString()].Value = VFE[i].Comision;
+                        WSOL.Cells["D" + (i + 59).ToString()].Value = VFE[i].VentaNeta;
+                        
+                    }
+                    //Gastos Financieros
+                    List<Models.SyncPSAV.GastosFinancieros> GF = ConSQL.GetListGF(ModEptFill.IDEvent);
+                    for(int i=0; i < GF.Count; i++)
+                    {
+                        WSOL.Cells["A" + (i + 68).ToString()].Value = GF[i].ImporteCom;
+                        WSOL.Cells["B" + (i + 68).ToString()].Value = GF[i].Comision;
+                        WSOL.Cells["C" + (i + 68).ToString()].Value = GF[i].Importe;
+
+                    }
+
+
+
+                    //Consumibles
+
+                    List<Models.SyncPSAV.Consumibles> CNS = ConSQL.GetListConsumibles(ModEptFill.IDEvent);
+                    for (int i = 0; i < CNS.Count; i++)
+                    {
+                        WSOL.Cells["A" + (i + 76).ToString()].Value = CNS[i].Cotizacion;
+                        WSOL.Cells["B" + (i + 76).ToString()].Value = CNS[i].Supplier;
+                        WSOL.Cells["C" + (i + 76).ToString()].Value = CNS[i].Description;
+                        WSOL.Cells["D" + (i + 76).ToString()].Value = CNS[i].Costo;
+
+                    }
+
+                    //Cargos internos
+                    List<Models.SyncPSAV.CargosInternos> CI = ConSQL.GetListCI(ModEptFill.IDEvent);
+                    for(int i=0; i<CI.Count; i++)
+                    {
+                        WSOL.Cells["A" + (i + 92).ToString()].Value = CI[i].Equipo;
+                        WSOL.Cells["B" + (i + 92).ToString()].Value = CI[i].Categoria;
+                        WSOL.Cells["C" + (i + 92).ToString()].Value = CI[i].PrecioLista;
+                        WSOL.Cells["D" + (i + 92).ToString()].Value = CI[i].TipoOper;
+                    }
+
+                    
+
+
+
+
                     //finally save the EPT document
                     ////package.Save();
                     ReportArray = package.GetAsByteArray();
