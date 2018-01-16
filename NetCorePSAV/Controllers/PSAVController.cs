@@ -1379,7 +1379,9 @@ namespace GCCorePSAV.Controllers
                             }
                             lastPos++;
                         }
+                        
                     }
+                    wkItemList.DeleteRow(lastPos - 1); wkItemList.DeleteRow(lastPos);
                     //check discount
                     ExcelWorksheet VdItemList = package.Workbook.Worksheets[4];
                     List<Models.SyncPSAV.VentaDes> VDes = ConSQL.VDesCount(ModEptFill.IDEvent);
