@@ -934,10 +934,10 @@ namespace GCCorePSAV.Data
             conn.Close();
             return ILIL;
         }
-        public List<Models.SyncPSAV.ItemListWorkForce> GetOneILWF(string idevt)
+        public List<Models.SyncPSAV.ItemListWorkForce> GetOneILWF(string idevt,string idilt)
         {
             List<Models.SyncPSAV.ItemListWorkForce> ILWF = new List<Models.SyncPSAV.ItemListWorkForce>();
-            string QueryILIL = "SELECT * FROM psav_dev.td_itemlistwf where tme_id=" + idevt;
+            string QueryILIL = "SELECT * FROM psav_dev.td_itemlistwf where tme_id=" + idevt + " and tmilt_id="+idilt;
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(QueryILIL, conn);
             conn.Open();

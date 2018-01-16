@@ -1362,7 +1362,7 @@ namespace GCCorePSAV.Controllers
                         wkItemList.Cells["E" + (lastPos + 4).ToString()].Value = SILWF[x].Horario;//Event
                         lastPos = lastPos + 5;
                         //fill itemlist wf
-                        List<Models.SyncPSAV.ItemListWorkForce> LIWF = ConSQL.GetOneILWF(SILWF[x].IDEvt);
+                        List<Models.SyncPSAV.ItemListWorkForce> LIWF = ConSQL.GetOneILWF(SILWF[x].IDEvt,SILWF[x].IDITL);
                         if ((LIWF.Count >= maxFormula)||sumaFilas==true) { sumaFilas = true; }
                         for (int o = 0; o < LIWF.Count; o++)
                         {
