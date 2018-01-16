@@ -1422,7 +1422,11 @@ namespace GCCorePSAV.Controllers
                                 case "COMPUTO": FSItemList.Cells["C65"].Value = VFee[i].PorcFee + "%"; break;
                                 case "RIGGING EQUIPO": FSItemList.Cells["C66"].Value = VFee[i].PorcFee + "%"; break;
                                 case "GASTOS": FSItemList.Cells["C67"].Value = VFee[i].PorcFee + "%"; break;
-                                case "OTROS": FSItemList.Cells["C68"].Value = VFee[i].PorcFee + "%"; break;
+                                case "OPERADOR": FSItemList.Cells["C68"].Value = VFee[i].PorcFee + "%"; break;
+                                case "MONTAJE-DESMONTAJE": FSItemList.Cells["C68"].Value = VFee[i].PorcFee + "%"; break;
+                                case "CARGO POR SERVICIO": FSItemList.Cells["C68"].Value = VFee[i].PorcFee + "%"; break;
+                                case "RIGGING": FSItemList.Cells["C68"].Value = VFee[i].PorcFee + "%"; break;
+                                case "OUTSIDE LABOR": FSItemList.Cells["C68"].Value = VFee[i].PorcFee + "%"; break;
                             }
                         }
                     }
