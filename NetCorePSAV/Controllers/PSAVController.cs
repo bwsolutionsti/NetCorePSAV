@@ -1441,6 +1441,8 @@ namespace GCCorePSAV.Controllers
                         WSSubrenta.Cells["D" + (i + 12).ToString()].Value = SR[i].Descripcion;
                         WSSubrenta.Cells["E" + (i + 12).ToString()].Value = SR[i].Gastosub;
                         WSSubrenta.Cells["F" + (i + 12).ToString()].Value = SR[i].Ventasub;
+                        WSSubrenta.Cells["F" + (i + 12).ToString()].Style.Numberformat.Format = "0.00";
+                        WSSubrenta.Cells["E" + (i + 12).ToString()].Style.Numberformat.Format = "0.00";
                     }
                     //check for OL
                     ExcelWorksheet WSOL = package.Workbook.Worksheets[7];
