@@ -570,10 +570,12 @@ namespace GCCorePSAV.Controllers
             {
                 SubRentaList = ConSQL.GetSubRenta(Request.Cookies["IDEVT"].ToString());
                 ViewBag.datasource = SubRentaList;
+                ViewBag.datasourcedrop = ConSQL.GetListCategory("3");
             }
             else
             {
                 ConSQL.UpdateSRenta(SubRentaList, Request.Cookies["IDEVT"].ToString());
+                ViewBag.datasourcedrop = ConSQL.GetListCategory("3");
                 return RedirectToAction("ResumeEPT");
             }
             return View();
@@ -690,6 +692,7 @@ namespace GCCorePSAV.Controllers
         public IActionResult Subrenta()
         {
             SubRentaList = new List<Models.SyncPSAV.SubRenta>();
+            ViewBag.datasourcedrop = ConSQL.GetListCategory("3");
             ViewBag.datasource = SubRentaList;
             return View();
         }
@@ -697,6 +700,7 @@ namespace GCCorePSAV.Controllers
         public IActionResult Subrenta(string Advance)
         {
             ConSQL.SaveSubRent(SubRentaList, Request.Cookies["IDE"].ToString());
+            ViewBag.datasourcedrop = ConSQL.GetListCategory("3");
             return RedirectToAction("OL");
         }
         #endregion
@@ -1456,7 +1460,7 @@ namespace GCCorePSAV.Controllers
                         WSOL.Cells["B"  + (i + 12).ToString()].Value = FOL[i].Puesto;
                         WSOL.Cells["C"  + (i + 12).ToString()].Value = FOL[i].Dias;
                         WSOL.Cells["D"  + (i + 12).ToString()].Value = FOL[i].Sueldo;
-
+                        WSOL.Cells["D" + (i + 12).ToString()].Style.Numberformat.Format = "0.00";
                     }
 
                     //Check viaticos
@@ -1467,6 +1471,7 @@ namespace GCCorePSAV.Controllers
                         WSOL.Cells["B" + (i + 44).ToString()].Value = VTS[i].Puesto;
                         WSOL.Cells["C" + (i + 44).ToString()].Value = VTS[i].Observaciones;
                         WSOL.Cells["D" + (i + 44).ToString()].Value = VTS[i].TotalSol;
+                        WSOL.Cells["D" + (i + 44).ToString()].Style.Numberformat.Format = "0.00";
                     }
 
                     //comision de ventas
@@ -1500,7 +1505,7 @@ namespace GCCorePSAV.Controllers
                         WSOL.Cells["B" + (i + 76).ToString()].Value = CNS[i].Supplier;
                         WSOL.Cells["C" + (i + 76).ToString()].Value = CNS[i].Description;
                         WSOL.Cells["D" + (i + 76).ToString()].Value = CNS[i].Costo;
-
+                        WSOL.Cells["D" + (i + 76).ToString()].Style.Numberformat.Format = "0.00";
                     }
 
                     //Cargos internos

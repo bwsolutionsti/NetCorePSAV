@@ -450,6 +450,7 @@ namespace GCCorePSAV.Data
         {
             List<Models.SyncPSAV.ItemCategory> list = new List<Models.SyncPSAV.ItemCategory>();
             string QuerySearch = "SELECT tcc_id,tcc_name FROM psav_dev.tc_category where tcc_type=" + type;
+            if (type.Equals("3")) { QuerySearch = "SELECT tcc_id,tcc_name FROM psav_dev.tc_category"; }
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
             conn.Open();
