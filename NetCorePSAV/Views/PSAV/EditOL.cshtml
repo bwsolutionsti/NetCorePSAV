@@ -80,9 +80,9 @@
                                         <e-column field="ID" header-text="ID" is-identity="true" is-primary-key="true" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
                                         <e-column field="Nombres" header-text="Nombre" validation-rules='new Dictionary<string, object>() { {"required",true} }' text-align="Right" width="75"></e-column>
                                         <e-column field="Puesto" header-text="Puesto" foreign-key-field="ID" foreign-key-value="Nombre" datasource="ViewBag.datasourceCom" edit-type="Dropdown"></e-column>
-                                        <e-column field="Comision" header-text="Comisión" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
-                                        <e-column field="VentaNeta" header-text="Venta Neta" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
-                                        <e-column field="Comisiontot" header-text="Comisión Total" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
+                                        <e-column field="Comision" header-text="Comisión" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80" visible="false"></e-column>
+                                        <e-column field="VentaNeta" header-text="Venta Neta" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75" visible="false"></e-column>
+                                        <e-column field="Comisiontot" header-text="Comisión Total" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80" visible="false"></e-column>
                                     </e-columns>
                                 </ej-grid>
                             </td>
