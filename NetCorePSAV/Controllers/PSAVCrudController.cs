@@ -158,6 +158,44 @@ namespace GCCorePSAV.Controllers
             CoinsList.Remove(CoinsList.Where(or => or.ID == value.Key.ToString()).FirstOrDefault());
             return Json(value);
         }
+
+
+        //Nueva Tabla agregada el 03/02/18
+        public ActionResult Nuevatabla()
+        {
+            GCCorePSAV.Data.ClsQueryCrud Nueva = new Data.ClsQueryCrud(); //Estamos creando una nueva variable llamada Nueva y estamos 
+            Tablanuevalist = Nueva.Getcateg(); //estamos creando una variable y estamos guardadno la lista de getcateg 
+            ViewBag.datasource = Tablanuevalist;//esta es nuestra bolsita que guarda la información por el momento 
+            return View();//Aquí estamos regresando la vista de "Nuevatabla"
+        }
+        Data.ClsQueryCrud TabSQL = new Data.ClsQueryCrud();//agregamos Una varable llamada tabsql y la estamos indexando con los deatos de clsQueryCrud
+        public static  List<Models.PSAVCrud.SyncCrud.Tablanueva> Tablanuevalist; //estamos creando Una lista Vacia llamada Tablanuevalist 
+        public void BindDataTabla() { Tablanuevalist = TabSQL.Getcateg(); }
+
+        public ActionResult NuevatablaUpdate([FromBody]CRUDModel<Models.PSAVCrud.SyncCrud.Tablanueva> myObject)// Se va a llenar una nueva tabla con los datos de el html
+        {
+            var ord = myObject.Value;
+            Models.PSAVCrud.SyncCrud.Tablanueva val = Tablanuevalist.Where(or => or.Tcc_id == ord.Tcc_id).FirstOrDefault();//Aquí estariamos guardando lo obtenido en el modelo
+            val.Tcc_id = ord.Tcc_id; val.Tcc_name = ord.Tcc_name; val.Tcc_type = ord.Tcc_type;
+            TabSQL.UpdateNuevatabla(val, 1);
+            return Json(myObject.Value);
+
+        }
+        public ActionResult NuevatablaInsert([FromBody]CRUDModel<Models.PSAVCrud.SyncCrud.Tablanueva> value)// Se va a llenar una nueva tabla con los datos de el html
+        {
+            Models.PSAVCrud.SyncCrud.Tablanueva val = value.Value;//Estamos creando una Variable llamada Val
+            val.Tcc_id = TabSQL.UpdateNuevatabla(Convert.ToInt32(value.Value, 0));
+            Tablanuevalist.Insert(Tablanuevalist.Count, val);
+            return Json(Tablanuevalist);
+        }
+        public ActionResult NuevatablaDelete([FromBody]CRUDModel<Models.PSAVCrud.SyncCrud.Tablanueva> value)// Se va a llenar una nueva tabla con los datos de el html
+        {
+            Models.PSAVCrud.SyncCrud.Tablanueva val = new Models.PSAVCrud.SyncCrud.Tablanueva();//Estamos creando una variable llamada val y estamos Gurdando los datos cambiados
+            val.Tcc_id = Convert.ToInt32(value.Key.ToString());
+            TabSQL.UpdateNuevatabla(val, 2);
+            Tablanuevalist.Remove(Tablanuevalist.Where(or => or.Tcc_id == Convert.ToUInt32(value.Key.ToString())).FirstOrDefault());
+            return Json(value);
+        }
         #endregion
         #region Roles
         public static List<Models.PSAVCrud.RolesModel> RolesList = new List<Models.PSAVCrud.RolesModel>();
