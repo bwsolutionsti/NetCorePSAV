@@ -8,6 +8,12 @@ namespace GCCorePSAV.Models
 {
     public class SyncPSAV
     {
+        public class ComVtaCat
+        {
+            public string ID { get; set; }
+            public string Nombre { get; set; }
+            public string Fee { get; set; }
+        }
         public class ItemCategory
         {
             public string ID { get; set; }

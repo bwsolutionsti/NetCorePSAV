@@ -416,6 +416,37 @@ namespace GCCorePSAV.Data
             SaveWithoutValidation(query);
             return "";
         }
+        #endregion
+        #region others
+        public string GetValueComVtaCat(string concept)
+        {
+            string QuerySearch = "SELECT tc_cvfee FROM psav_dev.tc_comvta where tc_cvtext like '"+concept+"%'";
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
+            conn.Open();
+            string Vlor = cmd.ExecuteScalar().ToString();
+            conn.Close();
+            return Vlor;
+        }
+        public List<Models.SyncPSAV.ComVtaCat> GetComVtaCat()
+        {
+            List<Models.SyncPSAV.ComVtaCat> list = new List<Models.SyncPSAV.ComVtaCat>();
+            string QuerySearch = "SELECT * FROM psav_dev.tc_comvta";
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                Models.SyncPSAV.ComVtaCat vtaCat = new Models.SyncPSAV.ComVtaCat();
+                vtaCat.ID = msdr.GetValue(1).ToString();
+                vtaCat.Nombre = msdr.GetValue(1).ToString();
+                vtaCat.Fee = msdr.GetValue(2).ToString();
+                list.Add(vtaCat);
+            }
+            conn.Close();
+            return list;
+        }
 #endregion
         #endregion
         #region EPT

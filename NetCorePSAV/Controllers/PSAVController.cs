@@ -583,6 +583,7 @@ namespace GCCorePSAV.Controllers
         [HttpPost]
         public IActionResult EditOL(string Advance)
         {
+            ViewBag.datasourceCom = ConSQL.GetComVtaCat();
             if (string.IsNullOrEmpty(Advance))
             {
                 ViewBag.datasource1 = FOList;
@@ -594,7 +595,12 @@ namespace GCCorePSAV.Controllers
             }
             else
             {
-                ConSQL.UpdateOL(FOList, ViaticosL, ComVenL, GasFinL, ConsuL, CIntL, Request.Cookies["IDEVT"].ToString());
+                List<Models.SyncPSAV.VentasFeeTot> tttt = ComVenL;
+                for(int i = 0; i < tttt.Count; i++)
+                {
+                    tttt[i].Comision = ConSQL.GetValueComVtaCat(tttt[i].Puesto);
+                }
+                ConSQL.UpdateOL(FOList, ViaticosL, tttt, GasFinL, ConsuL, CIntL, Request.Cookies["IDEVT"].ToString());
                 return RedirectToAction("ResumeEPT");
             }
             return View();
@@ -732,6 +738,7 @@ namespace GCCorePSAV.Controllers
         public static List<Models.SyncPSAV.CargosInternos> CIntL = new List<Models.SyncPSAV.CargosInternos>();
         public void BindResultsOL()
         {
+            ViewBag.datasourceCom = ConSQL.GetComVtaCat();
             FOList = new List<Models.SyncPSAV.FreelanceOL>(); ViaticosL = new List<Models.SyncPSAV.Viaticos>(); ComVenL = new List<Models.SyncPSAV.VentasFeeTot>();
             GasFinL = new List<Models.SyncPSAV.GastosFinancieros>(); ConsuL = new List<Models.SyncPSAV.Consumibles>(); CIntL = new List<Models.SyncPSAV.CargosInternos>();
         }
@@ -1481,8 +1488,9 @@ namespace GCCorePSAV.Controllers
                         WSOL.Cells["A" + (i + 59).ToString()].Value = VFE[i].Nombres;
                         WSOL.Cells["B" + (i + 59).ToString()].Value = VFE[i].Puesto;
                         WSOL.Cells["C" + (i + 59).ToString()].Value = VFE[i].Comision;
-                        WSOL.Cells["D" + (i + 59).ToString()].Value = VFE[i].VentaNeta;
-                        
+                        WSOL.Cells["C" + (i + 59).ToString()].Style.Numberformat.Format = "0.00%";
+                        //WSOL.Cells["D" + (i + 59).ToString()].Value = VFE[i].VentaNeta;
+
                     }
                     //Gastos Financieros
                     List<Models.SyncPSAV.GastosFinancieros> GF = ConSQL.GetListGF(ModEptFill.IDEvent);
