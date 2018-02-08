@@ -1,0 +1,66 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using GCCorePSAV.Models
+@using GCCorePSAV.Controllers.Services
+@inject LoggedInComponent Lgc
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+    <div class="row"><h5>Nuevo Capture Ratio</h5></div>
+    <div class="row">
+        <table border="0">
+            <thead><tr><th>Datos DET</th></tr></thead>
+            <tbody><tr><td>DET:&nbsp;</td><td>&nbsp;</td><td><input type="text" class="form-control" /></td><td>&nbsp;</td>
+                <td>Llenado por:&nbsp;</td><td>&nbsp;</td><td><input type="text" class="form-control" value="@Lgc.UsuarioDraw" /></td></tr>
+            </tbody>
+        </table>
+        <table border="0">
+            <thead>
+                <tr>
+                    <th>Datos Location</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Ciudad:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" /></td><td>&nbsp;</td>
+                    <td>No. Location:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" /></td><td>&nbsp;</td>
+                    <td>Hotel:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" />
+                </tr>
+            </tbody>
+        </table>
+        <table border="0">
+            <thead>
+                <tr>
+                    <th colspan="4">Datos Evento</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Evento:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" /></td><td>&nbsp;</td>
+                    <td>Fecha Inicio:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="date" /></td><td>&nbsp;</td>
+                    <td>Fecha Fin:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="date" /></td><td>&nbsp;</td>
+                    <td>Tipo Evento:&nbsp;</td><td>&nbsp;</td><td><select class="form-control"></select></td>
+                </tr>
+                <tr>
+                    <td>Cliente:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" /></td><td>&nbsp;</td>
+                    <td>Nombre Contacto:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" /></td><td>&nbsp;</td>
+                    <td>Celular Cliente:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" /></td><td>&nbsp;</td>
+                    <td>Correo Cliente:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" />
+                </tr>
+                <tr>
+                    <td>Agencia:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" /></td><td>&nbsp;</td>
+                    <td>Nombre Contacto:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" /></td><td>&nbsp;</td>
+                    <td>Celular Agencia:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" /></td><td>&nbsp;</td>
+                    <td>Correo Intermediario:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" />
+                </tr>
+                <tr>
+                    <td>Empresa AV:&nbsp;</td><td>&nbsp;</td><td><input type="text" class="form-control" /></td>
+                </tr>
+                <tr>
+                    <td><button class="btn btn-success">Guardar</button></td><td>&nbsp;</td><td><button class="btn btn-warning">Borrador</button></td><td>&nbsp;</td><td><button class="btn btn-danger">Cancelar</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}

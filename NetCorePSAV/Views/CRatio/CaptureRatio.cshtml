@@ -1,0 +1,41 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using GCCorePSAV.Models
+@using GCCorePSAV.Controllers.Services
+@inject LoggedInComponent Lgc
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+    <br />
+    <div class="row">
+        <h5>Capture Ratio</h5>
+    </div>
+    <div class="row">
+        <ul class="nav nav-pills">
+            <li role="presentation" class="active"><a asp-action="CaptureRatio" asp-controller="CR">Consultas</a></li>
+            <li role="presentation"><a asp-action="NewCR" asp-controller="CR">Nuevo</a></li>
+        </ul>
+    </div>
+    <div class="row">
+        <form method="post" asp-action="CaptureRatio" asp-controller="CR">
+            <table class="table table-responsive">
+                <tr>
+                    <td>
+                        <div class="panel">
+                            <div class="panel-heading"><h5>Consulta</h5></div>
+                            <div class="panel-body">
+                                <table border="0">
+                                    <tr><td>Fecha Inicio:&nbsp;</td><td><input class="form-control" type="date" /></td><td>&nbsp;</td><td>Fecha Fin:&nbsp;</td><td><input class="form-control" type="date" /></td><td>&nbsp;</td><td>Evento:&nbsp;</td><td><input class="form-control" /></td></tr>
+                                    <tr><td>Ciudad:&nbsp;</td><td><select class="form-control" name="Hotel"></select></td><td>&nbsp;</td><td>Hotel:&nbsp;</td><td><select class="form-control" name="ciudad"></select></td><td>&nbsp;</td><td>Cliente:&nbsp;</td><td><input class="form-control" /></td></tr>
+                                    <tr><td>DET:&nbsp;</td><td><select class="form-control" name="Hotel"></select></td><td>&nbsp;</td><td>Llenado por:&nbsp;</td><td><select class="form-control" name="ciudad"></select></td></tr>
+                                    <tr><td><button class=" btn btn-success">Consultar</button></td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+}
