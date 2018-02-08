@@ -184,7 +184,7 @@ namespace GCCorePSAV.Controllers
         public ActionResult NuevatablaInsert([FromBody]CRUDModel<Models.PSAVCrud.SyncCrud.Tablanueva> value)// Se va a llenar una nueva tabla con los datos de el html
         {
             Models.PSAVCrud.SyncCrud.Tablanueva val = value.Value;//Estamos creando una Variable llamada Val
-            val.Tcc_id = TabSQL.UpdateNuevatabla(Convert.ToInt32(value.Value, 0));
+            val.Tcc_id = Convert.ToInt32(TabSQL.UpdateNuevatabla(value.Value, 0));
             Tablanuevalist.Insert(Tablanuevalist.Count, val);
             return Json(Tablanuevalist);
         }
