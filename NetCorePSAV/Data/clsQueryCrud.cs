@@ -63,7 +63,8 @@ namespace GCCorePSAV.Data
             //inserta TCC_name
             string QueryToInsert = "insert into psav_dev.tc_category;(tmp_Tcc_name,tmp_Tcc_ID,tmp_TCC_Type)" +
                 "values('" + "','" + model.Tcc_id + "','" + model.Tcc_name + "','" + model.Tcc_type + "',null,'" + "')";
-            string IDClient = SaveWithoutValidation(QueryToInsert);
+            string IDClient = "";
+            SaveWithoutValidation(QueryToInsert);
             //inserta TCC_ID
             QueryToInsert = "insert into psav_dev.tc_category;(tcct_id,trcp_data,tmp_id) values(1,'" + model.Tcc_id + "'," + IDClient + ")";
             SaveWithoutValidation(QueryToInsert);
