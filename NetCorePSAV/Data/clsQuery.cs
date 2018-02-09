@@ -1107,7 +1107,7 @@ namespace GCCorePSAV.Data
         public List<Models.EPTModel.EPTConsult> EPTSearchOne(string ParamStr)
         {
             List<Models.EPTModel.EPTConsult> EPTList = new List<Models.EPTModel.EPTConsult>();
-            string ConsSQLSearch = "select ept.tme_folio,eptevt.tdee_nombre,per.tmp_razonsocial,eptevt.tdee_fecmontaje from tm_ept ept inner join td_eptevt eptevt on eptevt.tme_id = ept.tme_id inner join tm_client cli on cli.tmc_id = ept.tmc_id inner join tm_person per on per.tmp_id = cli.tmp_id where ept.tme_folio like '"+ParamStr+"%' order by eptevt.tdee_fecmontaje desc ";
+            string ConsSQLSearch = "select ept.tme_folio,eptevt.tdee_nombre,per.tmp_razonsocial,eptevt.tdee_fecmontaje,ept.tme_dateins from tm_ept ept inner join td_eptevt eptevt on eptevt.tme_id = ept.tme_id inner join tm_client cli on cli.tmc_id = ept.tmc_id inner join tm_person per on per.tmp_id = cli.tmp_id where ept.tme_folio like '" + ParamStr+"%' order by ept.tme_dateins desc ";
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(ConsSQLSearch, conn);
             conn.Open();
@@ -1119,15 +1119,45 @@ namespace GCCorePSAV.Data
                 EPTC.EventName = msdr.GetValue(1).ToString();
                 EPTC.Client = msdr.GetValue(2).ToString();
                 EPTC.StartDate = msdr.GetValue(3).ToString();
+                EPTC.CreateDate= msdr.GetValue(4).ToString();
                 EPTList.Add(EPTC);
             }
             conn.Close();
             return EPTList;
         }
+        public string GetEPTNumber(string userFill)
+        {
+            string SQLSearch = "select tmp_firstname,tmp_secondname,tmp_lastname,tmp_seclastname from tm_person where tmp_id=(select tmp_id from tm_users where tmu_username='" + userFill + "')";
+            string nombreFull = "";
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(SQLSearch, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                nombreFull += msdr.GetValue(0).ToString() + "|";
+                nombreFull += msdr.GetValue(1).ToString() + "|";
+                nombreFull += msdr.GetValue(2).ToString() + "|";
+                nombreFull += msdr.GetValue(3).ToString();
+            }
+            conn.Close();
+            string[] nombres = nombreFull.Split('|');
+            string EPTNumberReturn = "";
+            foreach(string valor in nombres)
+            {
+                if(!string.IsNullOrEmpty(valor))
+                {
+                    EPTNumberReturn += valor.Substring(0, 1);
+                }
+            }
+            EPTNumberReturn += DateTime.Now.ToString("ddmmyy");
+            EPTNumberReturn += "00";
+            return EPTNumberReturn.ToUpper();
+        }
         public List<Models.EPTModel.EPTConsult> EPTSearch()
         {
             List<Models.EPTModel.EPTConsult> EPTList = new List<Models.EPTModel.EPTConsult>();
-            string ConsSQLSearch = "select ept.tme_folio,eptevt.tdee_nombre,per.tmp_razonsocial,eptevt.tdee_fecmontaje from tm_ept ept inner join td_eptevt eptevt on eptevt.tme_id = ept.tme_id inner join tm_client cli on cli.tmc_id = ept.tmc_id inner join tm_person per on per.tmp_id = cli.tmp_id order by eptevt.tdee_fecmontaje desc";
+            string ConsSQLSearch = "select ept.tme_folio,eptevt.tdee_nombre,per.tmp_razonsocial,eptevt.tdee_fecmontaje,ept.tme_dateins from tm_ept ept inner join td_eptevt eptevt on eptevt.tme_id = ept.tme_id inner join tm_client cli on cli.tmc_id = ept.tmc_id inner join tm_person per on per.tmp_id = cli.tmp_id order by ept.tme_dateins desc";
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(ConsSQLSearch, conn);
             conn.Open();
@@ -1139,6 +1169,7 @@ namespace GCCorePSAV.Data
                 EPTC.EventName = msdr.GetValue(1).ToString();
                 EPTC.Client = msdr.GetValue(2).ToString();
                 EPTC.StartDate = msdr.GetValue(3).ToString();
+                EPTC.CreateDate= msdr.GetValue(4).ToString();
                 EPTList.Add(EPTC);
             }
             conn.Close();

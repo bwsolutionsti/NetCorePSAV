@@ -99,6 +99,7 @@ namespace GCCorePSAV.Models
             public string EventName { get; set; }
             public string Client { get; set; }
             public string StartDate { get; set; }
+            public string CreateDate { get; set; }
         }
     }
 }
