@@ -10,9 +10,9 @@ namespace GCCorePSAV.Models.PSAVCrud
     {
         public class Tablanueva
         {
-            public string Tcc_name { get; set; }
-            public int Tcc_id { get; set; }
-            public string Tcc_type { get; set; }
+            public int tcc_id { get; set; }
+            public string tcc_name { get; set; }
+            public string tcc_type { get; set; }
         }
        
     }

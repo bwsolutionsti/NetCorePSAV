@@ -20,10 +20,10 @@ namespace GCCorePSAV.Data
             MySqlDataReader sdr = cmd.ExecuteReader();//le estamos diciendo que lea los datos guardados en la base de datos
             while (sdr.Read()) //Estamos haciendo una iteracion y como condicion estamos diciendo que mientras lea
             {
-                Models.PSAVCrud.SyncCrud.Tablanueva _ListVM = new Models.PSAVCrud.SyncCrud.Tablanueva(); //Creamos una lista llamada _ListVm que empieza a guardar los datos en la parte de abajo
-                _ListVM.Tcc_id = Convert.ToInt32( sdr.GetValue(0).ToString());//Estamos obteniendo los valores de la Base de Datos
-                _ListVM.Tcc_name = sdr.GetValue(1).ToString();
-                _ListVM.Tcc_type = sdr.GetValue(2).ToString();
+                Models.PSAVCrud.SyncCrud.Tablanueva _ListVM = new Models.PSAVCrud.SyncCrud.Tablanueva(); // estamos refernciando al archivo puesto en la primer parte y lo estamos guardando en una nueva parte de la memoria 
+                _ListVM.tcc_id = Convert.ToInt32( sdr.GetValue(0).ToString());//Estamos obteniendo los valores puestos en el modelo Syncrud y lo convertimos a string
+                _ListVM.tcc_name = sdr.GetValue(1).ToString();
+                _ListVM.tcc_type = sdr.GetValue(2).ToString();
                
                 Cients.Add(_ListVM);
             }
@@ -42,15 +42,15 @@ namespace GCCorePSAV.Data
             {
                 
                 case 0:
-                    QueryNuevaTabla = "insert into psav_dev.tc_moneda (tcm_Tcc_id,tcm_Tcc_name,tcm_) values('" + mod.Tcc_id + "'," + mod.Tcc_name.ToString() + "," + mod.Tcc_type + ")";
+                    QueryNuevaTabla = "insert into psav_dev.tc_category (tcc_name,tcc_type) values('" + mod.tcc_name.ToString() + "'," + mod.tcc_type + ")";
                     Retorno = SaveWithIDReturn(QueryNuevaTabla);
                     break;
                 case 1:
-                    QueryNuevaTabla = "update psav_dev.tc_category; set tcm_name='" + mod.Tcc_id + "', tcm_change=" + mod.Tcc_name.ToString() + ", tcm_activo=" + mod.Tcc_type.ToString() + " where tcm_id=" + mod.Tcc_id;
+                    QueryNuevaTabla = "update psav_dev.tc_category set tcm_name='" + mod.tcc_id + "', tcm_change=" + mod.tcc_name.ToString() + ", tcm_activo=" + mod.tcc_type.ToString() + " where tcm_id=" + mod.tcc_id;
                     SaveWithoutValidation(QueryNuevaTabla);
                     break;
                 case 2:
-                    QueryNuevaTabla = "Delete from psav_dev.tc_category; where tcm_id=" + mod.Tcc_id;
+                    QueryNuevaTabla = "Delete from psav_dev.tc_category where tcm_id=" + mod.tcc_id;
                     SaveWithoutValidation(QueryNuevaTabla);
                     break;
             }
@@ -62,17 +62,17 @@ namespace GCCorePSAV.Data
 
             //inserta TCC_name
             string QueryToInsert = "insert into psav_dev.tc_category;(tmp_Tcc_name,tmp_Tcc_ID,tmp_TCC_Type)" +
-                "values('" + "','" + model.Tcc_id + "','" + model.Tcc_name + "','" + model.Tcc_type + "',null,'" + "')";
+                "values('" + "','" + model.tcc_id + "','" + model.tcc_name + "','" + model.tcc_type + "',null,'" + "')";
             string IDClient = "";
             SaveWithoutValidation(QueryToInsert);
             //inserta TCC_ID
-            QueryToInsert = "insert into psav_dev.tc_category;(tcct_id,trcp_data,tmp_id) values(1,'" + model.Tcc_id + "'," + IDClient + ")";
+            QueryToInsert = "insert into psav_dev.tc_category;(tcct_id,trcp_data,tmp_id) values(1,'" + model.tcc_id + "'," + IDClient + ")";
             SaveWithoutValidation(QueryToInsert);
-            QueryToInsert = "insert into psav_dev.tc_category;(tcct_id,trcp_data,tmp_id) values(2,'" + model.Tcc_name + "'," + IDClient + ")";
+            QueryToInsert = "insert into psav_dev.tc_category;(tcct_id,trcp_data,tmp_id) values(2,'" + model.tcc_name + "'," + IDClient + ")";
             SaveWithoutValidation(QueryToInsert);
-            QueryToInsert = "insert into psav_dev.tc_category;(tcct_id,trcp_data,tmp_id) values(3,'" + model.Tcc_type + "'," + IDClient + ")";
+            QueryToInsert = "insert into psav_dev.tc_category;(tcct_id,trcp_data,tmp_id) values(3,'" + model.tcc_type + "'," + IDClient + ")";
             //inserta TCC_Type
-            QueryToInsert = "insert into psav_dev.tc_category;(tmp_id,tmpa_domicilio,tmpa_domiciliofiscal) values(" + IDClient + ",'" + model.Tcc_type + "','" + "')";
+            QueryToInsert = "insert into psav_dev.tc_category;(tmp_id,tmpa_domicilio,tmpa_domiciliofiscal) values(" + IDClient + ",'" + model.tcc_type + "','" + "')";
             SaveWithoutValidation(QueryToInsert);
             //INSERTA CLIENTE
             QueryToInsert = "insert into psav_dev.tc_category;(tmp_id,tmc_userins,tmc_dateins) values(" + IDClient + ",1,now())";
