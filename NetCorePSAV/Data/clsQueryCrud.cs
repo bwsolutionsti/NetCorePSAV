@@ -46,11 +46,11 @@ namespace GCCorePSAV.Data
                     Retorno = SaveWithIDReturn(QueryNuevaTabla);
                     break;
                 case 1:
-                    QueryNuevaTabla = "update psav_dev.tc_category set tcm_name='" + mod.tcc_id + "', tcm_change=" + mod.tcc_name.ToString() + ", tcm_activo=" + mod.tcc_type.ToString() + " where tcm_id=" + mod.tcc_id;
+                    QueryNuevaTabla = "update psav_dev.tc_category set tcc_name='" + mod.tcc_id + "', tcm_change=" + mod.tcc_name.ToString() + ", tcm_activo=" + mod.tcc_type.ToString() + " where tcc_id=" + mod.tcc_id;
                     SaveWithoutValidation(QueryNuevaTabla);
                     break;
                 case 2:
-                    QueryNuevaTabla = "Delete from psav_dev.tc_category where tcm_id=" + mod.tcc_id;
+                    QueryNuevaTabla = "Delete from psav_dev.tc_category where tcc_id=" + mod.tcc_id;
                     SaveWithoutValidation(QueryNuevaTabla);
                     break;
             }
@@ -61,7 +61,7 @@ namespace GCCorePSAV.Data
         {
 
             //inserta TCC_name
-            string QueryToInsert = "insert into psav_dev.tc_category;(tmp_Tcc_name,tmp_Tcc_ID,tmp_TCC_Type)" +
+            string QueryToInsert = "insert into psav_dev.tc_category;(tcc_name,tcc_id,tcc_type)" +
                 "values('" + "','" + model.tcc_id + "','" + model.tcc_name + "','" + model.tcc_type + "',null,'" + "')";
             string IDClient = "";
             SaveWithoutValidation(QueryToInsert);
@@ -72,7 +72,7 @@ namespace GCCorePSAV.Data
             SaveWithoutValidation(QueryToInsert);
             QueryToInsert = "insert into psav_dev.tc_category;(tcct_id,trcp_data,tmp_id) values(3,'" + model.tcc_type + "'," + IDClient + ")";
             //inserta TCC_Type
-            QueryToInsert = "insert into psav_dev.tc_category;(tmp_id,tmpa_domicilio,tmpa_domiciliofiscal) values(" + IDClient + ",'" + model.tcc_type + "','" + "')";
+            QueryToInsert = "insert into psav_dev.tc_category;(tcc_id,tcc_name,tcc_type) values(" + IDClient + ",'" + model.tcc_type + "','" + "')";
             SaveWithoutValidation(QueryToInsert);
             //INSERTA CLIENTE
             QueryToInsert = "insert into psav_dev.tc_category;(tmp_id,tmc_userins,tmc_dateins) values(" + IDClient + ",1,now())";
