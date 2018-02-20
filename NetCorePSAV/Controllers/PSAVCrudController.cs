@@ -159,8 +159,7 @@ namespace GCCorePSAV.Controllers
             return Json(value);
         }
 
-
-        //Nueva Tabla agregada el 03/02/18
+        //Nueva Tabla agregada el 16/02/18
         public ActionResult Nuevatabla()
         {
             GCCorePSAV.Data.ClsQueryCrud Nueva = new Data.ClsQueryCrud(); //Estamos creando una nueva variable llamada Nueva y estamos 
@@ -176,9 +175,9 @@ namespace GCCorePSAV.Controllers
         {
             
             var ord = myObject.Value;
-            Models.PSAVCrud.SyncCrud.Tablanueva val = Tablanuevalist.Where(or => or.tcc_id == ord.tcc_id).FirstOrDefault();//Aquí estariamos guardando lo obtenido en el modelo
-            val.tcc_id = ord.tcc_id; val.tcc_name = ord.tcc_name; val.tcc_type = ord.tcc_type;
-            TabSQL.UpdateNuevatabla(val, 1);
+            Models.PSAVCrud.SyncCrud.Tablanueva val2 = Tablanuevalist.Where(or => or.tcc_id == ord.tcc_id).FirstOrDefault();//Aquí estariamos guardando lo obtenido en el modelo
+            val2.tcc_id = ord.tcc_id; val2.tcc_name = ord.tcc_name; val2.tcc_type = ord.tcc_type;
+            TabSQL.UpdateNuevatabla(val2, 1);
             return Json(myObject.Value);
 
         }
@@ -197,6 +196,11 @@ namespace GCCorePSAV.Controllers
             Tablanuevalist.Remove(Tablanuevalist.Where(or => or.tcc_id == Convert.ToUInt32(value.Key.ToString())).FirstOrDefault());
             return Json(value);
         }
+
+
+
+
+       
         #endregion
 
         #region Roles

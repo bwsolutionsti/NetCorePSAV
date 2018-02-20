@@ -6,6 +6,7 @@ using MySql.Data.MySqlClient;
 
 namespace GCCorePSAV.Data
 {
+    //controla la BD de tabla nueva
     public class ClsQueryCrud
     {
         private const string con = "Uid=root;Database=psav_dev;Pwd=(Conexi0npsavdatabasedev)1605;Host=35.188.2.70;";
@@ -30,9 +31,7 @@ namespace GCCorePSAV.Data
             conn.Close();
             return Cients;
         }
-
-
-      
+     
         public string UpdateNuevatabla(Models.PSAVCrud.SyncCrud.Tablanueva mod, int oper)
         {
 
@@ -42,13 +41,14 @@ namespace GCCorePSAV.Data
             {
                 
                 case 0:
-                    QueryNuevaTabla = "insert into psav_dev.tc_category (tcc_name,tcc_type) values('" + mod.tcc_name.ToString() + "'," + mod.tcc_type + ")";
+                    QueryNuevaTabla = "insert into psav_dev.tc_category (tcc_name,tcc_type,tcc_id) values('" + mod.tcc_name.ToString().ToUpper() + "'," + mod.tcc_type + "," + mod.tcc_id + ")";
                     Retorno = SaveWithIDReturn(QueryNuevaTabla);
                     break;
                 case 1:
-                    QueryNuevaTabla = "update psav_dev.tc_category set tcc_name='" + mod.tcc_id + "', tcm_change=" + mod.tcc_name.ToString() + ", tcm_activo=" + mod.tcc_type.ToString() + " where tcc_id=" + mod.tcc_id;
+                    QueryNuevaTabla = "update psav_dev.tc_category set tcc_name='" + mod.tcc_name.ToString().ToUpper() + "', tcc_type='" + mod.tcc_type.ToString() + "' where tcc_id=" + mod.tcc_id;
                     SaveWithoutValidation(QueryNuevaTabla);
                     break;
+               
                 case 2:
                     QueryNuevaTabla = "Delete from psav_dev.tc_category where tcc_id=" + mod.tcc_id;
                     SaveWithoutValidation(QueryNuevaTabla);
@@ -74,9 +74,7 @@ namespace GCCorePSAV.Data
             //inserta TCC_Type
             QueryToInsert = "insert into psav_dev.tc_category;(tcc_id,tcc_name,tcc_type) values(" + IDClient + ",'" + model.tcc_type + "','" + "')";
             SaveWithoutValidation(QueryToInsert);
-            //INSERTA CLIENTE
-            QueryToInsert = "insert into psav_dev.tc_category;(tmp_id,tmc_userins,tmc_dateins) values(" + IDClient + ",1,now())";
-            SaveWithoutValidation(QueryToInsert);
+           
         }
 
         public void SaveWithoutValidation(string QuerySend)
@@ -99,6 +97,7 @@ namespace GCCorePSAV.Data
         }
 
     }
+
 }
 
 
