@@ -48,12 +48,24 @@
                                         </select>
                                     </div>
                                 </td>
-                                <td><div class="form-group"><label asp-for="EPTNumber" class="col-md-10control-label"></label><input asp-for="EPTNumber" class="form-control" /></div></td>
+                                <td><div class="form-group"><label asp-for="EPTNumber" class="col-md-10control-label"></label><input asp-for="EPTNumber" class="form-control" value="@ViewBag.EPTNumberFormat" /></div></td>
                                 <td>
                                     <div class="form-group">
                                         <label class="col-md-10control-label">Moneda</label>
                                         <select class="form-control form-control-sm" id="MonedaSel" name="MonedaSel">
                                             <option value="0">Seleccione Moneda</option>
+                                            @foreach (var Coin in ViewBag.CoinsList)
+                                            {
+                                                <option value="@Coin.IDCoin">@Coin.CoinName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <label class="col-md-10control-label">Lista de Precio</label>
+                                        <select class="form-control form-control-sm" id="TpListaPrecio" name="TpListaPrecio">
+                                            <option value="0">Seleccione Lista de PRecio</option>
                                             @foreach (var Coin in ViewBag.CoinsList)
                                             {
                                                 <option value="@Coin.IDCoin">@Coin.CoinName</option>

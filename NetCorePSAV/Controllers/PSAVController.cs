@@ -45,11 +45,13 @@ namespace GCCorePSAV.Controllers
             List<Models.PSAVCrud.ClientModel.ClientAutoComplete> ClientList = ConSQL.GetAutoClients();
             ViewBag.ClientList = ClientList;
             ViewBag.CoinsList = CoinsList;
+            ViewBag.EPTNumberFormat = ConSQL.GetEPTNumber(System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Request.Cookies["pandoraRules"].ToString())));
             return View(new Models.EPTModel());
         }
         [HttpPost]
         public IActionResult NewEPT(string ac1, Models.EPTModel model, string NewValue, string folio)
         {
+            ViewBag.EPTNumberFormat = ConSQL.GetEPTNumber(System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Request.Cookies["pandoraRules"].ToString())));
             if (NewValue.Equals("0"))
             {
                 Models.EPTModel eptM = ConSQL.GetEPTToEdit(folio);
