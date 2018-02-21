@@ -12,7 +12,7 @@ namespace GCCorePSAV.Models.PSAVCrud
         {
             public int tc_cvid { get; set; }
             public string tc_cvtext { get; set; }
-            public double tc_cvfee { get; set; }
+            public string tc_cvfee { get; set; }
         }
     }
 }

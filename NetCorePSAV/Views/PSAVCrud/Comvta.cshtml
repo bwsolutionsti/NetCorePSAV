@@ -14,7 +14,7 @@
         <e-columns>
             <e-column field="tc_cvid" header-text="ID" is-identity="true" is-primary-key="true" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
             <e-column field="tc_cvtext" header-text="Nombre" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' width="80"></e-column>
-            <e-column field="tc_cvfee " header-text="Tipo" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",3} }' text-align="Right" width="75"></e-column>
+            <e-column field="tc_cvfee" header-text="Cuota" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
         </e-columns>
     </ej-grid>
 }

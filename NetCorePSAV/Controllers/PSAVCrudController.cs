@@ -158,6 +158,45 @@ namespace GCCorePSAV.Controllers
             CoinsList.Remove(CoinsList.Where(or => or.ID == value.Key.ToString()).FirstOrDefault());
             return Json(value);
         }
+        
+        //Comvta 
+        public ActionResult Comvta()
+        {
+            GCCorePSAV.Data.ClsQueryCrud2 Nueva = new Data.ClsQueryCrud2(); //Estamos creando una nueva variable llamada Nueva y estamos 
+            comvtalist = Nueva.Getcateg2(); //estamos creando una variable y estamos guardadno la lista de getcateg 
+            ViewBag.datasource = comvtalist;//esta es nuestra bolsita que guarda la información por el momento 
+            return View();//Aquí estamos regresando la vista de "Nuevatabla"
+        }
+        Data.ClsQueryCrud2 TabSQL2 = new Data.ClsQueryCrud2();//agregamos Una varable llamada tabsql y la estamos indexando con los deatos de clsQueryCrud
+        public static List<Models.PSAVCrud.Comvta.Comvtatabla> comvtalist = new List<Models.PSAVCrud.Comvta.Comvtatabla>(); //estamos creando Una lista Vacia llamada Tablanuevalist 
+        public void BindDataTabla2() { comvtalist = TabSQL2.Getcateg2(); }
+
+        public ActionResult ComvtaUpdate([FromBody]CRUDModel<Models.PSAVCrud.Comvta.Comvtatabla> myObject)// Se va a llenar una nueva tabla con los datos de el html
+        {
+
+            var ord = myObject.Value;
+            Models.PSAVCrud.Comvta.Comvtatabla val = comvtalist.Where(or => or.tc_cvid == ord.tc_cvid).FirstOrDefault();//Aquí estariamos guardando lo obtenido en el modelo
+            val.tc_cvid = ord.tc_cvid; val.tc_cvfee = ord.tc_cvfee; val.tc_cvtext = ord.tc_cvtext;
+            TabSQL2.UpdateComvta(val, 1);
+            return Json(myObject.Value);
+
+        }
+        public ActionResult ComvtaInsert([FromBody]CRUDModel<Models.PSAVCrud.Comvta.Comvtatabla> value)// Se va a llenar una nueva tabla con los datos de el html
+        {
+            Models.PSAVCrud.Comvta.Comvtatabla val2 = value.Value;//Estamos creando una Variable llamada Val
+            val2.tc_cvid = Convert.ToInt32(TabSQL2.UpdateComvta(value.Value, 0));
+            comvtalist.Insert(comvtalist.Count, val2);
+            return Json(comvtalist);
+        }
+        public ActionResult ComvtaDelete([FromBody]CRUDModel<Models.PSAVCrud.Comvta.Comvtatabla> value)// Se va a llenar una nueva tabla con los datos de el html
+        {
+            Models.PSAVCrud.Comvta.Comvtatabla val2 = new Models.PSAVCrud.Comvta.Comvtatabla();//Estamos creando una variable llamada val y estamos Gurdando los datos cambiados
+            val2.tc_cvid = Convert.ToInt32(value.Key.ToString());
+            TabSQL2.UpdateComvta(val2, 2);
+            comvtalist.Remove(comvtalist.Where(or => or.tc_cvid == Convert.ToUInt32(value.Key.ToString())).FirstOrDefault());
+            return Json(value);
+
+        }
 
         //Nueva Tabla agregada el 16/02/18
         public ActionResult Nuevatabla()
