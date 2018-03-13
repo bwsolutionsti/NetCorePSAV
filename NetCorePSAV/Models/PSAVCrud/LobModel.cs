@@ -9,10 +9,10 @@ namespace GCCorePSAV.Models.PSAVCrud
     {
         public class LobModelTabla
         {
-            public int db_id { get; set; }
-            public string db_name { get; set; }
-            public string db_description { get; set; }
-            public string db_leader { get; set; }
+            public int tclb_id { get; set; }
+            public string tclb_name { get; set; }
+            public string tclb_description { get; set; }
+            public string tclb_leader { get; set; }
         }
         
 

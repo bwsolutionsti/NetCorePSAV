@@ -158,7 +158,85 @@ namespace GCCorePSAV.Controllers
             CoinsList.Remove(CoinsList.Where(or => or.ID == value.Key.ToString()).FirstOrDefault());
             return Json(value);
         }
+
+        //Sensitive 
         
+        public ActionResult Sensitive()
+        {
+            GCCorePSAV.Data.ClsQueryCrudSensitive Nueva = new Data.ClsQueryCrudSensitive(); //Estamos creando una nueva variable llamada Nueva y estamos 
+            Senslist = Nueva.GetcategSens(); //estamos creando una variable y estamos guardadno la lista de getcateg 
+            ViewBag.datasource = Senslist;//esta es nuestra bolsita que guarda la información por el momento 
+            return View();//Aquí estamos regresando la vista de "Nuevatabla"
+        }
+        Data.ClsQueryCrudSensitive TabSQLSens = new Data.ClsQueryCrudSensitive();//agregamos Una varable llamada tabsql y la estamos indexando con los deatos de clsQueryCrud
+        public static List<Models.PSAVCrud.SensitiveModel.SensitiveModelTabla> Senslist = new List<Models.PSAVCrud.SensitiveModel.SensitiveModelTabla>(); //estamos creando Una lista Vacia llamada Tablanuevalist 
+        public void BindDataTablasens() { Senslist = TabSQLSens.GetcategSens(); }
+
+        public ActionResult SensitiveUpdate([FromBody]CRUDModel<Models.PSAVCrud.SensitiveModel.SensitiveModelTabla> myObject)// Se va a llenar una nueva tabla con los datos de el html
+        {
+
+            var ord = myObject.Value;
+            Models.PSAVCrud.SensitiveModel.SensitiveModelTabla valsens = Senslist.Where(or => or.tcs_id == ord.tcs_id).FirstOrDefault();//Aquí estariamos guardando lo obtenido en el modelo
+            valsens.tcs_id = ord.tcs_id; valsens.tcs_name = ord.tcs_name; valsens.tcs_description = ord.tcs_description;
+            TabSQLSens.UpdateSens(valsens, 1);
+            return Json(myObject.Value);
+
+        }
+        public ActionResult SensitiveInsert([FromBody]CRUDModel<Models.PSAVCrud.SensitiveModel.SensitiveModelTabla> value)// Se va a llenar una nueva tabla con los datos de el html
+        {
+            Models.PSAVCrud.SensitiveModel.SensitiveModelTabla valsens = value.Value;//Estamos creando una Variable llamada Val
+            valsens.tcs_id = Convert.ToInt32(TabSQLSens.UpdateSens(value.Value, 0));
+            Senslist.Insert(Senslist.Count, valsens);
+            return Json(Senslist);
+        }
+        public ActionResult SensitiveDelete([FromBody]CRUDModel<Models.PSAVCrud.SensitiveModel.SensitiveModelTabla> value)// Se va a llenar una nueva tabla con los datos de el html
+        {
+            Models.PSAVCrud.SensitiveModel.SensitiveModelTabla val2 = new Models.PSAVCrud.SensitiveModel.SensitiveModelTabla();//Estamos creando una variable llamada val y estamos Gurdando los datos cambiados
+            val2.tcs_id = Convert.ToInt32(value.Key.ToString());
+            TabSQLSens.UpdateSens(val2, 2);
+            Senslist.Remove(Senslist.Where(or => or.tcs_id == Convert.ToUInt32(value.Key.ToString())).FirstOrDefault());
+            return Json(value);
+
+        }
+        //Lob Tabla
+        public ActionResult Lob()
+        {
+            GCCorePSAV.Data.ClsQueryCrudLob Nueva = new Data.ClsQueryCrudLob(); //Estamos creando una nueva variable llamada Nueva y estamos 
+            Loblist = Nueva.GetcategLob(); //estamos creando una variable y estamos guardadno la lista de getcateg 
+            ViewBag.datasource = Loblist;//esta es nuestra bolsita que guarda la información por el momento 
+            return View();//Aquí estamos regresando la vista de "Nuevatabla"
+        }
+        Data.ClsQueryCrudLob TabSQLLob = new Data.ClsQueryCrudLob();//agregamos Una varable llamada tabsql y la estamos indexando con los deatos de clsQueryCrud
+        public static List<Models.PSAVCrud.LobModel.LobModelTabla> Loblist = new List<Models.PSAVCrud.LobModel.LobModelTabla>(); //estamos creando Una lista Vacia llamada Tablanuevalist 
+        public void BindDataLob() { Loblist = TabSQLLob.GetcategLob(); }
+
+        public ActionResult LobUpdate([FromBody]CRUDModel<Models.PSAVCrud.LobModel.LobModelTabla> myObject)// Se va a llenar una nueva tabla con los datos de el html
+        {
+
+            var ord = myObject.Value;
+            Models.PSAVCrud.LobModel.LobModelTabla val2 = Loblist.Where(or => or.tclb_id == ord.tclb_id).FirstOrDefault();//Aquí estariamos guardando lo obtenido en el modelo
+            val2.tclb_id = ord.tclb_id; val2.tclb_name = ord.tclb_name; val2.tclb_description = ord.tclb_description; val2.tclb_leader = ord.tclb_leader ;
+            TabSQLLob.UpdateNuevatabla(val2, 1);
+            return Json(myObject.Value);
+
+        }
+        public ActionResult LobInsert([FromBody]CRUDModel<Models.PSAVCrud.LobModel.LobModelTabla> value)// Se va a llenar una nueva tabla con los datos de el html
+        {
+            Models.PSAVCrud.LobModel.LobModelTabla val2 = value.Value;//Estamos creando una Variable llamada Val
+            val2.tclb_id = Convert.ToInt32(TabSQLLob.UpdateNuevatabla(value.Value, 0));
+            Loblist.Insert(Loblist.Count, val2);
+            ViewBag.datasource = Loblist;
+            return Json(Loblist);
+        }
+        public ActionResult LobDelete([FromBody]CRUDModel<Models.PSAVCrud.LobModel.LobModelTabla> value)// Se va a llenar una nueva tabla con los datos de el html
+        {
+            Models.PSAVCrud.LobModel.LobModelTabla val2 = new Models.PSAVCrud.LobModel.LobModelTabla();//Estamos creando una variable llamada val y estamos Gurdando los datos cambiados
+            val2.tclb_id = Convert.ToInt32(value.Key.ToString());
+            TabSQLLob.UpdateNuevatabla(val2, 2);
+            Loblist.Remove(Loblist.Where(or => or.tclb_id == Convert.ToUInt32(value.Key.ToString())).FirstOrDefault());
+            return Json(value);
+        }
+
         //Comvta 
         public ActionResult Comvta()
         {
