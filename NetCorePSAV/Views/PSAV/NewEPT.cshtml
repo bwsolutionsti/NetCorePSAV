@@ -66,9 +66,9 @@
                                     <label class="col-md-10control-label">Lista de Precio</label>
                                     <select class="form-control form-control-sm" id="TpListaPrecio" name="TpListaPrecio">
                                         <option value="0">Seleccione Lista de PRecio</option>
-                                        @foreach (var Coin in ViewBag.CoinsList)
+                                        @foreach (var Coin in ViewBag.PriceList)
                                 {
-                                        <option value="@Coin.IDCoin">@Coin.CoinName</option>
+                                        <option value="@Coin.ID">@Coin.NameList</option>
                     }
                                     </select>
                                 </div>

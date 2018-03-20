@@ -42,9 +42,11 @@ namespace GCCorePSAV.Controllers
         public IActionResult NewEPT()
         {
             List<Models.PSAVCrud.CoinsModel> CoinsList = ConSQL.GetCoin(string.Empty);
+            List<Models.EPTModel.pricelist> PriceList = ConSQL.GetPriceList();
             List<Models.PSAVCrud.ClientModel.ClientAutoComplete> ClientList = ConSQL.GetAutoClients();
             ViewBag.ClientList = ClientList;
             ViewBag.CoinsList = CoinsList;
+            ViewBag.PriceList= PriceList;
             ViewBag.EPTNumberFormat = ConSQL.GetEPTNumber(System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Request.Cookies["pandoraRules"].ToString())));
             return View(new Models.EPTModel());
         }
