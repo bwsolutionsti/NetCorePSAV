@@ -57,14 +57,15 @@
                                     <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" edit-mode="@(EditMode.Dialog)"></e-edit-settings>
                                     <e-toolbar-settings show-toolbar="true" toolbar-items="@(new List<string>() { "add", "edit", "delete", "update", "cancel" })"></e-toolbar-settings>
                                     <e-columns>
-                                        <e-column field="ID" header-text="ID" is-identity="true" is-primary-key="true" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
-                                        <e-column field="Clave" header-text="Clave" validation-rules='new Dictionary<string, object>() { {"required",true} }' text-align="Right" width="75"></e-column>
-                                        <e-column field="Cantidad" header-text="Cantidad" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
-                                        <e-column field="Dias" header-text="Dias" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
-                                        <e-column field="Descripcion" header-text="Descripcion" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
-                                        <e-column field="PrecioUnit" header-text="PrecioUnit" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="ID" header-text="ID" is-identity="true" is-primary-key="true" validation-rules='new Dictionary<string, object>() { { "required", true }, { "number", true } }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Clave" header-text="Clave" validation-rules='new Dictionary<string, object>() { { "required", true } }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Cantidad" header-text="Cantidad" validation-rules='new Dictionary<string, object>() { { "required", true }, { "minlength", 1 } }' width="80"></e-column>
+                                        <e-column field="Dias" header-text="Dias" validation-rules='new Dictionary<string, object>() { { "required", true }, { "minlength", 1 } }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Descripcion" header-text="Descripcion" validation-rules='new Dictionary<string, object>() { { "required", true }, { "minlength", 1 } }' width="80"></e-column>
+                                        <e-column field="PrecioUnit" header-text="PrecioUnit" validation-rules='new Dictionary<string, object>() { { "required", true }, { "minlength", 1 } }' text-align="Right" width="75"></e-column>
                                         <e-column field="Categoria" header-text="Categoria" foreign-key-field="ID" foreign-key-value="Categoria" datasource="ViewBag.datasourcedrop" edit-type="Dropdown"></e-column>
-</e-columns>
+                                        <e-column field="subcategoria" header-text="Subcategoria" foreign-key-field="ID" foreign-key-value="Subcategoria" datasource="ViewBag.datasourcedrop" edit-type="Dropdown"></e-column>
+                                    </e-columns>
                                 </ej-grid>
                             </td>
                         </tr>

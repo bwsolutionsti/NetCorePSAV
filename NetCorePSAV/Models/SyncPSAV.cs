@@ -14,11 +14,7 @@ namespace GCCorePSAV.Models
             public string Nombre { get; set; }
             public string Fee { get; set; }
         }
-        public class ItemCategory
-        {
-            public string ID { get; set; }
-            public string Categoria { get; set; }
-        }
+       
         public class CratioDets
         {
             public string MonthOp { get; set; }
@@ -56,7 +52,11 @@ namespace GCCorePSAV.Models
             public string Descripcion { get; set; }
             public string PrecioUnit { get; set; }
             public string Categoria { get; set; }
+            public string subcategoria { get; set; }
+            public string tieem {get; set;}
         }
+
+      
         public class ItemListServicesEdit
         {
             public int IDEvento { get; set; }
@@ -69,9 +69,94 @@ namespace GCCorePSAV.Models
             public string Descripcion { get; set; }
             public string PrecioUnit { get; set; }
             public Caategoria Categoria { get; set; }
+            public SubCaategoria subcategoria { get; set; }
+            public Iteem tieem { get; set; }
+            public Aaccesorios accesorios { get; set; }
+            public Nnotas notas { get; set; }
         }
-        public class Caategoria {[Key] public string ID { get; set; } public string Categoria { get; set; } public Caategoria() { } public Caategoria(string val, string txt) { this.ID = val;this.Categoria = txt; } }
-        public class ItemListWorkForce
+        //notas
+        public class Notas
+        {
+            public string ID { get; set; }
+            public string notas { get; set; }
+        }
+
+        public class Nnotas
+        {
+            [Key]
+            public string ID { get; set; }
+            public string accesorios { get; set; }
+            public Nnotas() { }
+            public Nnotas(string val, string txt) { this.ID = val; this.accesorios = txt; }
+        }
+        //Accesorios
+        public class Accesorios
+        {
+            public string ID { get; set; }
+            public string accesorio { get; set; }
+        }
+
+        public class Aaccesorios
+        {
+            [Key]
+            public string ID { get; set; }
+            public string accesorios { get; set; }
+            public Aaccesorios() { }
+            public Aaccesorios (string val, string txt) { this.ID = val; this.accesorios = txt; }
+        }
+
+
+        //Categoria
+        public class ItemCategory
+        {
+            public string ID { get; set; }
+            public string Categoria { get; set; }
+        }
+
+        public class Caategoria
+        {
+            [Key]
+            public string ID { get; set; }
+            public string Categoria { get; set; }
+            public Caategoria() { }
+            public Caategoria(string val, string txt) { this.ID = val; this.Categoria = txt; }
+        }
+
+        //item
+        public class itemlist
+        {
+        
+                public string ID { get; set; }
+                public string item { get; set; }
+         }
+
+            public class Iteem
+            {
+                [Key]
+                public string ID { get; set; }
+                public string Categoria { get; set; }
+                public  Iteem() { }
+                public Iteem(string val, string txt) { this.ID = val; this.Categoria = txt; }
+            }
+
+
+            //Subcategoria
+            public class Subcategorialist
+        {
+            public string ID { get; set; }
+            public string SubCategoria { get; set; }
+        }
+
+        public class SubCaategoria
+            {
+                [Key]
+                public string ID { get; set; }
+                public string Categoria { get; set; }
+                public SubCaategoria() { }
+                public SubCaategoria(string val, string txt) { this.ID = val; this.Categoria = txt; }
+            }
+
+            public class ItemListWorkForce
         {
             public int IDEvento { get; set; }
             public string ID { get; set; }

@@ -48,6 +48,7 @@ namespace GCCorePSAV.Models
             public string Descripcion { get; set; }
             public string PrecioUnit { get; set; }
             public string Categoria { get; set; }
+            public string SubCategoria { get; set; }
         }
         public class ItemListWorkForce
         {

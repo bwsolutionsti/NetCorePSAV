@@ -89,7 +89,7 @@ namespace GCCorePSAV.Data
         public Models.PSAVCrud.SyncModels.UsersModel GetUser(string usn)
         {
             string QuerySearchAll = "SELECT tmu_id,concat(tmp_firstname,' ',tmp_secondname,' ',tmp_lastname,' ',tmp_seclastname) as Nombre,tmu.tmu_username,tmu.tmu_expire,tmu.tmu_active " +
-                                        "FROM psav_dev.tm_person tmp inner join psav_dev.tm_users tmu on tmu.tmp_id = tmp.tmp_id where tmu.tmu_username='"+usn+"' order by tmu.tmu_active";
+                                        "FROM psav_dev.tm_person tmp inner join psav_dev.tm_users tmu on tmu.tmp_id = tmp.tmp_id where tmu.tmu_username='" + usn + "' order by tmu.tmu_active";
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(QuerySearchAll, conn);
             conn.Open();
@@ -97,7 +97,7 @@ namespace GCCorePSAV.Data
             Models.PSAVCrud.SyncModels.UsersModel UMO = new Models.PSAVCrud.SyncModels.UsersModel();
             while (sdr.Read())
             {
-               
+
                 UMO.ID = sdr.GetValue(0).ToString();
                 UMO.Persona = sdr.GetValue(1).ToString();
                 UMO.Username = sdr.GetValue(2).ToString();
@@ -175,10 +175,10 @@ namespace GCCorePSAV.Data
         }
         public string SavePerson(Models.PSAVCrud.SyncModels.NewUser model)
         {
-            string queryPerson = "insert into psav_dev.tm_person (tmp_firstname,tmp_secondname,tmp_lastname,tmp_seclastname) values('"+model.PrimerNombre+ "','" + model.SegundoNombre + "','"+model.PrimerApellido+"','" + model.SegundoApellido + "')";
+            string queryPerson = "insert into psav_dev.tm_person (tmp_firstname,tmp_secondname,tmp_lastname,tmp_seclastname) values('" + model.PrimerNombre + "','" + model.SegundoNombre + "','" + model.PrimerApellido + "','" + model.SegundoApellido + "')";
             return SaveWithIDReturn(queryPerson);
         }
-        public void SaveRolUser(string usuario,string rol)
+        public void SaveRolUser(string usuario, string rol)
         {
             string query = "insert into psav_dev.tr_userroles(tmr_id,tmu_id) values(" + rol + "," + usuario + ")";
             SaveWithoutValidation(query);
@@ -190,11 +190,11 @@ namespace GCCorePSAV.Data
             switch (oper)
             {
                 case 0:
-                    QueryCoin = "insert into psav_dev.tm_users (tmu_username,tmu_pwd,tmu_active,tmu_expire,tmp_id) values('" + mod.Username + "','" + mod.Password + "'," + mod.Active + ",'"+mod.Expira+"',"+mod.Persona+")";
+                    QueryCoin = "insert into psav_dev.tm_users (tmu_username,tmu_pwd,tmu_active,tmu_expire,tmp_id) values('" + mod.Username + "','" + mod.Password + "'," + mod.Active + ",'" + mod.Expira + "'," + mod.Persona + ")";
                     Retorno = SaveWithIDReturn(QueryCoin);
                     break;
                 case 1:
-                    QueryCoin = "update psav_dev.tm_users set tmu_username='" + mod.Username + "', tmu_pwd='" + mod.Password + "', tmu_active=" + mod.Active + " where tmu_username='"+mod.Username+"'";
+                    QueryCoin = "update psav_dev.tm_users set tmu_username='" + mod.Username + "', tmu_pwd='" + mod.Password + "', tmu_active=" + mod.Active + " where tmu_username='" + mod.Username + "'";
                     SaveWithoutValidation(QueryCoin);
                     break;
                 case 2:
@@ -227,7 +227,7 @@ namespace GCCorePSAV.Data
             conn.Close();
             return CoinsReturn;
         }
-        public string UpdateCoins(Models.PSAVCrud.SyncModels.CoinModel mod,int oper)
+        public string UpdateCoins(Models.PSAVCrud.SyncModels.CoinModel mod, int oper)
         {
             string Retorno = "";
             string QueryCoin = "";
@@ -235,10 +235,10 @@ namespace GCCorePSAV.Data
             {
                 case 0:
                     QueryCoin = "insert into psav_dev.tc_moneda (tcm_name,tcm_change,tcm_activo) values('" + mod.Name + "'," + mod.Change.ToString() + "," + mod.Active + ")";
-                    Retorno=SaveWithIDReturn(QueryCoin);
+                    Retorno = SaveWithIDReturn(QueryCoin);
                     break;
                 case 1:
-                    QueryCoin = "update psav_dev.tc_moneda set tcm_name='"+mod.Name+"', tcm_change="+mod.Change.ToString()+", tcm_activo="+mod.Active.ToString()+" where tcm_id=" + mod.ID;
+                    QueryCoin = "update psav_dev.tc_moneda set tcm_name='" + mod.Name + "', tcm_change=" + mod.Change.ToString() + ", tcm_activo=" + mod.Active.ToString() + " where tcm_id=" + mod.ID;
                     SaveWithoutValidation(QueryCoin);
                     break;
                 case 2:
@@ -380,7 +380,7 @@ namespace GCCorePSAV.Data
                 }
                 conn.Close();
             }
-            
+
             return ClientReturn;
         }
         #endregion
@@ -401,11 +401,11 @@ namespace GCCorePSAV.Data
                 LRM.Add(rm);
             }
             conn.Close();
-            return LRM;            
+            return LRM;
         }
         public string UpdateRole(Models.PSAVCrud.RolesModel mod, int oper)
         {
-            string query = "update psav_dev.tm_roles set tmr_name='"+mod.Nombre+"', tmr_description='"+mod.Descripcion+"' where tmr_id=" + mod.ID;
+            string query = "update psav_dev.tm_roles set tmr_name='" + mod.Nombre + "', tmr_description='" + mod.Descripcion + "' where tmr_id=" + mod.ID;
             if (oper.Equals(0))
             {
                 query = "insert into psav_dev.tm_roles(tmr_name,tmr_description) values('" + mod.Nombre + "','" + mod.Descripcion + "')";
@@ -420,7 +420,7 @@ namespace GCCorePSAV.Data
         #region others
         public string GetValueComVtaCat(string concept)
         {
-            string QuerySearch = "SELECT tc_cvfee FROM psav_dev.tc_comvta where tc_cvtext like '"+concept+"%'";
+            string QuerySearch = "SELECT tc_cvfee FROM psav_dev.tc_comvta where tc_cvtext like '" + concept + "%'";
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
             conn.Open();
@@ -447,10 +447,10 @@ namespace GCCorePSAV.Data
             conn.Close();
             return list;
         }
-#endregion
+        #endregion
         #endregion
         #region EPT
-        public List<Models.SyncPSAV.VentaDes> VDesCount (string ide)
+        public List<Models.SyncPSAV.VentaDes> VDesCount(string ide)
         {
             List<Models.SyncPSAV.VentaDes> VD = new List<Models.SyncPSAV.VentaDes>();
             string QuerySearch = "SELECT * FROM psav_dev.td_eptvdesc where tme_id=" + ide;
@@ -477,6 +477,8 @@ namespace GCCorePSAV.Data
             }
             return VD;
         }
+
+        //categoria
         public List<Models.SyncPSAV.ItemCategory> GetListCategory(string type)
         {
             List<Models.SyncPSAV.ItemCategory> list = new List<Models.SyncPSAV.ItemCategory>();
@@ -496,6 +498,8 @@ namespace GCCorePSAV.Data
             conn.Close();
             return list;
         }
+
+        //freelance
         public void UpdateOL(List<Models.SyncPSAV.FreelanceOL> FOList, List<Models.SyncPSAV.Viaticos> ViaticosL, List<Models.SyncPSAV.VentasFeeTot> ComVenL,
             List<Models.SyncPSAV.GastosFinancieros> GasFinL, List<Models.SyncPSAV.Consumibles> ConsuL, List<Models.SyncPSAV.CargosInternos> CIntL, string idevt)
         {
@@ -508,7 +512,7 @@ namespace GCCorePSAV.Data
                 SaveWithoutValidation(QueryInsert);
             }
             //viaticos
-            SaveWithoutValidation("delete from td_eptviaticos where tme_id="+idevt);
+            SaveWithoutValidation("delete from td_eptviaticos where tme_id=" + idevt);
             for (int i = 0; i < ViaticosL.Count; i++)
             {
                 string QueryInsert = "insert into td_eptviaticos(tdev_nombre,tdev_puesto,tdev_observaciones,tdev_totalsol,tme_id) values('" + ViaticosL[i].Nombres + "','" + ViaticosL[i].Puesto + "','" + ViaticosL[i].Observaciones + "','" + ViaticosL[i].TotalSol + "'," + idevt + ")";
@@ -522,21 +526,21 @@ namespace GCCorePSAV.Data
                 SaveWithoutValidation(QueryInsert);
             }
             //gastos financieros
-            SaveWithoutValidation("delete from td_eptgfin where tme_id="+idevt);
+            SaveWithoutValidation("delete from td_eptgfin where tme_id=" + idevt);
             for (int i = 0; i < GasFinL.Count; i++)
             {
                 string QueryInsert = "insert into td_eptgfin(tdegf_comision,tdegf_importe,tdegf_porccom,tdegf_imporcom,tme_id) values ('" + GasFinL[i].Comision + "','" + GasFinL[i].Importe + "','" + GasFinL[i].PorcCom + "','" + GasFinL[i].ImporteCom + "'," + idevt + ")";
                 SaveWithoutValidation(QueryInsert);
             }
             //consul
-            SaveWithoutValidation("delete from td_eptconsumible where tme_id="+idevt);
+            SaveWithoutValidation("delete from td_eptconsumible where tme_id=" + idevt);
             for (int i = 0; i < ConsuL.Count; i++)
             {
                 string QueryInsert = "insert into td_eptconsumible(tdec_cotizacion,tdec_supplier,tdec_description,tdec_costo,tme_id) values ('" + ConsuL[i].Cotizacion + "','" + ConsuL[i].Supplier + "','" + ConsuL[i].Description + "','" + ConsuL[i].Costo + "'," + idevt + ")";
                 SaveWithoutValidation(QueryInsert);
             }
             //cargos internos
-            SaveWithoutValidation("delete from td_eptcinternos where tme_id="+idevt);
+            SaveWithoutValidation("delete from td_eptcinternos where tme_id=" + idevt);
             for (int i = 0; i < CIntL.Count; i++)
             {
                 string QueryInsert = "insert into td_eptcinternos(tdeci_equipo,tdeci_categoria,tdeci_preciolista,tdeci_tipooper,tdeci_porccargo,tdeci_montocargo,tme_id) value('" + CIntL[i].Equipo + "','" + CIntL[i].Categoria + "','" + CIntL[i].PrecioLista + "','" + CIntL[i].TipoOper + "','" + CIntL[i].PorcCargo + "','" + CIntL[i].MontoCargo + "'," + idevt + ")";
@@ -544,47 +548,47 @@ namespace GCCorePSAV.Data
             }
         }
         public void SaveOL(List<Models.SyncPSAV.FreelanceOL> FOList, List<Models.SyncPSAV.Viaticos> ViaticosL, List<Models.SyncPSAV.VentasFeeTot> ComVenL,
-            List<Models.SyncPSAV.GastosFinancieros> GasFinL, List<Models.SyncPSAV.Consumibles> ConsuL, List<Models.SyncPSAV.CargosInternos> CIntL,string idevt)
+            List<Models.SyncPSAV.GastosFinancieros> GasFinL, List<Models.SyncPSAV.Consumibles> ConsuL, List<Models.SyncPSAV.CargosInternos> CIntL, string idevt)
         {
             //freelance
-            for(int i = 0; i < FOList.Count; i++)
+            for (int i = 0; i < FOList.Count; i++)
             {
-                string QueryInsert = "insert into td_eptfreelance(tdef_nombre,tdef_puesto,tdef_dias,tdef_sueldo,tdef_condiciones,tdef_costo,tdef_total,tme_id) values " 
-                     + "('"+FOList[i].Nombres+"','"+FOList[i].Puesto+"','"+FOList[i].Dias+"','"+FOList[i].Sueldo+"','"+FOList[i].Condiciones+"','"+FOList[i].CostoCarga+"','"+FOList[i].CostoTotal+"',"+idevt+")";
+                string QueryInsert = "insert into td_eptfreelance(tdef_nombre,tdef_puesto,tdef_dias,tdef_sueldo,tdef_condiciones,tdef_costo,tdef_total,tme_id) values "
+                     + "('" + FOList[i].Nombres + "','" + FOList[i].Puesto + "','" + FOList[i].Dias + "','" + FOList[i].Sueldo + "','" + FOList[i].Condiciones + "','" + FOList[i].CostoCarga + "','" + FOList[i].CostoTotal + "'," + idevt + ")";
                 SaveWithoutValidation(QueryInsert);
             }
             //viaticos
-            for(int i = 0; i < ViaticosL.Count; i++)
+            for (int i = 0; i < ViaticosL.Count; i++)
             {
-                string QueryInsert = "insert into td_eptviaticos(tdev_nombre,tdev_puesto,tdev_observaciones,tdev_totalsol,tme_id) values('"+ViaticosL[i].Nombres+"','"+ViaticosL[i].Puesto+"','"+ViaticosL[i].Observaciones+"','"+ViaticosL[i].TotalSol+"',"+idevt+")";
+                string QueryInsert = "insert into td_eptviaticos(tdev_nombre,tdev_puesto,tdev_observaciones,tdev_totalsol,tme_id) values('" + ViaticosL[i].Nombres + "','" + ViaticosL[i].Puesto + "','" + ViaticosL[i].Observaciones + "','" + ViaticosL[i].TotalSol + "'," + idevt + ")";
                 SaveWithoutValidation(QueryInsert);
             }
             //com venta total
             for (int i = 0; i < ComVenL.Count; i++)
             {
-                string QueryInsert = "insert into td_eptvfeetot(tdevf_nombre,tdevf_puesto,tdevf_comision,tdevf_ventaneta,tdevf_comisiontot,tme_id) values('" + ComVenL[i].Nombres + "','" + ComVenL[i].Puesto + "','" + ComVenL[i].Comision +"','"+ComVenL[i].VentaNeta+"','"+ComVenL[i].Comisiontot+"',"+idevt+")";
+                string QueryInsert = "insert into td_eptvfeetot(tdevf_nombre,tdevf_puesto,tdevf_comision,tdevf_ventaneta,tdevf_comisiontot,tme_id) values('" + ComVenL[i].Nombres + "','" + ComVenL[i].Puesto + "','" + ComVenL[i].Comision + "','" + ComVenL[i].VentaNeta + "','" + ComVenL[i].Comisiontot + "'," + idevt + ")";
                 SaveWithoutValidation(QueryInsert);
             }
             //gastos financieros
-            for(int i = 0; i<GasFinL.Count; i++)
+            for (int i = 0; i < GasFinL.Count; i++)
             {
-                string QueryInsert = "insert into td_eptgfin(tdegf_comision,tdegf_importe,tdegf_porccom,tdegf_imporcom,tme_id) values ('" + GasFinL[i].Comision+"','"+GasFinL[i].Importe+"','"+GasFinL[i].PorcCom+"','"+GasFinL[i].ImporteCom+"',"+idevt+")";
+                string QueryInsert = "insert into td_eptgfin(tdegf_comision,tdegf_importe,tdegf_porccom,tdegf_imporcom,tme_id) values ('" + GasFinL[i].Comision + "','" + GasFinL[i].Importe + "','" + GasFinL[i].PorcCom + "','" + GasFinL[i].ImporteCom + "'," + idevt + ")";
                 SaveWithoutValidation(QueryInsert);
             }
             //consul
-            for(int i = 0; i < ConsuL.Count; i++)
+            for (int i = 0; i < ConsuL.Count; i++)
             {
-                string QueryInsert = "insert into td_eptconsumible(tdec_cotizacion,tdec_supplier,tdec_description,tdec_costo,tme_id) values ('"+ConsuL[i].Cotizacion+"','"+ConsuL[i].Supplier+"','"+ConsuL[i].Description+"','"+ConsuL[i].Costo+"',"+idevt+")";
+                string QueryInsert = "insert into td_eptconsumible(tdec_cotizacion,tdec_supplier,tdec_description,tdec_costo,tme_id) values ('" + ConsuL[i].Cotizacion + "','" + ConsuL[i].Supplier + "','" + ConsuL[i].Description + "','" + ConsuL[i].Costo + "'," + idevt + ")";
                 SaveWithoutValidation(QueryInsert);
             }
             //cargos internos
-            for(int i = 0; i < CIntL.Count; i++)
+            for (int i = 0; i < CIntL.Count; i++)
             {
-                string QueryInsert = "insert into td_eptcinternos(tdeci_equipo,tdeci_categoria,tdeci_preciolista,tdeci_tipooper,tdeci_porccargo,tdeci_montocargo,tme_id) value('"+CIntL[i].Equipo+"','"+CIntL[i].Categoria+"','"+CIntL[i].PrecioLista+"','"+CIntL[i].TipoOper+"','"+CIntL[i].PorcCargo+"','"+CIntL[i].MontoCargo+"',"+idevt+")";
+                string QueryInsert = "insert into td_eptcinternos(tdeci_equipo,tdeci_categoria,tdeci_preciolista,tdeci_tipooper,tdeci_porccargo,tdeci_montocargo,tme_id) value('" + CIntL[i].Equipo + "','" + CIntL[i].Categoria + "','" + CIntL[i].PrecioLista + "','" + CIntL[i].TipoOper + "','" + CIntL[i].PorcCargo + "','" + CIntL[i].MontoCargo + "'," + idevt + ")";
                 SaveWithoutValidation(QueryInsert);
             }
         }
-        public void UpdateSRenta(List<Models.SyncPSAV.SubRenta> lmod,string idevt)
+        public void UpdateSRenta(List<Models.SyncPSAV.SubRenta> lmod, string idevt)
         {
             SaveWithoutValidation("delete from td_eptsrent where tme_id=" + idevt);
             for (int i = 0; i < lmod.Count; i++)
@@ -617,10 +621,10 @@ namespace GCCorePSAV.Data
             conn.Close();
             return SRL;
         }
-        public void UpdateVFee(List<Models.SyncPSAV.VentaFee> mod,string idevt)
+        public void UpdateVFee(List<Models.SyncPSAV.VentaFee> mod, string idevt)
         {
-            SaveWithoutValidation("delete from td_eptvfee where tme_id="+ idevt);
-            for(int i = 0; i < mod.Count; i++)
+            SaveWithoutValidation("delete from td_eptvfee where tme_id=" + idevt);
+            for (int i = 0; i < mod.Count; i++)
             {
                 string QueryVFee = "insert into td_eptvfee(Category,BaseFee,PorcFee,SubFee,ImporteFee,tme_id)" +
                     "values('" + mod[i].Category + "','" + mod[i].BaseFee + "','" + mod[i].PorcFee + "','" + mod[i].SubFee + "','" + mod[i].ImporteFee + "'," + idevt + ")";
@@ -649,10 +653,10 @@ namespace GCCorePSAV.Data
             conn.Close();
             return VFEe;
         }
-        public void UpdateVtaDesc(List<Models.SyncPSAV.VentaDes> lvdes,string idvt)
+        public void UpdateVtaDesc(List<Models.SyncPSAV.VentaDes> lvdes, string idvt)
         {
             SaveWithoutValidation("delete from td_eptvdesc where tme_id=" + idvt);
-            for(int i = 0; i < lvdes.Count; i++)
+            for (int i = 0; i < lvdes.Count; i++)
             {
                 string QueryVDesc = "insert into psav_dev.td_eptvdesc(tme_id,Category,VentaEqui,VentaEquEx,TotalVenta,DesPorEq,TotalDescEPS,DescExt,TotalExt,TotalDesc,PorcTotalDesc,AplicaAut)"
                      + "values(" + idvt + ",'" + lvdes[i].Category + "','" + lvdes[i].VentaEqui + "','" + lvdes[i].VentaEquEx + "','" + lvdes[i].TotalVenta + "','" + lvdes[i].DesPorEq + "','" + lvdes[i].TotalDescEPS + "','" + lvdes[i].DescExt + "','" + lvdes[i].TotalExt + "','" + lvdes[i].TotalDesc + "','" + lvdes[i].PorcTotalDesc + "','" + lvdes[i].AplicaAut + "')";
@@ -661,7 +665,7 @@ namespace GCCorePSAV.Data
         }
         public List<Models.SyncPSAV.VentaDes> GetVtaDesc(string idevt)
         {
-            string QuerySearch = "SELECT * FROM psav_dev.td_eptvdesc where tme_id="+idevt;
+            string QuerySearch = "SELECT * FROM psav_dev.td_eptvdesc where tme_id=" + idevt;
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
             conn.Open();
@@ -700,7 +704,7 @@ namespace GCCorePSAV.Data
                 SaveWithoutValidation(ConsSQL);
             }
         }
-        public void UpdateITL(Models.SyncPSAV.SalonIL Salon,List<Models.SyncPSAV.ItemListServices> Ilserv,string idtl)
+        public void UpdateITL(Models.SyncPSAV.SalonIL Salon, List<Models.SyncPSAV.ItemListServices> Ilserv, string idtl)
         {
             string iltt = "";
             try
@@ -718,9 +722,9 @@ namespace GCCorePSAV.Data
             }
             catch { }
             if (string.IsNullOrEmpty(idtl)) { idtl = iltt; }
-            for(int i = 0; i < Ilserv.Count; i++)
+            for (int i = 0; i < Ilserv.Count; i++)
             {
-                string ConsSQL = "insert into td_itemlist(tmilt_id,tdil_clave,tdil_cantidad,tdil_des,tdil_preciounit,tcct_id,tme_id,tdil_dias) values(" + idtl + ",'" + Ilserv[i].Clave + "','" + Ilserv[i].Cantidad + "','" + Ilserv[i].Descripcion + "','" + Ilserv[i].PrecioUnit + "','" + Ilserv[i].Categoria + "'," + Salon.IDEvt + ",'"+Ilserv[i].Dias+"')";
+                string ConsSQL = "insert into td_itemlist(tmilt_id,tdil_clave,tdil_cantidad,tdil_des,tdil_preciounit,tcct_id,tme_id,tdil_dias) values(" + idtl + ",'" + Ilserv[i].Clave + "','" + Ilserv[i].Cantidad + "','" + Ilserv[i].Descripcion + "','" + Ilserv[i].PrecioUnit + "','" + Ilserv[i].Categoria + "'," + Salon.IDEvt + ",'" + Ilserv[i].Dias + "')";
                 SaveWithoutValidation(ConsSQL);
             }
         }
@@ -750,8 +754,8 @@ namespace GCCorePSAV.Data
                 SaveWithoutValidation(QuerySalon);
             }
             catch {
-                string QuerySalon= "insert into tm_itemlistevtwf(tme_id, tmitl_salon, tmitl_asistentes, tmitl_montaje, tmitl_horario) values(" + Salon.IDEvt + ", '" + Salon.Salon + "', '" + Salon.Asistentes + "', '" + Salon.Montaje + "', '" + Salon.Horario + "')";
-                ILTT= SaveWithIDReturn(QuerySalon);
+                string QuerySalon = "insert into tm_itemlistevtwf(tme_id, tmitl_salon, tmitl_asistentes, tmitl_montaje, tmitl_horario) values(" + Salon.IDEvt + ", '" + Salon.Salon + "', '" + Salon.Asistentes + "', '" + Salon.Montaje + "', '" + Salon.Horario + "')";
+                ILTT = SaveWithIDReturn(QuerySalon);
             }
             try
             {
@@ -763,7 +767,7 @@ namespace GCCorePSAV.Data
                 if (string.IsNullOrEmpty(idtl)) { idtl = ILTT; }
                 for (int i = 0; i < Ilserv.Count; i++)
                 {
-                    string ConsSQL = "insert into td_itemlistwf(tmilt_id,tdil_clave,tdil_cantidad,tdil_des,tdil_preciounit,tcct_id,tme_id,tdil_seccion,tdil_dias) values(" + idtl + ",'" + Ilserv[i].Clave + "','" + Ilserv[i].Cantidad + "','" + Ilserv[i].Descripcion + "','" + Ilserv[i].PrecioUnit + "','" + Ilserv[i].Categoria + "'," + Salon.IDEvt + ",'"+Ilserv[i].Seccion+"','"+Ilserv[i].Dias+"')";
+                    string ConsSQL = "insert into td_itemlistwf(tmilt_id,tdil_clave,tdil_cantidad,tdil_des,tdil_preciounit,tcct_id,tme_id,tdil_seccion,tdil_dias) values(" + idtl + ",'" + Ilserv[i].Clave + "','" + Ilserv[i].Cantidad + "','" + Ilserv[i].Descripcion + "','" + Ilserv[i].PrecioUnit + "','" + Ilserv[i].Categoria + "'," + Salon.IDEvt + ",'" + Ilserv[i].Seccion + "','" + Ilserv[i].Dias + "')";
                     SaveWithoutValidation(ConsSQL);
                 }
             }
@@ -799,12 +803,80 @@ namespace GCCorePSAV.Data
                 Ils.Categoria = msdr.GetValue(6).ToString();
                 Ils.IDEvento = Convert.ToInt32(msdr.GetValue(8).ToString());
                 Ils.Seccion = string.IsNullOrEmpty(msdr.GetValue(7).ToString()) ? "" : msdr.GetValue(7).ToString();
-                Ils.Dias= string.IsNullOrEmpty(msdr.GetValue(9).ToString()) ? "" : msdr.GetValue(9).ToString();
+                Ils.Dias = string.IsNullOrEmpty(msdr.GetValue(9).ToString()) ? "" : msdr.GetValue(9).ToString();
                 ILIL.Add(Ils);
             }
             conn.Close();
             return ILIL;
         }
+
+        //Accesorios
+        public List<Models.SyncPSAV.Notas> NotasList(string type)
+        {
+            List<Models.SyncPSAV.Notas> notaslist = new List<Models.SyncPSAV.Notas>();
+            string QuerySearch = "SELECT tcc_id,tcc_notas FROM psav_dev.tc_notas where tcc_type=" + type;
+            if (type.Equals("3")) { QuerySearch = "SELECT tcc_id,tcc_accesorio FROM psav_dev.tc_accesorio"; }
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                Models.SyncPSAV.Notas notasitem = new Models.SyncPSAV.Notas();
+                notasitem.ID = msdr.GetValue(1).ToString();
+                notasitem.notas = msdr.GetValue(1).ToString();
+                notaslist.Add(notasitem);
+            }
+            conn.Close();
+            return notaslist;
+        }
+
+        //Accesorios
+        public List<Models.SyncPSAV.Accesorios> AcceLits(string type)
+        {
+            List<Models.SyncPSAV.Accesorios> acclist = new List<Models.SyncPSAV.Accesorios>();
+            string QuerySearch = "SELECT tcc_id,tcc_name FROM psav_dev.tc_accesorio where tcc_type=" + type;
+            if (type.Equals("3")) { QuerySearch = "SELECT tcc_id,tcc_accesorio FROM psav_dev.tc_accesorio"; }
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                Models.SyncPSAV.Accesorios accesorioitem = new Models.SyncPSAV.Accesorios();
+                accesorioitem.ID = msdr.GetValue(1).ToString();
+                accesorioitem.accesorio = msdr.GetValue(1).ToString();
+                acclist.Add(accesorioitem);
+            }
+            conn.Close();
+            return acclist;
+        }
+
+
+
+        //Subcategoria
+
+        public List<Models.SyncPSAV.Subcategorialist> GetListSubCategory(string type)
+        {
+            List<Models.SyncPSAV.Subcategorialist> Subclist = new List<Models.SyncPSAV.Subcategorialist>();
+            string QuerySearch = "SELECT tcc_id,tcc_name FROM psav_dev.tc_subcategory where tcc_type=" + type;
+            if (type.Equals("3")) { QuerySearch = "SELECT tcc_id,tcc_name FROM psav_dev.tc_subcategory"; }
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                Models.SyncPSAV.Subcategorialist itemsubCategory = new Models.SyncPSAV.Subcategorialist();
+                itemsubCategory.ID = msdr.GetValue(1).ToString();
+                itemsubCategory.SubCategoria = msdr.GetValue(1).ToString();
+                Subclist.Add(itemsubCategory);
+            }
+            conn.Close();
+            return Subclist;
+        }
+
+        
         public List<Models.SyncPSAV.ItemListServicesEdit> LILSE(string idtl)
         {
             string QueryILIL = "SELECT * FROM psav_dev.td_itemlist where tmilt_id=" + idtl;
@@ -823,6 +895,8 @@ namespace GCCorePSAV.Data
                 Ils.Descripcion = msdr.GetValue(4).ToString();
                 Ils.PrecioUnit = msdr.GetValue(5).ToString();
                 Ils.Categoria = new Models.SyncPSAV.Caategoria(msdr.GetValue(6).ToString(), msdr.GetValue(6).ToString());
+                Ils.subcategoria = new Models.SyncPSAV.SubCaategoria(msdr.GetValue(9).ToString(), msdr.GetValue(9).ToString());
+                Ils.tieem = new Models.SyncPSAV.Iteem(msdr.GetValue(10).ToString(), msdr.GetValue(10).ToString());
                 Ils.IDEvento = Convert.ToInt32(msdr.GetValue(7).ToString());
                 Ils.Dias = string.IsNullOrEmpty(msdr.GetValue(8).ToString()) ? "" : msdr.GetValue(8).ToString();
                 ILIL.Add(Ils);
@@ -830,6 +904,7 @@ namespace GCCorePSAV.Data
             conn.Close();
             return ILIL;
         }
+        //
         public List<Models.SyncPSAV.ItemListServices> LILS(string idtl)
         {
             string QueryILIL = "SELECT * FROM psav_dev.td_itemlist where tmilt_id=" + idtl;
@@ -850,11 +925,15 @@ namespace GCCorePSAV.Data
                 Ils.Categoria = msdr.GetValue(6).ToString();
                 Ils.IDEvento = Convert.ToInt32(msdr.GetValue(7).ToString());
                 Ils.Dias=string.IsNullOrEmpty(msdr.GetValue(8).ToString()) ? "" : msdr.GetValue(8).ToString();
+                
                 ILIL.Add(Ils);
             }
             conn.Close();
             return ILIL;
         }
+
+
+        //accesorios y notas
         public Models.SyncPSAV.SalonILWF GetOneSalonILWF(string idtl)
         {
             string QueryILIL = "SELECT * FROM psav_dev.tm_itemlistevtwf where tmitlwf_id=" + idtl;
@@ -941,6 +1020,8 @@ namespace GCCorePSAV.Data
             conn.Close();
             return LSIL;
         }
+
+        //Lista de los servicios del salon
         public List<Models.SyncPSAV.ItemListServices> GetOneILIL(string idevt,string tmilt)
         {
             string QueryILIL = "SELECT * FROM psav_dev.td_itemlist where tme_id="+idevt+" and tmilt_id="+tmilt;
