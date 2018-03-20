@@ -101,5 +101,10 @@ namespace GCCorePSAV.Models
             public string StartDate { get; set; }
             public string CreateDate { get; set; }
         }
+        public class pricelist
+        {
+            public string ID { get; set; }
+            public string NameList { get; set; }
+        }
     }
 }

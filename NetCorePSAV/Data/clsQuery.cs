@@ -248,6 +248,24 @@ namespace GCCorePSAV.Data
             }
             return Retorno;
         }
+        public List<Models.EPTModel.pricelist> GetPriceList()
+        {
+            List<Models.EPTModel.pricelist> pricelists = new List<Models.EPTModel.pricelist>();
+            string QuerySearchOne = "SELECT * FROM psav_dev.tc_pricelist";
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QuerySearchOne, conn);
+            conn.Open();
+            MySqlDataReader sdr = cmd.ExecuteReader();
+            while (sdr.Read())
+            {
+                Models.EPTModel.pricelist pricelist = new Models.EPTModel.pricelist();
+                pricelist.ID = sdr.GetValue(0).ToString();
+                pricelist.NameList = sdr.GetValue(1).ToString();
+                pricelists.Add(pricelist);
+            }
+            conn.Close();
+            return pricelists;
+        }
         public List<Models.PSAVCrud.CoinsModel> GetCoin(string coin)
         {
             List<Models.PSAVCrud.CoinsModel> CoinsReturn = new List<Models.PSAVCrud.CoinsModel>();
