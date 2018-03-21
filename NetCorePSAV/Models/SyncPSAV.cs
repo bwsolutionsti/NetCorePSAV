@@ -14,7 +14,7 @@ namespace GCCorePSAV.Models
             public string Nombre { get; set; }
             public string Fee { get; set; }
         }
-       
+
         public class CratioDets
         {
             public string MonthOp { get; set; }
@@ -52,11 +52,9 @@ namespace GCCorePSAV.Models
             public string Descripcion { get; set; }
             public string PrecioUnit { get; set; }
             public string Categoria { get; set; }
-            public string subcategoria { get; set; }
-            public string tieem {get; set;}
         }
 
-      
+        //Categoria
         public class ItemListServicesEdit
         {
             public int IDEvento { get; set; }
@@ -69,12 +67,37 @@ namespace GCCorePSAV.Models
             public string Descripcion { get; set; }
             public string PrecioUnit { get; set; }
             public Caategoria Categoria { get; set; }
-            public SubCaategoria subcategoria { get; set; }
-            public Iteem tieem { get; set; }
-            public Aaccesorios accesorios { get; set; }
-            public Nnotas notas { get; set; }
+        }
+
+        
+        public class ItemCategory
+        {
+            public string ID { get; set; }
+            public string Categoria { get; set; }
+        }
+
+        public class Caategoria
+        {
+            [Key]
+            public string ID { get; set; }
+            public string Categoria { get; set; }
+            public Caategoria() { }
+            public Caategoria(string val, string txt) { this.ID = val; this.Categoria = txt; }
         }
         //notas
+        public class Notaslist
+        {
+            [Key]
+            public string ID { get; set; }
+            public string Notas { get; set; }
+        }
+
+        public class Notaslistedit
+        {
+            [Key]
+            public string ID { get; set; }
+            public Nnotas Notas { get; set; }
+        }
         public class Notas
         {
             public string ID { get; set; }
@@ -89,7 +112,23 @@ namespace GCCorePSAV.Models
             public Nnotas() { }
             public Nnotas(string val, string txt) { this.ID = val; this.accesorios = txt; }
         }
+
+
         //Accesorios
+
+        public class Accerosioslist
+        {
+            [Key]
+            public string ID { get; set; }
+            public string Accesorios { get; set; }
+        }
+
+        public class Accerosioslistedit
+        {
+            [Key]
+            public string ID { get; set; }
+            public Aaccesorios accesoorios { get; set; }
+        }
         public class Accesorios
         {
             public string ID { get; set; }
@@ -105,29 +144,25 @@ namespace GCCorePSAV.Models
             public Aaccesorios (string val, string txt) { this.ID = val; this.accesorios = txt; }
         }
 
-
-        //Categoria
-        public class ItemCategory
-        {
-            public string ID { get; set; }
-            public string Categoria { get; set; }
-        }
-
-        public class Caategoria
-        {
-            [Key]
-            public string ID { get; set; }
-            public string Categoria { get; set; }
-            public Caategoria() { }
-            public Caategoria(string val, string txt) { this.ID = val; this.Categoria = txt; }
-        }
-
         //item
         public class itemlist
         {
-        
-                public string ID { get; set; }
-                public string item { get; set; }
+            [Key]
+            public string ID { get; set; }
+            public string item { get; set; }
+        }
+
+        public class itemlistedit
+        {
+            [Key]
+            public string ID { get; set; }
+            public Iteem itemm { get; set; }
+        }
+        public class ItemD
+        {
+            
+            public string ID { get; set; }
+            public string item { get; set; }
          }
 
             public class Iteem
@@ -141,7 +176,23 @@ namespace GCCorePSAV.Models
 
 
             //Subcategoria
-            public class Subcategorialist
+
+
+        public class subcategorialist
+        {
+            [Key]
+           public string ID { get; set; }
+           public string subcategoria { get; set; } 
+        }
+
+        public class subcategorialistedit
+        {
+            [Key]
+            public string ID { get; set; }
+            public SubCaategoria subcaategoria { get; set; }
+        }
+
+            public class Subcategoria
         {
             public string ID { get; set; }
             public string SubCategoria { get; set; }
@@ -156,6 +207,7 @@ namespace GCCorePSAV.Models
                 public SubCaategoria(string val, string txt) { this.ID = val; this.Categoria = txt; }
             }
 
+        //Mano de obra
             public class ItemListWorkForce
         {
             public int IDEvento { get; set; }
