@@ -40,6 +40,8 @@ namespace GCCorePSAV.Models
             public string IDCratioDets { get; set; }
             public string ID { get; set; }
         }
+
+        //Categoria
         public class ItemListServices
         {
             public int IDEvento { get; set; }
@@ -52,9 +54,9 @@ namespace GCCorePSAV.Models
             public string Descripcion { get; set; }
             public string PrecioUnit { get; set; }
             public string Categoria { get; set; }
+            public string Subcategoria { get; set; }
         }
 
-        //Categoria
         public class ItemListServicesEdit
         {
             public int IDEvento { get; set; }
@@ -89,6 +91,7 @@ namespace GCCorePSAV.Models
         {
             [Key]
             public string ID { get; set; }
+            public string IDN { get; set; }
             public string Notas { get; set; }
         }
 
@@ -96,6 +99,7 @@ namespace GCCorePSAV.Models
         {
             [Key]
             public string ID { get; set; }
+            public string IDN { get; set; }
             public Nnotas Notas { get; set; }
         }
         public class Notas
@@ -120,6 +124,7 @@ namespace GCCorePSAV.Models
         {
             [Key]
             public string ID { get; set; }
+            public string IDA { get; set; }
             public string Accesorios { get; set; }
         }
 
@@ -127,6 +132,7 @@ namespace GCCorePSAV.Models
         {
             [Key]
             public string ID { get; set; }
+            public string IDA { get; set; }
             public Aaccesorios accesoorios { get; set; }
         }
         public class Accesorios
@@ -149,6 +155,7 @@ namespace GCCorePSAV.Models
         {
             [Key]
             public string ID { get; set; }
+            public string IDI { get; set; }
             public string item { get; set; }
         }
 
@@ -156,6 +163,7 @@ namespace GCCorePSAV.Models
         {
             [Key]
             public string ID { get; set; }
+            public string IDA { get; set; }
             public Iteem itemm { get; set; }
         }
         public class ItemD
@@ -182,13 +190,15 @@ namespace GCCorePSAV.Models
         {
             [Key]
            public string ID { get; set; }
-           public string subcategoria { get; set; } 
+           
+            public string subcategoria { get; set; } 
         }
 
         public class subcategorialistedit
         {
             [Key]
             public string ID { get; set; }
+            
             public SubCaategoria subcaategoria { get; set; }
         }
 
@@ -330,6 +340,7 @@ namespace GCCorePSAV.Models
             [DataType(DataType.Time)]
             public string Horario { get; set; }
             public string IDITL { get; set; }
+            public string IDS { get; set; }
             public string EventoName { get; set; }
         }
         public class SalonILWF

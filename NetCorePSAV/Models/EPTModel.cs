@@ -87,11 +87,16 @@ namespace GCCorePSAV.Models
         public string PMLocation { get; set; }
         public string IDEmpresa { get; set; }
         public List<Models.PSAVCrud.ClientModel.ClientAutoComplete> Clients { get; set; }
+        public List<Models.EPTModel.pricelist> Price { get; set; }
         public string IDEvent { get; set; }
+
         public EPTModel()
         {
             Data.clsQuery con = new Data.clsQuery();
-             Clients = con.GetAutoClients();
+            Price = con.GetPriceList();
+            Clients = con.GetAutoClients();//segun yo falta aquí la conexion de CDMX
+           
+            
         }
         public class EPTConsult
         {
@@ -105,6 +110,7 @@ namespace GCCorePSAV.Models
         {
             public string ID { get; set; }
             public string NameList { get; set; }
+            
         }
     }
 }

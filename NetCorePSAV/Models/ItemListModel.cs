@@ -38,6 +38,7 @@ namespace GCCorePSAV.Models
             public List<Models.ItemListModel.ItemListServices> ServList { get; set; }
             public string Seccion { get; set; }
             public string Categoria { get; set; }
+            public string Subcategoria { get; set; }
         }
         public class ItemListServices
         {
@@ -48,7 +49,7 @@ namespace GCCorePSAV.Models
             public string Descripcion { get; set; }
             public string PrecioUnit { get; set; }
             public string Categoria { get; set; }
-            public string SubCategoria { get; set; }
+            public string Subcategoria { get; set; }
         }
         public class ItemListWorkForce
         {
@@ -65,6 +66,19 @@ namespace GCCorePSAV.Models
         {
             public string ID { get; set; }
             public string Catego { get; set; }
+            
+        }
+
+        public class SubcategoryItemlist
+        {
+            public string ID { get; set; }
+            public string Subcatego { get; set; }
+        }
+
+        public class accesorioItemlist
+        {
+            public string ID { get; set; }
+            public string Acceso { get; set; }
         }
     }
 }

@@ -39,14 +39,14 @@ namespace GCCorePSAV.Controllers
         {
             return View();
         }
-        public IActionResult NewEPT()
+        public IActionResult NewEPT()//aqui estamos contestando a un request y le estamos regresando la vista newept con toda la info necesaria
         {
             List<Models.PSAVCrud.CoinsModel> CoinsList = ConSQL.GetCoin(string.Empty);
             List<Models.EPTModel.pricelist> PriceList = ConSQL.GetPriceList();
             List<Models.PSAVCrud.ClientModel.ClientAutoComplete> ClientList = ConSQL.GetAutoClients();
             ViewBag.ClientList = ClientList;
             ViewBag.CoinsList = CoinsList;
-            ViewBag.PriceList= PriceList;
+            ViewBag.PriceList = PriceList;
             ViewBag.EPTNumberFormat = ConSQL.GetEPTNumber(System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Request.Cookies["pandoraRules"].ToString())));
             return View(new Models.EPTModel());
         }
@@ -83,8 +83,10 @@ namespace GCCorePSAV.Controllers
                 {
                     List<Models.PSAVCrud.CoinsModel> CoinsList = ConSQL.GetCoin(string.Empty);
                     List<Models.PSAVCrud.ClientModel.ClientAutoComplete> ClientList = ConSQL.GetAutoClients();
+                    List<Models.EPTModel.pricelist> pricelists = ConSQL.GetPriceList();
                     ViewBag.ClientList = ClientList;
                     ViewBag.CoinsList = CoinsList;
+                    ViewBag.Pricelist = pricelists;
                     List<Models.PSAVCrud.ClientModel.ClientSearch> Clients = ConSQL.GetClient(ac1);
                     Models.EPTModel ept = new Models.EPTModel();
                     for (int i = 0; i < Clients.Count; i++)
@@ -103,11 +105,12 @@ namespace GCCorePSAV.Controllers
                     }
                     Response.Cookies.Append("IDC", ept.IDClient, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                     Response.Cookies.Append("IDCE", ept.IDEmpresa, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
+                    
                     return View(ept);
                 }
                 else
                 {
-                    if (ModelState.IsValid)
+                    if (ModelState.IsValid)//aqui es donde se da lo de newept
                     {
                         //save model
                         model.IDClient = Request.Cookies["IDC"].ToString();
@@ -119,11 +122,13 @@ namespace GCCorePSAV.Controllers
                         Response.Cookies.Append("IDE", IDEvent, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                         Response.Cookies.Append("EVN", model.EventName, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                         ViewBag.CategoriaList = ConSQL.GetCategoryItemList(1);
+                        ViewBag.SubcategoriaList = ConSQL.GetSubcategoryItemList(1);
                         return RedirectToAction("IL");
                     }
                     else
                     {
                         return View();
+
                     }
                 }
             }
@@ -146,12 +151,13 @@ namespace GCCorePSAV.Controllers
 
         #region editItemlist
         [HttpPost]
-        public IActionResult EditItemList2(Models.SyncPSAV.SalonIL model, string Clave, string Cantidad, string Dias, string Descripcion, string PrecioUnit, string Categoria)
+        public IActionResult EditItemList2(Models.SyncPSAV.SalonIL model, string Clave, string Cantidad, string Dias, string Descripcion, string PrecioUnit, string Categoria, string subcategoria)
         {
-            ServList.Add(new Models.SyncPSAV.ItemListServices() { Clave = Clave, Cantidad = Cantidad, Dias = Dias, Descripcion = Descripcion, PrecioUnit = PrecioUnit, Categoria = Categoria, IDEvento = Convert.ToInt32(Request.Cookies["IDEVNN"].ToString()), IDITL = Request.Cookies["IDIL"].ToString() });
+            ServList.Add(new Models.SyncPSAV.ItemListServices() { Clave = Clave, Cantidad = Cantidad, Dias = Dias, Descripcion = Descripcion, PrecioUnit = PrecioUnit, Categoria = Categoria, IDEvento = Convert.ToInt32(Request.Cookies["IDEVNN"].ToString()), IDITL = Request.Cookies["IDIL"].ToString() });            
             string folio = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString());
             model.IDEvt = Request.Cookies["IDEVNN"].ToString();
             model.IDITL = Request.Cookies["IDIL"].ToString();
+            model.IDS = Request.Cookies["IDIS"].ToString();
             ConSQL.SaveOneItilEdit(model, ServList, ServList[0].IDITL);
             ServList = new List<Models.SyncPSAV.ItemListServices>();
             return RedirectToAction("EdititemList");
@@ -213,62 +219,7 @@ namespace GCCorePSAV.Controllers
             }
         }
 
-        //Subcategoria
-        [HttpPost]
-        public IActionResult EditItemList2(string IDIL, string Advance, Models.SyncPSAV.SalonIL model, string EVT)
-        {
-            if (string.IsNullOrEmpty(Advance))
-            {
-                if (string.IsNullOrEmpty(IDIL) && Request.Cookies["IDIL"] == null)
-                {
-                    Models.SyncPSAV.SalonIL ILS = new Models.SyncPSAV.SalonIL();
-                    ServList = new List<Models.SyncPSAV.ItemListServices>();
-                    ViewBag.datasource = ServList;
-                    //                    ViewBag.datasourcedrop = ConSQL.GetListCategory("1").ToList();
-                    List<Models.SyncPSAV.ItemCategory> IC = ConSQL.GetListCategory("1");
-                    List<Models.SyncPSAV.Caategoria> Catego = new List<Models.SyncPSAV.Caategoria>();
-                    for (int i = 0; i < IC.Count; i++)
-                    {
-                        Catego.Add(new Models.SyncPSAV.Caategoria(IC[i].Categoria, IC[i].Categoria));
-                    }
-                    ViewBag.datasourcedrop = Catego.ToList();
-                    Response.Cookies.Append("IDEVNN", ConSQL.GetEPTToEdit(EVT).IDEvent, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
-                    return View(ILS);
-
-                }
-                else
-                {
-                    if (string.IsNullOrEmpty(IDIL)) { IDIL = Request.Cookies["IDIL"].ToString(); }
-
-                    Models.SyncPSAV.SalonIL ILS = ConSQL.GetOneSalonIL(IDIL);
-                    ServList = ConSQL.LILS(IDIL);
-                    ViewBag.datasource = ServList;
-                    //                    ViewBag.datasourcedrop = ConSQL.GetListCategory("1").ToList();
-                    List<Models.SyncPSAV.ItemCategory> IC = ConSQL.GetListCategory("1");
-                    List<Models.SyncPSAV.Caategoria> Catego = new List<Models.SyncPSAV.Caategoria>();
-                    for (int i = 0; i < IC.Count; i++)
-                    {
-                        Catego.Add(new Models.SyncPSAV.Caategoria(IC[i].Categoria, IC[i].Categoria));
-                    }
-                    ViewBag.datasourcedrop = Catego.ToList();
-                    Response.Cookies.Append("IDEVNN", ILS.IDEvt, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
-                    Response.Cookies.Append("IDIL", IDIL, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
-                    return View(ILS);
-                }
-            }
-            else
-            {
-                if (Advance.Equals("2")) { Response.Cookies.Delete("IDIL"); string folio1 = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString()); Response.Cookies.Append("folio", folio1, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true }); return RedirectToAction("ResumeEPT"); }
-                string folio = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString());
-                model.IDEvt = Request.Cookies["IDEVNN"].ToString();
-                if (ServList.Count.Equals(0)) { ConSQL.UpdateITL(model, ServList, ""); } else { ConSQL.UpdateITL(model, ServList, ServList[0].IDITL); }
-
-                Response.Cookies.Append("folio", folio, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
-                ServList = new List<Models.SyncPSAV.ItemListServices>();
-                return RedirectToAction("ResumeEPT");
-            }
-        }
-
+       
         #endregion
         public IActionResult ItemList()
         {
@@ -290,18 +241,22 @@ namespace GCCorePSAV.Controllers
         //}
         #region newitemlist
         [HttpGet]
-        public IActionResult IL()
+        public IActionResult IL()//aqui se agregan las listas nuevas  para mandarlas a las vistas y que salgan las listas con los datos de BD como categroia o subcategoria 
         {
             Models.ItemListModel.ItemListEventModel mode = new Models.ItemListModel.ItemListEventModel();
             mode.EventoName = Request.Cookies["EVN"].ToString();
             mode.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());
             
-                BindServList(); BindServListWF();
-                ViewBag.datasourcedrop = ConSQL.GetListCategory("1");
-                ViewBag.datasourcedrop2 = ConSQL.GetListCategory("2");
+                BindServList(); BindServListWF(); BindSubList(); BindAccesList(); BindNotList(); BindItemist(); 
+                ViewBag.datasourcedrop = ConSQL.GetListCategory("1");//aquí se estan guardando toda la lista de Categoria
+                ViewBag.datasourcedrop2 = ConSQL.GetListCategory("2");//Aquí se estan  guardando toda la lista de workforce
+                ViewBag.datasourcedrop3 = ConSQL.GetListsubCategory("3");//Aquí se estan  guardando toda la lista de subcategoria
+                ViewBag.datasourcedrop4 = ConSQL.GetListAcceso("4");   
                 ViewBag.datasource = ServList;
                 ViewBag.datasource2 = WFList;
-            
+                ViewBag.datasource3 = SubList;
+                ViewBag.datasource4 = accesList;
+
             return View(mode);
         }
         [HttpPost]
@@ -309,24 +264,26 @@ namespace GCCorePSAV.Controllers
         {
             if (!string.IsNullOrEmpty(Advance))
             {
-                string IDITL = ""; string IDITLWF = "";
+                string IDITL = ""; string IDITLWF = "";//aqui preparamos las variables para recibir un valor
                 switch (Advance)
                 {
-                    case "0":
-                        IDITL = ConSQL.InsertTMItemList(mod, Request.Cookies["IDE"].ToString());
-                        IDITLWF = ConSQL.InsertTMItemListWF(mod, Request.Cookies["IDE"].ToString());
-                        mod = new Models.ItemListModel.ItemListEventModel();
-                        mod.EventoName = Request.Cookies["EVN"].ToString();
-                        mod.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());
-                        ConSQL.SaveItemListDetail(ServList, IDITL, Request.Cookies["IDE"].ToString());
+                    case "0": //en el caso 0 va a hacer lo siguiente
+                        IDITL = ConSQL.InsertTMItemList(mod, Request.Cookies["IDE"].ToString());//en esta variable guardaremos el valor 102
+                        IDITLWF = ConSQL.InsertTMItemListWF(mod, Request.Cookies["IDE"].ToString());//en esta variable guardaremos 90
+                        mod = new Models.ItemListModel.ItemListEventModel();//estamos accesando a las propiedades del modelo itemlistevent
+                        mod.EventoName = Request.Cookies["EVN"].ToString();//En la propiedad eventoname estamos guardando el valor de fin de mes 1
+                        mod.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());//Estamos guardando el valor de ID 0
+                        ConSQL.SaveItemListDetail(ServList, IDITL, Request.Cookies["IDE"].ToString());//Estamos guardando en BD las variables en corchetes
                         ConSQL.SaveItemListWFDetail(WFList, IDITLWF, Request.Cookies["IDE"].ToString());
-                        ViewBag.datasourcedrop = ConSQL.GetListCategory("1");
-                        ViewBag.datasourcedrop2 = ConSQL.GetListCategory("2");
-                        ServList = new List<Models.SyncPSAV.ItemListServices>(); WFList = new List<Models.SyncPSAV.ItemListWorkForce>(); mod = new Models.ItemListModel.ItemListEventModel();
+                        ViewBag.datasourcedrop = ConSQL.GetListCategory("1");//Se esta guardando una cuenta de 11
+                        ViewBag.datasourcedrop2 = ConSQL.GetListCategory("2");//Se esta guardando una cuenta de 5
+                        ServList = new List<Models.SyncPSAV.ItemListServices>();//estamos guardando los datos obtenidos 
+                        WFList = new List<Models.SyncPSAV.ItemListWorkForce>();
+                        mod = new Models.ItemListModel.ItemListEventModel();
                         ViewBag.datasource = ServList;
                         ViewBag.datasource2 = WFList;
                         mod = new Models.ItemListModel.ItemListEventModel();
-                        return View(mod); break;
+                        return View(mod); break;//estamos regresando la vista con los valores dados
                     case "1":
                         ServList = new List<Models.SyncPSAV.ItemListServices>();
                         return RedirectToAction("VtaDesc"); break;
@@ -388,18 +345,47 @@ namespace GCCorePSAV.Controllers
         }
 
         //Listas estaticas para guardar 
+        //Categoria
         public static List<Models.SyncPSAV.ItemListServices> ServList = new List<Models.SyncPSAV.ItemListServices>();
         public static List<Models.SyncPSAV.ItemListServicesEdit> ServListe = new List<Models.SyncPSAV.ItemListServicesEdit>();
+        //Subcategoria
+        public static List<Models.SyncPSAV.subcategorialist> SubList = new List<Models.SyncPSAV.subcategorialist>();
+        public static List<Models.SyncPSAV.subcategorialistedit> SubListeed= new List<Models.SyncPSAV.subcategorialistedit>();
+        //Accesorios
+        public static List<Models.SyncPSAV.Accerosioslist> accesList = new List<Models.SyncPSAV.Accerosioslist>();
+        public static List<Models.SyncPSAV.Accerosioslistedit> accesListeedit = new List<Models.SyncPSAV.Accerosioslistedit>();
+        //item
+        public static List<Models.SyncPSAV.itemlist> itemList = new List<Models.SyncPSAV.itemlist>();
+        public static List<Models.SyncPSAV.itemlistedit> ietmListeedit = new List<Models.SyncPSAV.itemlistedit>();
+        //notas
+        public static List<Models.SyncPSAV.Notaslist> notasList = new List<Models.SyncPSAV.Notaslist>();
+        public static List<Models.SyncPSAV.Notaslistedit> notasedit = new List<Models.SyncPSAV.Notaslistedit>();
+
+        //categoria
         public void BindServList() { ServList = new List<Models.SyncPSAV.ItemListServices>(); }
-
-
+        //SubCategoria
+        public void BindSubList() { SubList = new List<Models.SyncPSAV.subcategorialist>(); }
+        //Accesorios
+        public void BindAccesList() { accesList = new List<Models.SyncPSAV.Accerosioslist>(); }
+        //items
+        public void BindItemist() { itemList = new List<Models.SyncPSAV.itemlist>(); }
+        //notas
+        public void BindNotList() { notasList = new List<Models.SyncPSAV.Notaslist>(); }
         //Botones para agregar, eliminar y editar tabla
+
+        public ActionResult subcatUpdate([FromBody]CRUDModel<Models.SyncPSAV.subcategorialist> myObject2)
+        {
+            var ord = myObject2.Value;
+            Models.SyncPSAV.subcategorialist val = SubList.Where(or => or.ID == ord.ID).FirstOrDefault();
+            val.ID = ord.ID; val.subcategoria = ord.subcategoria; 
+            return Json(myObject2.Value);
+        }
         public ActionResult ItemListNormalUpdate([FromBody]CRUDModel<Models.SyncPSAV.ItemListServices> myObject)
         {
             var ord = myObject.Value;
             Models.SyncPSAV.ItemListServices val = ServList.Where(or => or.ID == ord.ID).FirstOrDefault();
             val.ID = ord.ID; val.Cantidad = ord.Cantidad; val.Categoria = ord.Categoria; val.Clave = ord.Clave; val.Descripcion = ord.Descripcion;
-            val.Dias = ord.Dias; val.PrecioUnit = ord.PrecioUnit;
+            val.Dias = ord.Dias; val.PrecioUnit = ord.PrecioUnit; val.Subcategoria = ord.Subcategoria;
             return Json(myObject.Value);
         }
         public ActionResult ItemListNormalInsert([FromBody]CRUDModel<Models.SyncPSAV.ItemListServices> value)
@@ -1273,6 +1259,8 @@ namespace GCCorePSAV.Controllers
         }
         #endregion
         #region EPTExcel
+
+        //Creación de Excel
         private const string XlsxContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
         private readonly IHostingEnvironment _hostingEnvironment;
         public PSAVController(IHostingEnvironment hostingEnvironment)

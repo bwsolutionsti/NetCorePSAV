@@ -496,26 +496,7 @@ namespace GCCorePSAV.Data
             return VD;
         }
 
-        //categoria
-        public List<Models.SyncPSAV.ItemCategory> GetListCategory(string type)
-        {
-            List<Models.SyncPSAV.ItemCategory> list = new List<Models.SyncPSAV.ItemCategory>();
-            string QuerySearch = "SELECT tcc_id,tcc_name FROM psav_dev.tc_category where tcc_type=" + type;
-            if (type.Equals("3")) { QuerySearch = "SELECT tcc_id,tcc_name FROM psav_dev.tc_category"; }
-            MySqlConnection conn = new MySqlConnection(con);
-            MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
-            conn.Open();
-            MySqlDataReader msdr = cmd.ExecuteReader();
-            while (msdr.Read())
-            {
-                Models.SyncPSAV.ItemCategory itemCategory = new Models.SyncPSAV.ItemCategory();
-                itemCategory.ID = msdr.GetValue(1).ToString();
-                itemCategory.Categoria = msdr.GetValue(1).ToString();
-                list.Add(itemCategory);
-            }
-            conn.Close();
-            return list;
-        }
+       
 
         //freelance
         public void UpdateOL(List<Models.SyncPSAV.FreelanceOL> FOList, List<Models.SyncPSAV.Viaticos> ViaticosL, List<Models.SyncPSAV.VentasFeeTot> ComVenL,
@@ -928,133 +909,123 @@ namespace GCCorePSAV.Data
             return itemedit;
         }
 
-        //Accesorios
 
-        public List<Models.SyncPSAV.Accesorios> GetAcce(string type)
+        //categoria
+        public List<Models.SyncPSAV.ItemCategory> GetListCategory(string type)
         {
-            List<Models.SyncPSAV.Accesorios> acceslist = new List<Models.SyncPSAV.Accesorios>();
-            string QuerySearch = "SELECT tcc_id,tcc_name FROM psav_dev.tc_accesorios where tcc_type=" + type;
-            if (type.Equals("3")) { QuerySearch = "SELECT tcc_id,tcc_name FROM psav_dev.tc_accesorios"; }
+            List<Models.SyncPSAV.ItemCategory> list = new List<Models.SyncPSAV.ItemCategory>();
+            string QuerySearch = "SELECT tcc_id,tcc_name FROM psav_dev.tc_category where tcc_type=" + type;
+            if (type.Equals("3")) { QuerySearch = "SELECT tcc_id,tcc_name FROM psav_dev.tc_category"; }
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
             conn.Open();
             MySqlDataReader msdr = cmd.ExecuteReader();
             while (msdr.Read())
             {
-                Models.SyncPSAV.Accesorios itemaccesorios = new Models.SyncPSAV.Accesorios();
-                itemaccesorios.ID = msdr.GetValue(1).ToString();
-                itemaccesorios.accesorio = msdr.GetValue(1).ToString();
-                acceslist.Add(itemaccesorios);
+                Models.SyncPSAV.ItemCategory itemCategory = new Models.SyncPSAV.ItemCategory();
+                itemCategory.ID = msdr.GetValue(1).ToString();
+                itemCategory.Categoria = msdr.GetValue(1).ToString();
+                list.Add(itemCategory);
             }
             conn.Close();
-            return acceslist;
+            return list;
         }
-
-        public List<Models.SyncPSAV.Accerosioslist> AcceLits2(string type)
+        public List<Models.ItemListModel.CategoryItemList> GetCategoryItemList(int TypeCat)
         {
-            List<Models.SyncPSAV.Accerosioslist> acclist = new List<Models.SyncPSAV.Accerosioslist>();
-            string QuerySearch = "SELECT tcc_id,tcc_name FROM psav_dev.tc_accesorio where tcc_type=" + type;
-            if (type.Equals("3")) { QuerySearch = "SELECT tcc_id,tcc_accesorio FROM psav_dev.tc_accesorio"; }
+            string ConsSQLSearch = "SELECT * FROM psav_dev.tc_category where tcc_type=" + TypeCat.ToString();
+            List<Models.ItemListModel.CategoryItemList> Catego = new List<Models.ItemListModel.CategoryItemList>();
             MySqlConnection conn = new MySqlConnection(con);
-            MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
+            MySqlCommand cmd = new MySqlCommand(ConsSQLSearch, conn);
             conn.Open();
-            MySqlDataReader msdr = cmd.ExecuteReader();
-            while (msdr.Read())
+            MySqlDataReader sdr = cmd.ExecuteReader();
+            while (sdr.Read())
             {
-                Models.SyncPSAV.Accerosioslist accesorioitem = new Models.SyncPSAV.Accerosioslist();
-                accesorioitem.ID = msdr.GetValue(1).ToString();
-                accesorioitem.Accesorios = msdr.GetValue(1).ToString();
-                acclist.Add(accesorioitem);
+                Models.ItemListModel.CategoryItemList CVM = new Models.ItemListModel.CategoryItemList();
+                CVM.ID = sdr.GetValue(0).ToString();
+                CVM.Catego = sdr.GetValue(1).ToString();
+                Catego.Add(CVM);
             }
             conn.Close();
-            return acclist;
+            return Catego;
         }
-
-        public List<Models.SyncPSAV.Accerosioslistedit> AcceLitsedit(string type)
-        {
-            List<Models.SyncPSAV.Accerosioslistedit> acclistedit = new List<Models.SyncPSAV.Accerosioslistedit>();
-            string QuerySearch = "SELECT tcc_id,tcc_name FROM psav_dev.tc_accesorio where tcc_type=" + type;
-            if (type.Equals("3")) { QuerySearch = "SELECT tcc_id,tcc_accesorio FROM psav_dev.tc_accesorio"; }
-            MySqlConnection conn = new MySqlConnection(con);
-            MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
-            conn.Open();
-            MySqlDataReader msdr = cmd.ExecuteReader();
-            while (msdr.Read())
-            {
-                Models.SyncPSAV.Accerosioslistedit accesorioitem = new Models.SyncPSAV.Accerosioslistedit();
-                accesorioitem.ID = msdr.GetValue(1).ToString();
-                accesorioitem.accesoorios = new Models.SyncPSAV.Aaccesorios(msdr.GetValue(1).ToString(), msdr.GetValue(1).ToString());
-                //itemsubCategory.subcaategoria = new Models.SyncPSAV.SubCaategoria(msdr.GetValue(2).ToString(), msdr.GetValue(2).ToString());
-                acclistedit.Add(accesorioitem);
-            }
-            conn.Close();
-            return acclistedit;
-        }
-
-
 
         //Subcategoria
-
-        public List<Models.SyncPSAV.Subcategoria> SubCategory(string type)
+        public List<Models.SyncPSAV.Subcategoria> GetListsubCategory(string type)
         {
             List<Models.SyncPSAV.Subcategoria> Sublist = new List<Models.SyncPSAV.Subcategoria>();
-            string QuerySearch = "SELECT tcc_id,tcc_name FROM psav_dev.tc_subcategory where tcc_type=" + type;
-            if (type.Equals("3")) { QuerySearch = "SELECT tcc_id,tcc_name FROM psav_dev.tc_subcategory"; }
+            string QuerySearch = "SELECT tc_id,tc_subcategoria FROM psav_dev.tc_subcategoria where tc_type=" + type;
+            if (type.Equals("3")) { QuerySearch = "SELECT tc_id,tc_subcategoria FROM psav_dev.tc_subcategoria"; }
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
             conn.Open();
             MySqlDataReader msdr = cmd.ExecuteReader();
             while (msdr.Read())
             {
-                Models.SyncPSAV.Subcategoria itemsubCategory = new Models.SyncPSAV.Subcategoria();
-                itemsubCategory.ID = msdr.GetValue(1).ToString();
-                itemsubCategory.SubCategoria = msdr.GetValue(1).ToString();
-                Sublist.Add(itemsubCategory);
+                Models.SyncPSAV.Subcategoria itemSubcategory = new Models.SyncPSAV.Subcategoria();
+                itemSubcategory.ID = msdr.GetValue(1).ToString();
+                itemSubcategory.SubCategoria = msdr.GetValue(1).ToString();
+                Sublist.Add(itemSubcategory);
             }
             conn.Close();
             return Sublist;
         }
-
-
-        public List<Models.SyncPSAV.subcategorialist> GetListSubCategory(string type)
+        public List<Models.ItemListModel.SubcategoryItemlist> GetSubcategoryItemList(int TypeCat)
         {
-            List<Models.SyncPSAV.subcategorialist> Subclist = new List<Models.SyncPSAV.subcategorialist>();
-            string QuerySearch = "SELECT tcc_id,tcc_name FROM psav_dev.tc_subcategory where tcc_type=" + type;
-            if (type.Equals("3")) { QuerySearch = "SELECT tcc_id,tcc_name FROM psav_dev.tc_subcategory"; }
+            string ConsSQLSearch = "SELECT * FROM psav_dev.tc_subcategoria where tc_type=" + TypeCat.ToString();
+            List<Models.ItemListModel.SubcategoryItemlist> Subcatego = new List<Models.ItemListModel.SubcategoryItemlist>();
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(ConsSQLSearch, conn);
+            conn.Open();
+            MySqlDataReader sdr = cmd.ExecuteReader();
+            while (sdr.Read())
+            {
+                Models.ItemListModel.SubcategoryItemlist PM = new Models.ItemListModel.SubcategoryItemlist();
+                PM.ID = sdr.GetValue(0).ToString();
+                PM.Subcatego = sdr.GetValue(1).ToString();
+                Subcatego.Add(PM);
+            }
+            conn.Close();
+            return Subcatego;
+        }
+        //Accesorios
+        public List<Models.SyncPSAV.Accesorios> GetListAcceso(string type)
+        {
+            List<Models.SyncPSAV.Accesorios> Acceslist = new List<Models.SyncPSAV.Accesorios>();
+            string QuerySearch = "SELECT tc_id,tc_accesorios FROM psav_dev.tc_accesorios where tc_type=" + type;
+            if (type.Equals("4")) { QuerySearch = "SELECT tc_id,tc_accesorios FROM psav_dev.tc_accesorios"; }
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
             conn.Open();
             MySqlDataReader msdr = cmd.ExecuteReader();
             while (msdr.Read())
             {
-                Models.SyncPSAV.subcategorialist itemsubCategory = new Models.SyncPSAV.subcategorialist();
-                itemsubCategory.ID = msdr.GetValue(1).ToString();
-                itemsubCategory.subcategoria = msdr.GetValue(1).ToString();
-                Subclist.Add(itemsubCategory);
+                Models.SyncPSAV.Accesorios itemacces = new Models.SyncPSAV.Accesorios();
+                itemacces.ID = msdr.GetValue(1).ToString();
+                itemacces.accesorio = msdr.GetValue(1).ToString();
+                Acceslist.Add(itemacces);
             }
             conn.Close();
-            return Subclist;
+            return Acceslist;
         }
-        public List<Models.SyncPSAV.subcategorialistedit> GetListSubCategoryedit(string type)
+        public List<Models.ItemListModel.accesorioItemlist> GetAccesItemList(int TypeCat)
         {
-            List<Models.SyncPSAV.subcategorialistedit> Subclistedit = new List<Models.SyncPSAV.subcategorialistedit>();
-            string QuerySearch = "SELECT tcc_id,tcc_name FROM psav_dev.tc_subcategory where tcc_type=" + type;
-            if (type.Equals("3")) { QuerySearch = "SELECT tcc_id,tcc_name FROM psav_dev.tc_subcategory"; }
+            string ConsSQLSearch = "SELECT * FROM psav_dev.tc_accesorio where tc_type=" + TypeCat.ToString();
+            List<Models.ItemListModel.accesorioItemlist> Acceso = new List<Models.ItemListModel.accesorioItemlist>();
             MySqlConnection conn = new MySqlConnection(con);
-            MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
+            MySqlCommand cmd = new MySqlCommand(ConsSQLSearch, conn);
             conn.Open();
-            MySqlDataReader msdr = cmd.ExecuteReader();
-            while (msdr.Read())
+            MySqlDataReader sdr = cmd.ExecuteReader();
+            while (sdr.Read())
             {
-                Models.SyncPSAV.subcategorialistedit itemsubCategory = new Models.SyncPSAV.subcategorialistedit();
-                itemsubCategory.ID = msdr.GetValue(1).ToString();
-                itemsubCategory.subcaategoria = new Models.SyncPSAV.SubCaategoria(msdr.GetValue(2).ToString(), msdr.GetValue(2).ToString());
-                Subclistedit.Add(itemsubCategory);
+                Models.ItemListModel.accesorioItemlist TM = new Models.ItemListModel.accesorioItemlist();
+                TM.ID = sdr.GetValue(0).ToString();
+                TM.Acceso = sdr.GetValue(1).ToString();
+                Acceso.Add(TM);
             }
             conn.Close();
-            return Subclistedit;
+            return Acceso;
         }
-
+        //itemlist
         public List<Models.SyncPSAV.ItemListServicesEdit> LILSE(string idtl)
         {
             string QueryILIL = "SELECT * FROM psav_dev.td_itemlist where tmilt_id=" + idtl;
@@ -1343,24 +1314,7 @@ namespace GCCorePSAV.Data
             conn.Close();
             return Cients;
         }
-        public List<Models.ItemListModel.CategoryItemList> GetCategoryItemList(int TypeCat)
-        {
-            string ConsSQLSearch = "SELECT * FROM psav_dev.tc_category where tcc_type=" + TypeCat.ToString();
-            List<Models.ItemListModel.CategoryItemList> Catego = new List<Models.ItemListModel.CategoryItemList>();
-            MySqlConnection conn = new MySqlConnection(con);
-            MySqlCommand cmd = new MySqlCommand(ConsSQLSearch, conn);
-            conn.Open();
-            MySqlDataReader sdr = cmd.ExecuteReader();
-            while (sdr.Read())
-            {
-                Models.ItemListModel.CategoryItemList CVM = new Models.ItemListModel.CategoryItemList();
-                CVM.ID = sdr.GetValue(0).ToString();
-                CVM.Catego = sdr.GetValue(1).ToString();
-                Catego.Add(CVM);
-            }
-            conn.Close();
-            return Catego;
-        }
+       
         public List<Models.EPTModel.EPTConsult> EPTSearchOne(string ParamStr)
         {
             List<Models.EPTModel.EPTConsult> EPTList = new List<Models.EPTModel.EPTConsult>();

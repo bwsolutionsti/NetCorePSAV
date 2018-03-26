@@ -35,6 +35,7 @@ namespace GCCorePSAV.Models.PSAVCrud
         {
             public string FullName { get; set; }
             public string IDClient { get; set; }
+
         }
         public class ClientSearch
         {
@@ -68,5 +69,6 @@ namespace GCCorePSAV.Models.PSAVCrud
             public string Domicilio { get; set; }
             public string DomicilioFiscal { get; set; }
         }
+       
     }
 }

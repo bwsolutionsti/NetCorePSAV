@@ -201,15 +201,17 @@ namespace GCCorePSAV.Controllers
         //Lob Tabla
         public ActionResult Lob()
         {
-            GCCorePSAV.Data.ClsQueryCrudLob Nueva = new Data.ClsQueryCrudLob(); //Estamos creando una nueva variable llamada Nueva y estamos 
-            Loblist = Nueva.GetcategLob(); //estamos creando una variable y estamos guardadno la lista de getcateg 
+            GCCorePSAV.Data.ClsQueryCrudLob Nueva = new Data.ClsQueryCrudLob(); //Creamos una variable la cual nos dirigira a la conexion con la BD
+            Loblist = Nueva.GetcategLob(); //Aqui Estamos obteniendo los datos obtenidos en el CLSQuery y guardandolos en loblist; cuando ponemos nueva.Getcateglob
+            //le estamos indicando cual es la clase a la que nos estamos dirigiendo
             ViewBag.datasource = Loblist;//esta es nuestra bolsita que guarda la información por el momento 
             return View();//Aquí estamos regresando la vista de "Nuevatabla"
         }
-        Data.ClsQueryCrudLob TabSQLLob = new Data.ClsQueryCrudLob();//agregamos Una varable llamada tabsql y la estamos indexando con los deatos de clsQueryCrud
+        
         public static List<Models.PSAVCrud.LobModel.LobModelTabla> Loblist = new List<Models.PSAVCrud.LobModel.LobModelTabla>(); //estamos creando Una lista Vacia llamada Tablanuevalist 
-        public void BindDataLob() { Loblist = TabSQLLob.GetcategLob(); }
+        public void BindDataLob() { Loblist = TabSQLLob.GetcategLob(); } //sincoroniza los datos de origencon los datos adquiridos
 
+        Data.ClsQueryCrudLob TabSQLLob = new Data.ClsQueryCrudLob();//Utilizamos esta variable para poder sincronizar los datos y poder borrarlos, insertar o editar los datos
         public ActionResult LobUpdate([FromBody]CRUDModel<Models.PSAVCrud.LobModel.LobModelTabla> myObject)// Se va a llenar una nueva tabla con los datos de el html
         {
 
@@ -222,8 +224,8 @@ namespace GCCorePSAV.Controllers
         }
         public ActionResult LobInsert([FromBody]CRUDModel<Models.PSAVCrud.LobModel.LobModelTabla> value)// Se va a llenar una nueva tabla con los datos de el html
         {
-            Models.PSAVCrud.LobModel.LobModelTabla val2 = value.Value;//Estamos creando una Variable llamada Val
-            val2.tclb_id = Convert.ToInt32(TabSQLLob.UpdateNuevatabla(value.Value, 0));
+            Models.PSAVCrud.LobModel.LobModelTabla val2 = value.Value;//Estamos creando una Variable llamada Val2 para poder guardar los obtendio osea lo que inserto el cliente
+            val2.tclb_id = Convert.ToInt32(TabSQLLob.UpdateNuevatabla(value.Value, 0));//estamos accediendo a la clase Updatenuevatabla
             Loblist.Insert(Loblist.Count, val2);
             ViewBag.datasource = Loblist;
             return Json(Loblist);

@@ -105,15 +105,16 @@ namespace GCCorePSAV.Data
 
         public List<Models.PSAVCrud.LobModel.LobModelTabla> GetcategLob()
         {
-            string TabSQL = "SELECT * FROM psav_dev.tc_lob";
-            List<Models.PSAVCrud.LobModel.LobModelTabla> Cients = new List<Models.PSAVCrud.LobModel.LobModelTabla>();//Aquí estamos creando una nueva tabla en la cual estamos insertando la tabla de clientes
+            string TabSQL = "SELECT * FROM psav_dev.tc_lob";//Estamos guardando "SELECT *FROM"
+            List<Models.PSAVCrud.LobModel.LobModelTabla> Cients = new List<Models.PSAVCrud.LobModel.LobModelTabla>();//Estamos creando una variable la cual agregaremos los datos obtenidos de la BD y los convertira en una lista
             MySqlConnection conn = new MySqlConnection(con);//estamos estableciendo conexión con mySql
             MySqlCommand cmd = new MySqlCommand(TabSQL, conn); //estamos ejecutando el código SELECT FROM
             conn.Open();
             MySqlDataReader sdr = cmd.ExecuteReader();//le estamos diciendo que lea los datos guardados en la base de datos
             while (sdr.Read()) //Estamos haciendo una iteracion y como condicion estamos diciendo que mientras lea
             {
-                Models.PSAVCrud.LobModel.LobModelTabla _ListVM = new Models.PSAVCrud.LobModel.LobModelTabla(); // estamos refernciando al archivo puesto en la primer parte y lo estamos guardando en una nueva parte de la memoria 
+                Models.PSAVCrud.LobModel.LobModelTabla _ListVM = new Models.PSAVCrud.LobModel.LobModelTabla(); //Estamos accediendo a los parametros del modelo el cual
+                //Le dira a la base de datos que parametro queremos
                 _ListVM.tclb_id = Convert.ToInt32(sdr.GetValue(0).ToString());//Estamos obteniendo los valores puestos en el modelo Syncrud y lo convertimos a string
                 _ListVM.tclb_name = sdr.GetValue(1).ToString();
                 _ListVM.tclb_description = sdr.GetValue(2).ToString();
