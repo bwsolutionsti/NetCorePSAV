@@ -105,7 +105,7 @@ namespace GCCorePSAV.Controllers
                     }
                     Response.Cookies.Append("IDC", ept.IDClient, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                     Response.Cookies.Append("IDCE", ept.IDEmpresa, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
-                    
+
                     return View(ept);
                 }
                 else
@@ -153,7 +153,7 @@ namespace GCCorePSAV.Controllers
         [HttpPost]
         public IActionResult EditItemList2(Models.SyncPSAV.SalonIL model, string Clave, string Cantidad, string Dias, string Descripcion, string PrecioUnit, string Categoria, string subcategoria)
         {
-            ServList.Add(new Models.SyncPSAV.ItemListServices() { Clave = Clave, Cantidad = Cantidad, Dias = Dias, Descripcion = Descripcion, PrecioUnit = PrecioUnit, Categoria = Categoria, IDEvento = Convert.ToInt32(Request.Cookies["IDEVNN"].ToString()), IDITL = Request.Cookies["IDIL"].ToString() });            
+            ServList.Add(new Models.SyncPSAV.ItemListServices() { Clave = Clave, Cantidad = Cantidad, Dias = Dias, Descripcion = Descripcion, PrecioUnit = PrecioUnit, Categoria = Categoria, IDEvento = Convert.ToInt32(Request.Cookies["IDEVNN"].ToString()), IDITL = Request.Cookies["IDIL"].ToString() });
             string folio = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString());
             model.IDEvt = Request.Cookies["IDEVNN"].ToString();
             model.IDITL = Request.Cookies["IDIL"].ToString();
@@ -162,8 +162,8 @@ namespace GCCorePSAV.Controllers
             ServList = new List<Models.SyncPSAV.ItemListServices>();
             return RedirectToAction("EdititemList");
         }
-    
-       
+
+
         [HttpPost]
         public IActionResult EditItemList(string IDIL, string Advance, Models.SyncPSAV.SalonIL model, string EVT)
         {
@@ -219,7 +219,7 @@ namespace GCCorePSAV.Controllers
             }
         }
 
-       
+
         #endregion
         public IActionResult ItemList()
         {
@@ -246,15 +246,15 @@ namespace GCCorePSAV.Controllers
             Models.ItemListModel.ItemListEventModel mode = new Models.ItemListModel.ItemListEventModel();
             mode.EventoName = Request.Cookies["EVN"].ToString();
             mode.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());
-            
-                BindServList(); BindServListWF();  
-                ViewBag.datasourcedrop = ConSQL.GetListCategory("1");//aquí se estan guardando toda la lista de Categoria
-                ViewBag.datasourcedrop2 = ConSQL.GetListCategory("2");//Aquí se estan  guardando toda la lista de workforce
-                  
-                ViewBag.datasource = ServList;
-                ViewBag.datasource2 = WFList;
-                ViewBag.datasource3 = newList;
-                
+
+            BindServList(); BindServListWF();
+            ViewBag.datasourcedrop = ConSQL.GetListCategory("1");//aquí se estan guardando toda la lista de Categoria
+            ViewBag.datasourcedrop2 = ConSQL.GetListCategory("2");//Aquí se estan  guardando toda la lista de workforce
+
+            ViewBag.datasource = ServList;
+            ViewBag.datasource2 = WFList;
+            ViewBag.datasource3 = newList;
+
 
             return View(mode);
         }
@@ -263,7 +263,7 @@ namespace GCCorePSAV.Controllers
         {
             Models.ItemListModel.ItemListEventModel Newitems = new Models.ItemListModel.ItemListEventModel();
             Newitems.EventoName = Request.Cookies["EVN"].ToString();
-            BindSubList(); 
+            BindSubList();
             Newitems.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());
             ViewBag.datasourcedrop3 = ConSQL.GetListsubCategory("3");//Aquí se estan  guardando toda la lista de subcategoria
             ViewBag.datasourcedrop4 = ConSQL.GetListAcceso("4");
@@ -288,15 +288,15 @@ namespace GCCorePSAV.Controllers
                         ViewBag.datasourcedrop2 = ConSQL.GetListsubCategory("2");//Se esta guardando una cuenta de 5
                         newList = new List<Models.SyncPSAV.Newitemslist>();//estamos guardando los datos obtenidos  
                         mod2 = new Models.ItemListModel.ItemListEventModel();
-                        ViewBag.datasource = newList; 
+                        ViewBag.datasource = newList;
                         mod2 = new Models.ItemListModel.ItemListEventModel();
                         return View(mod2); break;//estamos regresando la vista con los valores dados
                     case "1":
                         newList = new List<Models.SyncPSAV.Newitemslist>();
                         return RedirectToAction("VtaDesc"); break;
-                    //case "2":
-                      //  IDITL = ConSQL.InsertTMItemList(mod, Request.Cookies["IDE"].ToString());
-                        
+                        //case "2":
+                        //  IDITL = ConSQL.InsertTMItemList(mod, Request.Cookies["IDE"].ToString());
+
                         //mod = new Models.ItemListModel.ItemListEventModel();
                         //mod.EventoName = Request.Cookies["EVN"].ToString();
                         //mod.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());
@@ -399,7 +399,7 @@ namespace GCCorePSAV.Controllers
         public static List<Models.SyncPSAV.ItemListServicesEdit> ServListe = new List<Models.SyncPSAV.ItemListServicesEdit>();
         //Subcategoria
         public static List<Models.SyncPSAV.Newitemslist> newList = new List<Models.SyncPSAV.Newitemslist>();
-        public static List<Models.SyncPSAV.NewitemlistEdit> newListeed= new List<Models.SyncPSAV.NewitemlistEdit>();
+        public static List<Models.SyncPSAV.NewitemlistEdit> newListeed = new List<Models.SyncPSAV.NewitemlistEdit>();
         //Accesorios
         //public static List<Models.SyncPSAV.Accerosioslist> accesList = new List<Models.SyncPSAV.Accerosioslist>();
         //public static List<Models.SyncPSAV.Accerosioslistedit> accesListeedit = new List<Models.SyncPSAV.Accerosioslistedit>();
@@ -426,7 +426,7 @@ namespace GCCorePSAV.Controllers
         {
             var ord = myObject2.Value;
             Models.SyncPSAV.Newitemslist val2 = newList.Where(or => or.ID == ord.ID).FirstOrDefault();
-            val2.ID = ord.ID; val2.Subcategoria = ord.Subcategoria; val2.Accesorios = val2.Accesorios; 
+            val2.ID = ord.ID; val2.Subcategoria = ord.Subcategoria; val2.Accesorios = val2.Accesorios;
             return Json(myObject2.Value);
         }
 
@@ -442,7 +442,7 @@ namespace GCCorePSAV.Controllers
             var ord = myObject.Value;
             Models.SyncPSAV.ItemListServices val = ServList.Where(or => or.ID == ord.ID).FirstOrDefault();
             val.ID = ord.ID; val.Cantidad = ord.Cantidad; val.Categoria = ord.Categoria; val.Clave = ord.Clave; val.Descripcion = ord.Descripcion;
-            val.Dias = ord.Dias; val.PrecioUnit = ord.PrecioUnit; 
+            val.Dias = ord.Dias; val.PrecioUnit = ord.PrecioUnit;
             return Json(myObject.Value);
         }
         public ActionResult ItemListNormalInsert([FromBody]CRUDModel<Models.SyncPSAV.ItemListServices> value)
@@ -599,7 +599,7 @@ namespace GCCorePSAV.Controllers
         {
             if (string.IsNullOrEmpty(Advance))
             {
-                List<Models.SyncPSAV.VentaDes> list=ConSQL.GetCategoryEvent(Request.Cookies["IDEVT"].ToString());
+                List<Models.SyncPSAV.VentaDes> list = ConSQL.GetCategoryEvent(Request.Cookies["IDEVT"].ToString());
                 VDescList = ConSQL.GetVtaDesc(Request.Cookies["IDEVT"].ToString());
                 if (!VDescList.Equals(list.Count))
                 {
@@ -630,7 +630,7 @@ namespace GCCorePSAV.Controllers
         {
             if (string.IsNullOrEmpty(Advance))
             {
-                List<Models.SyncPSAV.VentaFee> list=ConSQL.GetCategoryEvtFee(Request.Cookies["IDEVT"].ToString());
+                List<Models.SyncPSAV.VentaFee> list = ConSQL.GetCategoryEvtFee(Request.Cookies["IDEVT"].ToString());
                 VFeeList = ConSQL.GetVFee(Request.Cookies["IDEVT"].ToString());
                 if (!VFeeList.Equals(list.Count))
                 {
@@ -689,7 +689,7 @@ namespace GCCorePSAV.Controllers
             else
             {
                 List<Models.SyncPSAV.VentasFeeTot> tttt = ComVenL;
-                for(int i = 0; i < tttt.Count; i++)
+                for (int i = 0; i < tttt.Count; i++)
                 {
                     tttt[i].Comision = ConSQL.GetValueComVtaCat(tttt[i].Puesto);
                 }
@@ -1422,7 +1422,7 @@ namespace GCCorePSAV.Controllers
                             wkItemList.Cells["E" + (lastPos).ToString()].Value = LILS[a].Descripcion;//Event
                             wkItemList.Cells["F" + (lastPos).ToString()].Value = LILS[a].PrecioUnit;//Event
                             wkItemList.Cells["I" + (lastPos).ToString()].Value = LILS[a].Categoria;//Event
-                            if (lastPos >= 41) { wkItemList.InsertRow(lastPos, 1);wkItemList.Cells[lastPos + 1, 1, lastPos + 1, 40].Copy(wkItemList.Cells[lastPos, 1, lastPos, 40]); }
+                            if (lastPos >= 41) { wkItemList.InsertRow(lastPos, 1); wkItemList.Cells[lastPos + 1, 1, lastPos + 1, 40].Copy(wkItemList.Cells[lastPos, 1, lastPos, 40]); }
                             lastPos++;
                         }
                         if (lastPos >= 41)
@@ -1430,19 +1430,19 @@ namespace GCCorePSAV.Controllers
                             wkItemList.DeleteRow(lastPos);
                         }
                     }
-                    int LastPosFormat = lastPos-2;
+                    int LastPosFormat = lastPos - 2;
                     if (lastPos <= 41) { lastPos = 55; }
                     else
                     {
                         lastPos = lastPos + 12;
                     }
-                    int maxFormula = 3;bool sumaFilas = false;
-                    
+                    int maxFormula = 3; bool sumaFilas = false;
+
                     List<Models.SyncPSAV.SalonILWF> SILWF = ConSQL.GetSalonsWF(ModEptFill.IDEvent);
                     for (int x = 0; x < SILWF.Count; x++)
                     {
                         //fill gray blanks
-                        if (x > 0&&!sumaFilas) { sumaFilas = true; }
+                        if (x > 0 && !sumaFilas) { sumaFilas = true; }
                         wkItemList.InsertRow(lastPos, 5);
                         wkItemList.Cells["B" + (lastPos).ToString()].Value = "EVENTO:";
                         wkItemList.Cells["B" + (lastPos + 1).ToString()].Value = "Salón/Area:";
@@ -1468,8 +1468,8 @@ namespace GCCorePSAV.Controllers
                         wkItemList.Cells["E" + (lastPos + 4).ToString()].Value = SILWF[x].Horario;//Event
                         lastPos = lastPos + 5;
                         //fill itemlist wf
-                        List<Models.SyncPSAV.ItemListWorkForce> LIWF = ConSQL.GetOneILWF(SILWF[x].IDEvt,SILWF[x].IDITL);
-                        if ((LIWF.Count >= maxFormula)||sumaFilas==true) { sumaFilas = true; }
+                        List<Models.SyncPSAV.ItemListWorkForce> LIWF = ConSQL.GetOneILWF(SILWF[x].IDEvt, SILWF[x].IDITL);
+                        if ((LIWF.Count >= maxFormula) || sumaFilas == true) { sumaFilas = true; }
                         for (int o = 0; o < LIWF.Count; o++)
                         {
                             wkItemList.Cells["B" + (lastPos).ToString()].Value = LIWF[o].Clave;//Event
@@ -1485,7 +1485,7 @@ namespace GCCorePSAV.Controllers
                             }
                             lastPos++;
                         }
-                        
+
                     }
                     wkItemList.DeleteRow(lastPos - 1); wkItemList.DeleteRow(lastPos);
                     //check discount
@@ -1497,7 +1497,7 @@ namespace GCCorePSAV.Controllers
                         {
                             switch (VDes[i].Category)
                             {
-                                case "AUDIO": VdItemList.Cells["F19"].Value = VDes[i].DesPorEq+"%"; break;
+                                case "AUDIO": VdItemList.Cells["F19"].Value = VDes[i].DesPorEq + "%"; break;
                                 case "VIDEO": VdItemList.Cells["F20"].Value = VDes[i].DesPorEq + "%"; break;
                                 case "ACCESORIOS": VdItemList.Cells["F21"].Value = VDes[i].DesPorEq + "%"; break;
                                 case "ILUMINACION": VdItemList.Cells["F22"].Value = VDes[i].DesPorEq + "%"; break;
@@ -1506,7 +1506,7 @@ namespace GCCorePSAV.Controllers
                                 case "COMPUTO": VdItemList.Cells["F25"].Value = VDes[i].DesPorEq + "%"; break;
                                 case "RIGGING EQUIPO": VdItemList.Cells["F26"].Value = VDes[i].DesPorEq + "%"; break;
                                 case "GASTOS": VdItemList.Cells["F27"].Value = VDes[i].DesPorEq + "%"; break;
-                                case "OTROS": VdItemList.Cells["F28"].Value = VDes[i].DesPorEq + "%"    ; break;
+                                case "OTROS": VdItemList.Cells["F28"].Value = VDes[i].DesPorEq + "%"; break;
                             }
                         }
                     }
@@ -1556,18 +1556,18 @@ namespace GCCorePSAV.Controllers
                     List<Models.SyncPSAV.FreelanceOL> FOL = ConSQL.GetFOLXls(ModEptFill.IDEvent);
                     //Fill Freelance
 
-                    for (int i=0; i<FOL.Count; i++)
+                    for (int i = 0; i < FOL.Count; i++)
                     {
-                        WSOL.Cells["A"  + (i + 12).ToString()].Value = FOL[i].Nombres;
-                        WSOL.Cells["B"  + (i + 12).ToString()].Value = FOL[i].Puesto;
-                        WSOL.Cells["C"  + (i + 12).ToString()].Value = FOL[i].Dias;
-                        WSOL.Cells["D"  + (i + 12).ToString()].Value = FOL[i].Sueldo;
+                        WSOL.Cells["A" + (i + 12).ToString()].Value = FOL[i].Nombres;
+                        WSOL.Cells["B" + (i + 12).ToString()].Value = FOL[i].Puesto;
+                        WSOL.Cells["C" + (i + 12).ToString()].Value = FOL[i].Dias;
+                        WSOL.Cells["D" + (i + 12).ToString()].Value = FOL[i].Sueldo;
                         WSOL.Cells["D" + (i + 12).ToString()].Style.Numberformat.Format = "0.00";
                     }
 
                     //Check viaticos
                     List<Models.SyncPSAV.Viaticos> VTS = ConSQL.GetListVL(ModEptFill.IDEvent);
-                    for(int i=0; i<VTS.Count; i++)
+                    for (int i = 0; i < VTS.Count; i++)
                     {
                         WSOL.Cells["A" + (i + 44).ToString()].Value = VTS[i].Nombres;
                         WSOL.Cells["B" + (i + 44).ToString()].Value = VTS[i].Puesto;
@@ -1589,7 +1589,7 @@ namespace GCCorePSAV.Controllers
                     }
                     //Gastos Financieros
                     List<Models.SyncPSAV.GastosFinancieros> GF = ConSQL.GetListGF(ModEptFill.IDEvent);
-                    for(int i=0; i < GF.Count; i++)
+                    for (int i = 0; i < GF.Count; i++)
                     {
                         WSOL.Cells["A" + (i + 68).ToString()].Value = GF[i].ImporteCom;
                         WSOL.Cells["B" + (i + 68).ToString()].Value = GF[i].Comision;
@@ -1613,7 +1613,7 @@ namespace GCCorePSAV.Controllers
 
                     //Cargos internos
                     List<Models.SyncPSAV.CargosInternos> CI = ConSQL.GetListCI(ModEptFill.IDEvent);
-                    for(int i=0; i<CI.Count; i++)
+                    for (int i = 0; i < CI.Count; i++)
                     {
                         WSOL.Cells["A" + (i + 92).ToString()].Value = CI[i].Equipo;
                         WSOL.Cells["B" + (i + 92).ToString()].Value = CI[i].Categoria;
@@ -1621,7 +1621,7 @@ namespace GCCorePSAV.Controllers
                         WSOL.Cells["D" + (i + 92).ToString()].Value = CI[i].TipoOper;
                     }
 
-                    
+
 
 
 
