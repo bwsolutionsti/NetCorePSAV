@@ -1079,8 +1079,62 @@ namespace GCCorePSAV.Data
             return ILIL;
         }
 
+        //PN
+        public List<Models.SyncPSAV.ItemListServicesEdit> OPN (string idtl)
+        {
+            string QueryILIL = "SELECT * FROM psav_dev.td_itemlist where tmilt_id=" + idtl;
+            List<Models.SyncPSAV.ItemListServicesEdit> ILIL = new List<Models.SyncPSAV.ItemListServicesEdit>();
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QueryILIL, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                Models.SyncPSAV.ItemListServicesEdit Ils = new Models.SyncPSAV.ItemListServicesEdit();
+                Ils.ID = msdr.GetValue(0).ToString();
+                Ils.IDITL = msdr.GetValue(1).ToString();
+                Ils.Clave = msdr.GetValue(2).ToString();
+                Ils.Cantidad = msdr.GetValue(3).ToString();
+                Ils.Descripcion = msdr.GetValue(4).ToString();
+                Ils.PrecioUnit = msdr.GetValue(5).ToString();
+                Ils.Categoria = new Models.SyncPSAV.Caategoria(msdr.GetValue(6).ToString(), msdr.GetValue(6).ToString());
+                Ils.IDEvento = Convert.ToInt32(msdr.GetValue(7).ToString());
+                Ils.Dias = string.IsNullOrEmpty(msdr.GetValue(8).ToString()) ? "" : msdr.GetValue(8).ToString();
+                ILIL.Add(Ils);
+            }
+            conn.Close();
+            return ILIL;
+        }
+        
+        public List<Models.SyncPSAV.ItemListServices> ONN (string idtl)
+        {
+            string QueryILIL = "SELECT * FROM psav_dev.td_itemlist where tmilt_id=" + idtl;
+            List<Models.SyncPSAV.ItemListServices> ILIL = new List<Models.SyncPSAV.ItemListServices>();
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QueryILIL, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                Models.SyncPSAV.ItemListServices Ils = new Models.SyncPSAV.ItemListServices();
+                Ils.ID = msdr.GetValue(0).ToString();
+                Ils.IDITL = msdr.GetValue(1).ToString();
+                Ils.Clave = msdr.GetValue(2).ToString();
+                Ils.Cantidad = msdr.GetValue(3).ToString();
+                Ils.Descripcion = msdr.GetValue(4).ToString();
+                Ils.PrecioUnit = msdr.GetValue(5).ToString();
+                Ils.Categoria = msdr.GetValue(6).ToString();
+                Ils.IDEvento = Convert.ToInt32(msdr.GetValue(7).ToString());
+                Ils.Dias = string.IsNullOrEmpty(msdr.GetValue(8).ToString()) ? "" : msdr.GetValue(8).ToString();
 
-  
+                ILIL.Add(Ils);
+            }
+            conn.Close();
+            return ILIL;
+        }
+
+
+
         public Models.SyncPSAV.SalonILWF GetOneSalonILWF(string idtl)
         {
             string QueryILIL = "SELECT * FROM psav_dev.tm_itemlistevtwf where tmitlwf_id=" + idtl;
@@ -1448,6 +1502,18 @@ namespace GCCorePSAV.Data
             string lastID = cmd.LastInsertedId.ToString();
             conn.Close();
         }
+
+        public string Insertnewitemlist(Models.ItemListModel.ItemListEventModel model, string IDEvento)
+        {
+            string ConsSQL = "insert into tm_newitemlist(tme_id) values(" + IDEvento + ",'"  + "')";
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(ConsSQL, conn);
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            string LastID = cmd.LastInsertedId.ToString();
+            conn.Close();
+            return LastID;
+        }
         public string InsertTMItemList(Models.ItemListModel.ItemListEventModel model, string IDEvento)
         {
             string ConsSQL = "insert into tm_itemlistevt(tme_id,tmitl_salon,tmitl_asistentes,tmitl_montaje,tmitl_horario) values(" + IDEvento + ",'" + model.Salon + "','" + model.Asistentes + "','" + model.Montaje + "','" + model.Horario + "')";
@@ -1469,6 +1535,18 @@ namespace GCCorePSAV.Data
             string LastID = cmd.LastInsertedId.ToString();
             conn.Close();
             return LastID;
+        }
+
+        public void SaveItemList(List<Models.SyncPSAV.Newitemslist> lmo, string IDITLE, string IDEVN)
+        {
+
+            string ConsSQL = "insert into td_itemlist(tmilt_id) values(" + IDITLE + "')";
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(ConsSQL, conn);
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            //
         }
         public void SaveItemListDetail(List<Models.SyncPSAV.ItemListServices> lmo, string IDITLE,string IDEVN)
         {

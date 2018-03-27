@@ -247,22 +247,71 @@ namespace GCCorePSAV.Controllers
             mode.EventoName = Request.Cookies["EVN"].ToString();
             mode.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());
             
-                BindServList(); BindServListWF(); BindSubList(); BindAccesList(); BindNotList(); BindItemist(); 
+                BindServList(); BindServListWF();  
                 ViewBag.datasourcedrop = ConSQL.GetListCategory("1");//aquí se estan guardando toda la lista de Categoria
                 ViewBag.datasourcedrop2 = ConSQL.GetListCategory("2");//Aquí se estan  guardando toda la lista de workforce
-                ViewBag.datasourcedrop3 = ConSQL.GetListsubCategory("3");//Aquí se estan  guardando toda la lista de subcategoria
-                ViewBag.datasourcedrop4 = ConSQL.GetListAcceso("4");   
+                  
                 ViewBag.datasource = ServList;
                 ViewBag.datasource2 = WFList;
-                ViewBag.datasource3 = SubList;
-                ViewBag.datasource4 = accesList;
+                ViewBag.datasource3 = newList;
+                
 
             return View(mode);
         }
+
+        public IActionResult PN()
+        {
+            Models.ItemListModel.ItemListEventModel Newitems = new Models.ItemListModel.ItemListEventModel();
+            Newitems.EventoName = Request.Cookies["EVN"].ToString();
+            BindSubList(); 
+            Newitems.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());
+            ViewBag.datasourcedrop3 = ConSQL.GetListsubCategory("3");//Aquí se estan  guardando toda la lista de subcategoria
+            ViewBag.datasourcedrop4 = ConSQL.GetListAcceso("4");
+
+            return View(Newitems);
+        }
+
+        public IActionResult PN(Models.ItemListModel.ItemListEventModel mod2, string Advance)
+        {
+            if (!string.IsNullOrEmpty(Advance))//Esta parte es cuando guardamos salon
+            {
+                string IDPM = "";//aqui preparamos las variables para recibir un valor
+                switch (Advance)
+                {
+                    case "0": //en el caso 0 va a hacer lo siguiente
+                        //IDPM = ConSQL.Insertnewitemlist(mod, Request.Cookies["IDE"].ToString());//en esta variable guardaremos el valor 102
+                        mod2 = new Models.ItemListModel.ItemListEventModel();//estamos accesando a las propiedades del modelo itemlistevent
+                        mod2.EventoName = Request.Cookies["EVN"].ToString();//En la propiedad eventoname estamos guardando el valor de fin de mes 1
+                        mod2.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());//Estamos guardando el valor de ID 0
+                        //ConSQL.SaveItemList(newList, IDPM, Request.Cookies["IDE"].ToString());//Estamos guardando en BD las variables en corchetes
+                        ViewBag.datasourcedrop = ConSQL.GetListsubCategory("1");//Se esta guardando una cuenta de 11
+                        ViewBag.datasourcedrop2 = ConSQL.GetListsubCategory("2");//Se esta guardando una cuenta de 5
+                        newList = new List<Models.SyncPSAV.Newitemslist>();//estamos guardando los datos obtenidos  
+                        mod2 = new Models.ItemListModel.ItemListEventModel();
+                        ViewBag.datasource = newList; 
+                        mod2 = new Models.ItemListModel.ItemListEventModel();
+                        return View(mod2); break;//estamos regresando la vista con los valores dados
+                    case "1":
+                        newList = new List<Models.SyncPSAV.Newitemslist>();
+                        return RedirectToAction("VtaDesc"); break;
+                    //case "2":
+                      //  IDITL = ConSQL.InsertTMItemList(mod, Request.Cookies["IDE"].ToString());
+                        
+                        //mod = new Models.ItemListModel.ItemListEventModel();
+                        //mod.EventoName = Request.Cookies["EVN"].ToString();
+                        //mod.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());
+                        //ConSQL.SaveItemListDetail(ServList, IDITL, Request.Cookies["IDE"].ToString());
+                        //ConSQL.SaveItemListWFDetail(WFList, IDITLWF, Request.Cookies["IDE"].ToString());
+                        //return RedirectToAction("EPT"); break;
+                }
+            }
+            return View();
+        }
+
         [HttpPost]
         public IActionResult IL(Models.ItemListModel.ItemListEventModel mod, string Advance)
         {
-            if (!string.IsNullOrEmpty(Advance))
+            if (!string.IsNullOrEmpty(Advance))//Esta parte es cuando guardamos salon
             {
                 string IDITL = ""; string IDITLWF = "";//aqui preparamos las variables para recibir un valor
                 switch (Advance)
@@ -349,43 +398,51 @@ namespace GCCorePSAV.Controllers
         public static List<Models.SyncPSAV.ItemListServices> ServList = new List<Models.SyncPSAV.ItemListServices>();
         public static List<Models.SyncPSAV.ItemListServicesEdit> ServListe = new List<Models.SyncPSAV.ItemListServicesEdit>();
         //Subcategoria
-        public static List<Models.SyncPSAV.subcategorialist> SubList = new List<Models.SyncPSAV.subcategorialist>();
-        public static List<Models.SyncPSAV.subcategorialistedit> SubListeed= new List<Models.SyncPSAV.subcategorialistedit>();
+        public static List<Models.SyncPSAV.Newitemslist> newList = new List<Models.SyncPSAV.Newitemslist>();
+        public static List<Models.SyncPSAV.NewitemlistEdit> newListeed= new List<Models.SyncPSAV.NewitemlistEdit>();
         //Accesorios
-        public static List<Models.SyncPSAV.Accerosioslist> accesList = new List<Models.SyncPSAV.Accerosioslist>();
-        public static List<Models.SyncPSAV.Accerosioslistedit> accesListeedit = new List<Models.SyncPSAV.Accerosioslistedit>();
+        //public static List<Models.SyncPSAV.Accerosioslist> accesList = new List<Models.SyncPSAV.Accerosioslist>();
+        //public static List<Models.SyncPSAV.Accerosioslistedit> accesListeedit = new List<Models.SyncPSAV.Accerosioslistedit>();
         //item
-        public static List<Models.SyncPSAV.itemlist> itemList = new List<Models.SyncPSAV.itemlist>();
-        public static List<Models.SyncPSAV.itemlistedit> ietmListeedit = new List<Models.SyncPSAV.itemlistedit>();
+        //public static List<Models.SyncPSAV.itemlist> itemList = new List<Models.SyncPSAV.itemlist>();
+        //public static List<Models.SyncPSAV.itemlistedit> ietmListeedit = new List<Models.SyncPSAV.itemlistedit>();
         //notas
-        public static List<Models.SyncPSAV.Notaslist> notasList = new List<Models.SyncPSAV.Notaslist>();
-        public static List<Models.SyncPSAV.Notaslistedit> notasedit = new List<Models.SyncPSAV.Notaslistedit>();
+        //public static List<Models.SyncPSAV.Notaslist> notasList = new List<Models.SyncPSAV.Notaslist>();
+        //public static List<Models.SyncPSAV.Notaslistedit> notasedit = new List<Models.SyncPSAV.Notaslistedit>();
 
         //categoria
         public void BindServList() { ServList = new List<Models.SyncPSAV.ItemListServices>(); }
         //SubCategoria
-        public void BindSubList() { SubList = new List<Models.SyncPSAV.subcategorialist>(); }
+        public void BindSubList() { newList = new List<Models.SyncPSAV.Newitemslist>(); }
         //Accesorios
-        public void BindAccesList() { accesList = new List<Models.SyncPSAV.Accerosioslist>(); }
+        //public void BindAccesList() { accesList = new List<Models.SyncPSAV.Accerosioslist>(); }
         //items
-        public void BindItemist() { itemList = new List<Models.SyncPSAV.itemlist>(); }
+        //public void BindItemist() { itemList = new List<Models.SyncPSAV.itemlist>(); }
         //notas
-        public void BindNotList() { notasList = new List<Models.SyncPSAV.Notaslist>(); }
+        //public void BindNotList() { notasList = new List<Models.SyncPSAV.Notaslist>(); }
         //Botones para agregar, eliminar y editar tabla
 
-        public ActionResult subcatUpdate([FromBody]CRUDModel<Models.SyncPSAV.subcategorialist> myObject2)
+        public ActionResult newitemUpdate([FromBody]CRUDModel<Models.SyncPSAV.Newitemslist> myObject2)
         {
             var ord = myObject2.Value;
-            Models.SyncPSAV.subcategorialist val = SubList.Where(or => or.ID == ord.ID).FirstOrDefault();
-            val.ID = ord.ID; val.subcategoria = ord.subcategoria; 
+            Models.SyncPSAV.Newitemslist val2 = newList.Where(or => or.ID == ord.ID).FirstOrDefault();
+            val2.ID = ord.ID; val2.Subcategoria = ord.Subcategoria; val2.Accesorios = val2.Accesorios; 
             return Json(myObject2.Value);
+        }
+
+        public ActionResult newitemInsert([FromBody]CRUDModel<Models.SyncPSAV.Newitemslist> value2)
+        {
+            Models.SyncPSAV.Newitemslist val2 = value2.Value;
+            val2.IDEvento = Convert.ToInt32(Request.Cookies["IDEVNN"].ToString());
+            newList.Add(val2);
+            return Json(ServList);
         }
         public ActionResult ItemListNormalUpdate([FromBody]CRUDModel<Models.SyncPSAV.ItemListServices> myObject)
         {
             var ord = myObject.Value;
             Models.SyncPSAV.ItemListServices val = ServList.Where(or => or.ID == ord.ID).FirstOrDefault();
             val.ID = ord.ID; val.Cantidad = ord.Cantidad; val.Categoria = ord.Categoria; val.Clave = ord.Clave; val.Descripcion = ord.Descripcion;
-            val.Dias = ord.Dias; val.PrecioUnit = ord.PrecioUnit; val.Subcategoria = ord.Subcategoria;
+            val.Dias = ord.Dias; val.PrecioUnit = ord.PrecioUnit; 
             return Json(myObject.Value);
         }
         public ActionResult ItemListNormalInsert([FromBody]CRUDModel<Models.SyncPSAV.ItemListServices> value)

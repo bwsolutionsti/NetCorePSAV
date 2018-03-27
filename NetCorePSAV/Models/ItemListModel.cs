@@ -36,9 +36,9 @@ namespace GCCorePSAV.Models
             [Display(Prompt ="Precio Unitario")]
             public string PrecioUnit { get; set; }
             public List<Models.ItemListModel.ItemListServices> ServList { get; set; }
+            public List<Models.ItemListModel.newitemservices> Newservs { get; set; }
             public string Seccion { get; set; }
-            public string Categoria { get; set; }
-            public string Subcategoria { get; set; }
+           
         }
         public class ItemListServices
         {
@@ -48,8 +48,6 @@ namespace GCCorePSAV.Models
             public string Dias { get; set; }
             public string Descripcion { get; set; }
             public string PrecioUnit { get; set; }
-            public string Categoria { get; set; }
-            public string Subcategoria { get; set; }
         }
         public class ItemListWorkForce
         {
@@ -67,6 +65,15 @@ namespace GCCorePSAV.Models
             public string ID { get; set; }
             public string Catego { get; set; }
             
+        }
+
+        public class newitemservices
+        {
+            public string ID { get; set; }
+            public string Subcategoria { get; set; }
+            public string Accesorios { get; set; }
+            public string Items { get; set; }
+            public string Notas { get; set; }
         }
 
         public class SubcategoryItemlist

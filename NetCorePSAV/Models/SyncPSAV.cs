@@ -54,7 +54,7 @@ namespace GCCorePSAV.Models
             public string Descripcion { get; set; }
             public string PrecioUnit { get; set; }
             public string Categoria { get; set; }
-            public string Subcategoria { get; set; }
+           
         }
 
         public class ItemListServicesEdit
@@ -71,7 +71,28 @@ namespace GCCorePSAV.Models
             public Caategoria Categoria { get; set; }
         }
 
-        
+        //Newitemslist
+        public class Newitemslist
+        {
+            public int IDEvento { get; set; }
+            [Key]
+            public string ID { get; set; }
+            public string IDPM { get; set; }
+            public string Subcategoria { get; set; }
+            public string Accesorios { get; set; }
+            public string Items { get; set; }
+            public string Notas { get; set; }
+        }
+
+        public class NewitemlistEdit
+        {
+            public int IDEvento { get; set; }
+            [Key]
+            public string ID { get; set; }
+            public string IDPM { get; set; }
+            public SubCaategoria Subcategoria { get; set; }
+        }
+
         public class ItemCategory
         {
             public string ID { get; set; }
