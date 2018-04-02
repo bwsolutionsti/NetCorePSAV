@@ -1,0 +1,73 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using GCCorePSAV.Models
+@using GCCorePSAV.Controllers.Services
+@using Syncfusion.JavaScript
+@using Syncfusion.JavaScript.DataVisualization
+@using Syncfusion.MVC.EJ
+@using Syncfusion.Linq
+@model ItemListModel.ItemListEventModel
+@inject LoggedInComponent Lgc
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
+@if (Lgc.isAuth)
+{
+    <br />
+    <div class="container-fluid">
+        <form method="post" asp-action="IL" asp-controller="PSAV">
+            <input type="hidden" name="Advance" id="Advance" value="0" />
+            <div class="row">
+                <h5>Detalle Evento</h5>
+                <hr />
+                <h6>Datos del Evento</h6>
+                <table border="0" class="table" width="100%">
+                    <thead>
+                        <tr><th>Evento</th></tr>
+                    </thead>
+                    <tr>
+                        <td><div class="form-group"><label asp-for="EventoName" class="control-label"></label><input asp-for="EventoName" class="form-control" disabled value="@HttpContextAccessor.HttpContext.Request.Cookies["EVN"]" /></div></td>
+                    </tr>
+                    <tr>
+                        <th>Salon</th>
+                    </tr>
+                    <tr><td><div class="form-group"><input asp-for="Salon" class="form-control" /></div></td></tr>
+                    <tr>
+                        <th># Asistentes</th>
+                    </tr>
+                    <tr><td><div class="form-group"><input asp-for="Asistentes" class="form-control" /></div></td></tr>
+                    <tr>
+                        <th>Fecha Montaje</th>
+                    </tr>
+                    <tr><td><div class="form-group"><input asp-for="Montaje" class="form-control" /></div></td></tr>
+                    <tr>
+                        <th>Horario</th>
+                    </tr>
+                    <tr><td><div class="form-group"><input asp-for="Horario" class="form-control" /></div></td></tr>
+                </table>
+            </div>
+            <div class="row">
+                <table>
+                    <tr>
+                        <td>
+                            <span>Categoria</span><input type="text" name="Categoria" />                            
+                            @(Html.EJ().DropDownList("Categoria").Datasource((IEnumerable<GCCorePSAV.Models.ItemListModel.CategoryItemList>)ViewBag.datasource).DropDownListFields(Df=>Df.Text("Catego").ID("ID").Value("ID")).CascadeTo("SubCategoria").AllowVirtualScrolling(true).VirtualScrollMode(VirtualScrollMode.Normal).WatermarkText("Seleccione Categoría").EnableAnimation(true).EnableIncrementalSearch(true).CaseSensitiveSearch(false).Width("200"))
+                        </td>
+                        <td>
+                            <span>SubCategoría</span>
+                            @Html.EJ().DropDownList("SubCategoria").Datasource((IEnumerable<object>)ViewBag.datasource2).DropDownListFields(Df=>Df.Text("Subcatego").ID("ID").Value("ID")).CascadeTo("Item")
+                        </td>
+                        <td>
+                            <span>Item</span>
+                            @Html.EJ().DropDownList("Item").Datasource((IEnumerable<object>)ViewBag.datasource3).DropDownListFields(Df=>Df.Text("Text").ID("ID").Value("ID"))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="btn-info" value="AddCat">Agregar</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            </form>
+        </div>
+            }

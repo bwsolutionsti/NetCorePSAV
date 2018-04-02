@@ -44,9 +44,16 @@
     <script src="~/SyncEj/js/jquery.validate.js"></script>
     <script src="~/SyncEj/js/jquery.validate.unobtrusive.js"></script>
     <script src="~/SyncEj/js/jquery.easing.js"></script>
+    <script src="~/SyncEj/js/ej.core.min.js"></script>
+    <script src="~/SyncEj/js/ej.data.min.js"></script>
+    <script src="~/SyncEj/js/ej.dropdownlist.min.js"></script>
+    <script src="~/SyncEj/js/ej.scroller.min.js"></script>
+    <script src="~/SyncEj/js/ej.draggable.min.js"></script>
+    <script src="~/SyncEj/js/ej.unobtrusive.min.js"></script>
+    
     @*<script src="~/SyncEj/js/jquery-3.1.1.min.js"></script>*@
     
-
+    <script src="~/SyncEj/js/jquery.easing.js"></script>
 </head>
 <body onload="prevent_previous_page_return()">
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -83,11 +90,11 @@
     </environment>
     <environment names="Staging,Production">
         @*<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                @*asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-        </script>*@
+                    @*asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                    asp-fallback-test="window.jQuery"
+                    crossorigin="anonymous"
+                    integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+            </script>*@
         <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
@@ -96,9 +103,9 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
-    
+    @Html.EJ().ScriptManager()
     @RenderSection("Scripts", required: false)
-    
+
 </body>
 
 </html>

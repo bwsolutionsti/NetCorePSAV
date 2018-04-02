@@ -129,7 +129,7 @@ namespace GCCorePSAV.Controllers
                         Response.Cookies.Append("EVN", model.EventName, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                         ViewBag.CategoriaList = ConSQL.GetCategoryItemList(1);
                         ViewBag.SubcategoriaList = ConSQL.GetSubcategoryItemList(1);
-                        return RedirectToAction("IL");
+                        return RedirectToAction("NIL");
                     }
                     else
                     {
@@ -138,6 +138,12 @@ namespace GCCorePSAV.Controllers
                     }
                 }
             }
+        }
+        public IActionResult NIL()
+        {
+            ViewBag.datasource = ConSQL.GetCategoryItemList(1);
+            ViewBag.datasource2 = ConSQL.GetSubcategoryItemList(1);
+            return View();
         }
         [HttpPost]
         public IActionResult NewEPTs(Models.EPTModel model)
