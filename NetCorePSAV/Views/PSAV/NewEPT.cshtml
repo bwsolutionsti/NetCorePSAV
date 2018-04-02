@@ -204,13 +204,23 @@
                                                         </thead>
                                                         <tbody>
                                                             <tr>
-                                                                <td><div class="form-group"><label asp-for="SMName" class="control-label"></label><input asp-for="SMName" class="form-control" /></div></td>
+                                                                <td>
+                                                                    <select name="RepVtas" class="form-control">
+                                                                        @foreach (var pmgr in ViewBag.RepVtas)
+                {
+                                                        <option value="@pmgr.IDRepVtas">@pmgr.NombreCompleto</option>
+}
+                                                                    </select>
+                                                                </td>
                                                             </tr>
-                                                            <tr><td><div class="form-group"><label asp-for="SMJob" class="control-label"></label><input asp-for="SMJob" class="form-control" /></div></td></tr>
-                                                            <tr><td><div class="form-group"><label asp-for="SMEmail" class="control-label"></label><input asp-for="SMEmail" class="form-control" /></div></td></tr>
-                                                            <tr>
-                                                                <td><div class="form-group"><label asp-for="SMPhone" class="control-label"></label><input asp-for="SMPhone" class="form-control" /></div></td>
-                                                            </tr>
+                                                            @*<tr>
+            <td><div class="form-group"><label asp-for="SMName" class="control-label"></label><input asp-for="SMName" class="form-control" /></div></td>
+        </tr>
+        <tr><td><div class="form-group"><label asp-for="SMJob" class="control-label"></label><input asp-for="SMJob" class="form-control" /></div></td></tr>
+        <tr><td><div class="form-group"><label asp-for="SMEmail" class="control-label"></label><input asp-for="SMEmail" class="form-control" /></div></td></tr>
+        <tr>
+            <td><div class="form-group"><label asp-for="SMPhone" class="control-label"></label><input asp-for="SMPhone" class="form-control" /></div></td>
+        </tr>*@
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -223,13 +233,22 @@
                                                         </thead>
                                                         <tbody>
                                                             <tr>
+                                                                <td>
+                                                                    <select name="PMgr" class="form-control">
+                                                                        @foreach (var pmgr in ViewBag.Productores) {
+                                                                        <option value="@pmgr.IDProd">@pmgr.NombreCompleto</option>
+                                                                        }
+                                                                    </select>
+                                                                </td>
+                                                            </tr>
+                                                            @*<tr>
                                                                 <td><div class="form-group"><label asp-for="PMName" class="control-label"></label><input asp-for="PMName" class="form-control" /></div></td>
                                                             </tr>
                                                             <tr><td><div class="form-group"><label asp-for="PMMobile" class="control-label"></label><input asp-for="PMMobile" class="form-control" /></div></td></tr>
                                                             <tr><td><div class="form-group"><label asp-for="PMEmail" class="control-label"></label><input asp-for="PMEmail" class="form-control" /></div></td></tr>
                                                             <tr>
                                                                 <td><div class="form-group"><label asp-for="PMLocation" class="control-label"></label><input asp-for="PMLocation" class="form-control" /></div></td>
-                                                            </tr>
+                                                            </tr>*@
                                                         </tbody>
                                                     </table>
                                                 </div>

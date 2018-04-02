@@ -6,9 +6,20 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GCCorePSAV.Models
 {
-    
+    public class RepVtas
+    {
+        public string NombreCompleto { get; set; }
+        public string IDRepVtas { get; set; }
+    }
+    public class Productores
+    {
+        public string NombreCompleto { get; set; }
+        public string IDProd { get; set; }
+    }
     public class EPTModel
     {
+        public string RepVtas { get; set; }
+        public string PMgr { get; set; }
         [Display(Name ="# EPT")]
         [Required]
         public string EPTNumber { get; set; }

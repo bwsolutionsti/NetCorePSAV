@@ -468,6 +468,52 @@ namespace GCCorePSAV.Data
         #endregion
         #endregion
         #region EPT
+        public List<Models.RepVtas> RepVtas()
+        {
+            List<Models.RepVtas> VD = new List<Models.RepVtas>();
+            string QuerySearch = "SELECT * FROM psav_dev.tc_repventas";
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                Models.RepVtas RV = new Models.RepVtas();
+                RV.IDRepVtas = msdr.GetValue(0).ToString();
+                RV.NombreCompleto = GetFullNameByIDPerson(msdr.GetValue(1).ToString());
+                VD.Add(RV);
+            }
+            conn.Close();
+            return VD;
+        }
+        public List<Models.Productores> Productores()
+        {
+            List<Models.Productores> VD = new List<Models.Productores>();
+            string QuerySearch = "SELECT * FROM psav_dev.tc_prod";
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                Models.Productores RV = new Models.Productores();
+                RV.IDProd = msdr.GetValue(0).ToString();
+                RV.NombreCompleto = GetFullNameByIDPerson(msdr.GetValue(1).ToString());
+                VD.Add(RV);
+            }
+            conn.Close();
+            return VD;
+        }
+        public string GetFullNameByIDPerson(string IDPerson)
+        {
+            string QuerySearch = "SELECT Concat(ifnull(tmp_firstname,''),' ',ifnull(tmp_secondname,''),' ',ifnull(tmp_lastname,''),' ',ifnull(tmp_seclastname,'')) as persona FROM psav_dev.tm_person where tmp_id=" + IDPerson;
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
+            conn.Open();
+            string retorno = cmd.ExecuteScalar().ToString();
+            conn.Close();
+            return retorno;
+        }
         public List<Models.SyncPSAV.VentaDes> VDesCount(string ide)
         {
             List<Models.SyncPSAV.VentaDes> VD = new List<Models.SyncPSAV.VentaDes>();

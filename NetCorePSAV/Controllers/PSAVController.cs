@@ -48,6 +48,8 @@ namespace GCCorePSAV.Controllers
             ViewBag.CoinsList = CoinsList;
             ViewBag.PriceList = PriceList;
             ViewBag.EPTNumberFormat = ConSQL.GetEPTNumber(System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Request.Cookies["pandoraRules"].ToString())));
+            ViewBag.RepVtas = ConSQL.RepVtas();
+            ViewBag.Productores = ConSQL.Productores();
             return View(new Models.EPTModel());
         }
         [HttpPost]
@@ -61,6 +63,8 @@ namespace GCCorePSAV.Controllers
                 List<Models.PSAVCrud.ClientModel.ClientAutoComplete> ClientList = ConSQL.GetAutoClients();
                 ViewBag.ClientList = ClientList;
                 ViewBag.CoinsList = CoinsList;
+                ViewBag.RepVtas = ConSQL.RepVtas();
+                ViewBag.Productores = ConSQL.Productores();
                 List<Models.PSAVCrud.ClientModel.ClientSearch> Clients = ConSQL.GetClientID(eptM.IDClient);
                 for (int i = 0; i < Clients.Count; i++)
                 {
@@ -87,6 +91,8 @@ namespace GCCorePSAV.Controllers
                     ViewBag.ClientList = ClientList;
                     ViewBag.CoinsList = CoinsList;
                     ViewBag.Pricelist = pricelists;
+                    ViewBag.RepVtas = ConSQL.RepVtas();
+                    ViewBag.Productores = ConSQL.Productores();
                     List<Models.PSAVCrud.ClientModel.ClientSearch> Clients = ConSQL.GetClient(ac1);
                     Models.EPTModel ept = new Models.EPTModel();
                     for (int i = 0; i < Clients.Count; i++)
