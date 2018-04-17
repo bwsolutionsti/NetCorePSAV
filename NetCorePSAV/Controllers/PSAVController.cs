@@ -184,7 +184,7 @@ namespace GCCorePSAV.Controllers
                         break;
                     case "2"://vdesc
                         ServList = new List<Models.SyncPSAV.ItemListServices>();
-                        ConSQL.SaveIL(iL, Request.Cookies["IDE"].ToString());
+                        ConSQL.SaveIL(ListGridIL, Request.Cookies["IDE"].ToString());
                         return RedirectToAction("VtaDesc"); break;
                     case "3"://borrador                       
                         return RedirectToAction("EPT"); 
