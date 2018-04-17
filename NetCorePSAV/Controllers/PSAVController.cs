@@ -174,19 +174,82 @@ namespace GCCorePSAV.Controllers
                 }
                 ViewBag.datasourceILI = ListGridIL;
             }
+            string IDITL = "";
+            string IDITLWF = "";
             if (!string.IsNullOrEmpty(AddOne))
             {
                 switch (AddOne)
                 {
                     case "1"://guardar
                         List<NetCorePSAV.Models.ILNewModel.ILGrid> iL = ListGridIL;
+                        IDITL = ConSQL.InsertTMItemList(ILM, Request.Cookies["IDE"].ToString());//en esta variable guardaremos el valor 102
+                        IDITLWF = ConSQL.InsertTMItemListWF(ILM, Request.Cookies["IDE"].ToString());//en esta variable guardaremos 90
+                        ILM = new Models.ItemListModel.ItemListEventModel();//estamos accesando a las propiedades del modelo itemlistevent
+                        ILM.EventoName = Request.Cookies["EVN"].ToString();//En la propiedad eventoname estamos guardando el valor de fin de mes 1
+                        ILM.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());//Estamos guardando el valor de ID 0
+                        //ConSQL.SaveItemListDetail(ServList, IDITL, Request.Cookies["IDE"].ToString());//Estamos guardando en BD las variables en corchetes
+                        ConSQL.SaveItemListWFDetail(WFList, IDITLWF, Request.Cookies["IDE"].ToString());
+                        ViewBag.datasourcedrop = ConSQL.GetListCategory("1");//Se esta guardando una cuenta de 11
+                        ViewBag.datasourcedrop2 = ConSQL.GetListCategory("2");//Se esta guardando una cuenta de 5
+                        ServList = new List<Models.SyncPSAV.ItemListServices>();//estamos guardando los datos obtenidos 
+                        WFList = new List<Models.SyncPSAV.ItemListWorkForce>();
+                        ILM = new Models.ItemListModel.ItemListEventModel();
+                        ViewBag.datasource = ServList;
+                        ViewBag.datasource2 = WFList;
+                        ILM = new Models.ItemListModel.ItemListEventModel();
                         ConSQL.SaveIL(iL, Request.Cookies["IDE"].ToString());
+                        ViewBag.datasourceC = ConSQL.GetCategories();
+                        ViewBag.datasourceSC = ConSQL.GetSubCategories();
+                        ViewBag.datasourceI = ConSQL.GetItems();
+                        ListGridIL = new List<NetCorePSAV.Models.ILNewModel.ILGrid>();
                         break;
                     case "2"://vdesc
+                        //List<NetCorePSAV.Models.ILNewModel.ILGrid> iL = ListGridIL;
+                        IDITL = ConSQL.InsertTMItemList(ILM, Request.Cookies["IDE"].ToString());//en esta variable guardaremos el valor 102
+                        IDITLWF = ConSQL.InsertTMItemListWF(ILM, Request.Cookies["IDE"].ToString());//en esta variable guardaremos 90
+                        ILM = new Models.ItemListModel.ItemListEventModel();//estamos accesando a las propiedades del modelo itemlistevent
+                        ILM.EventoName = Request.Cookies["EVN"].ToString();//En la propiedad eventoname estamos guardando el valor de fin de mes 1
+                        ILM.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());//Estamos guardando el valor de ID 0
+                        //ConSQL.SaveItemListDetail(ServList, IDITL, Request.Cookies["IDE"].ToString());//Estamos guardando en BD las variables en corchetes
+                        ConSQL.SaveItemListWFDetail(WFList, IDITLWF, Request.Cookies["IDE"].ToString());
+                        ViewBag.datasourcedrop = ConSQL.GetListCategory("1");//Se esta guardando una cuenta de 11
+                        ViewBag.datasourcedrop2 = ConSQL.GetListCategory("2");//Se esta guardando una cuenta de 5
+                        ServList = new List<Models.SyncPSAV.ItemListServices>();//estamos guardando los datos obtenidos 
+                        WFList = new List<Models.SyncPSAV.ItemListWorkForce>();
+                        ILM = new Models.ItemListModel.ItemListEventModel();
+                        ViewBag.datasource = ServList;
+                        ViewBag.datasource2 = WFList;
+                        ILM = new Models.ItemListModel.ItemListEventModel();
+                        ConSQL.SaveIL(ListGridIL, Request.Cookies["IDE"].ToString());
+                        ViewBag.datasourceC = ConSQL.GetCategories();
+                        ViewBag.datasourceSC = ConSQL.GetSubCategories();
+                        ViewBag.datasourceI = ConSQL.GetItems();
+                        ListGridIL = new List<NetCorePSAV.Models.ILNewModel.ILGrid>();
                         ServList = new List<Models.SyncPSAV.ItemListServices>();
                         ConSQL.SaveIL(ListGridIL, Request.Cookies["IDE"].ToString());
                         return RedirectToAction("VtaDesc"); break;
-                    case "3"://borrador                       
+                    case "3"://borrador     
+                        //List<NetCorePSAV.Models.ILNewModel.ILGrid> iL = ListGridIL;
+                        IDITL = ConSQL.InsertTMItemList(ILM, Request.Cookies["IDE"].ToString());//en esta variable guardaremos el valor 102
+                        IDITLWF = ConSQL.InsertTMItemListWF(ILM, Request.Cookies["IDE"].ToString());//en esta variable guardaremos 90
+                        ILM = new Models.ItemListModel.ItemListEventModel();//estamos accesando a las propiedades del modelo itemlistevent
+                        ILM.EventoName = Request.Cookies["EVN"].ToString();//En la propiedad eventoname estamos guardando el valor de fin de mes 1
+                        ILM.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());//Estamos guardando el valor de ID 0
+                        //ConSQL.SaveItemListDetail(ServList, IDITL, Request.Cookies["IDE"].ToString());//Estamos guardando en BD las variables en corchetes
+                        ConSQL.SaveItemListWFDetail(WFList, IDITLWF, Request.Cookies["IDE"].ToString());
+                        ViewBag.datasourcedrop = ConSQL.GetListCategory("1");//Se esta guardando una cuenta de 11
+                        ViewBag.datasourcedrop2 = ConSQL.GetListCategory("2");//Se esta guardando una cuenta de 5
+                        ServList = new List<Models.SyncPSAV.ItemListServices>();//estamos guardando los datos obtenidos 
+                        WFList = new List<Models.SyncPSAV.ItemListWorkForce>();
+                        ILM = new Models.ItemListModel.ItemListEventModel();
+                        ViewBag.datasource = ServList;
+                        ViewBag.datasource2 = WFList;
+                        ILM = new Models.ItemListModel.ItemListEventModel();
+                        ConSQL.SaveIL(ListGridIL, Request.Cookies["IDE"].ToString());
+                        ViewBag.datasourceC = ConSQL.GetCategories();
+                        ViewBag.datasourceSC = ConSQL.GetSubCategories();
+                        ViewBag.datasourceI = ConSQL.GetItems();
+                        ListGridIL = new List<NetCorePSAV.Models.ILNewModel.ILGrid>();
                         return RedirectToAction("EPT"); 
                         break;
                 }
