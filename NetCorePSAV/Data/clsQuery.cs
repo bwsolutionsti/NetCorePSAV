@@ -542,7 +542,68 @@ namespace GCCorePSAV.Data
             return VD;
         }
 
-       
+       //cambios NIL
+       public List<NetCorePSAV.Models.ILNewModel.Category> GetCategories()
+        {
+            List<NetCorePSAV.Models.ILNewModel.Category> categories = new List<NetCorePSAV.Models.ILNewModel.Category>();
+            string QuerySearch = "SELECT * FROM psav_dev.tc_category";
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                NetCorePSAV.Models.ILNewModel.Category category = new NetCorePSAV.Models.ILNewModel.Category();
+                category.ParentID = msdr.GetValue(0).ToString();
+                category.Nombre = msdr.GetValue(1).ToString();
+                category.Tipo = msdr.GetValue(2).ToString();
+                categories.Add(category);
+            }
+            conn.Close();
+            return categories;
+        }
+        public List<NetCorePSAV.Models.ILNewModel.SubCategory> GetSubCategories()
+        {
+            List<NetCorePSAV.Models.ILNewModel.SubCategory> categories = new List<NetCorePSAV.Models.ILNewModel.SubCategory>();
+            string QuerySearch = "SELECT * FROM psav_dev.tc_subcategoria";
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                NetCorePSAV.Models.ILNewModel.SubCategory category = new NetCorePSAV.Models.ILNewModel.SubCategory();
+                category.ParentID = msdr.GetValue(3).ToString();
+                category.Nombre = msdr.GetValue(1).ToString();
+                category.SCID = msdr.GetValue(0).ToString();
+                categories.Add(category);
+            }
+            conn.Close();
+            return categories;
+        }
+        public List<NetCorePSAV.Models.ILNewModel.Items> GetItems()
+        {
+            List<NetCorePSAV.Models.ILNewModel.Items> categories = new List<NetCorePSAV.Models.ILNewModel.Items>();
+            string QuerySearch = "SELECT * FROM psav_dev.tc_items";
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                NetCorePSAV.Models.ILNewModel.Items category = new NetCorePSAV.Models.ILNewModel.Items();
+                category.ParentID = msdr.GetValue(2).ToString();
+                category.SCID = msdr.GetValue(3).ToString();
+                category.descripcion = msdr.GetValue(4).ToString();
+                category.comentarios = msdr.GetValue(5).ToString();
+                category.incluye = msdr.GetValue(6).ToString();
+                category.precio = msdr.GetValue(7).ToString();
+                category.ID = msdr.GetValue(0).ToString();
+                categories.Add(category);
+            }
+            conn.Close();
+            return categories;
+        }
 
         //freelance
         public void UpdateOL(List<Models.SyncPSAV.FreelanceOL> FOList, List<Models.SyncPSAV.Viaticos> ViaticosL, List<Models.SyncPSAV.VentasFeeTot> ComVenL,

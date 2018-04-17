@@ -12,9 +12,21 @@
 @await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
 @if (Lgc.isAuth)
 {
+    <script type="text/javascript">
+        function submitForm() {
+            var form = document.forms['myForm'];
+            // form.action = 'put your url here';
+            var el = document.createElement("input");
+            el.type = "hidden";
+            el.name = "AddCat";
+            el.value = "1";
+            form.appendChild(el);
+            form.submit();
+        }
+    </script>
     <br />
     <div class="container-fluid">
-        <form method="post" asp-action="IL" asp-controller="PSAV">
+        <form method="post" asp-action="NIL" asp-controller="PSAV" name="myForm">
             <input type="hidden" name="Advance" id="Advance" value="0" />
             <div class="row">
                 <h5>Detalle Evento</h5>
@@ -46,28 +58,83 @@
                 </table>
             </div>
             <div class="row">
-                <table>
+                <table width="100%">
                     <tr>
-                        <td>
-                            <span>Categoria</span><input type="text" name="Categoria" />                            
-                            @(Html.EJ().DropDownList("Categoria").Datasource((IEnumerable<GCCorePSAV.Models.ItemListModel.CategoryItemList>)ViewBag.datasource).DropDownListFields(Df=>Df.Text("Catego").ID("ID").Value("ID")).CascadeTo("SubCategoria").AllowVirtualScrolling(true).VirtualScrollMode(VirtualScrollMode.Normal).WatermarkText("Seleccione Categoría").EnableAnimation(true).EnableIncrementalSearch(true).CaseSensitiveSearch(false).Width("200"))
+                        <td width="25%">
+                            <span>Categoria</span>
+                            <ej-drop-down-list id="Categoria" datasource="ViewBag.datasource" watermark-text="Seleccione Categoria" cascade-to="SubCategoria" width="100%">
+                                <e-drop-down-list-fields text="Nombre" id="ParentID" value="ParentID" />
+                            </ej-drop-down-list>
                         </td>
-                        <td>
+                        <td width="25%">
                             <span>SubCategoría</span>
-                            @Html.EJ().DropDownList("SubCategoria").Datasource((IEnumerable<object>)ViewBag.datasource2).DropDownListFields(Df=>Df.Text("Subcatego").ID("ID").Value("ID")).CascadeTo("Item")
+                            <ej-drop-down-list id="SubCategoria" datasource="ViewBag.datasource2" watermark-text="Seleccione Subcategoria" cascade-to="Item" width="100%">
+                                <e-drop-down-list-fields text="Nombre" id="SCID" value="SCID" />
+                            </ej-drop-down-list>
                         </td>
-                        <td>
+                        <td width="50%">
                             <span>Item</span>
-                            @Html.EJ().DropDownList("Item").Datasource((IEnumerable<object>)ViewBag.datasource3).DropDownListFields(Df=>Df.Text("Text").ID("ID").Value("ID"))
+                            <ej-drop-down-list id="Item" datasource="ViewBag.datasource3" watermark-text="Seleccione Item" width="100%">
+                                <e-drop-down-list-fields text="descripcion" id="ID" value="ID" />
+                            </ej-drop-down-list>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <button class="btn-info" value="AddCat">Agregar</button>
+                            <button class="btn btn-default" value="AddCat" type="submit" onclick="submitForm(); return false">Agregar</button>
+                        </td>
+                    </tr>
+                    <tr width="100%">
+                        <td colspan="3">
+                            <ej-grid id="FlatGrid" allow-paging="true">
+                                <e-datamanager json="(IEnumerable<object>)ViewBag.datasourceILI" update-url="ILU" remove-url="ILD" adaptor="remoteSaveAdaptor" />
+                                <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" edit-mode="@(EditMode.InlineForm)"></e-edit-settings>
+                                <e-toolbar-settings show-toolbar="true" toolbar-items="@(new List<string>() { "edit", "delete", "update", "cancel" })"></e-toolbar-settings>
+                                <e-columns>
+                                    <e-column field="ID" header-text="ID" is-identity="true" is-primary-key="true" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                                    <e-column field="Categoria" header-text="Categoria" validation-rules='new Dictionary<string, object>() { {"required",true} }' text-align="Right" width="75"></e-column>
+                                    <e-column field="Subcategoria" header-text="Subcategoria" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
+                                    <e-column field="Descripcion" header-text="Descripcion" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
+                                    <e-column field="Incluye" header-text="Incluye" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
+                                    <e-column field="PrecioUnit" header-text="Precio" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
+                                    <e-column field="Cantidad" header-text="Cantidad" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
+                                </e-columns>
+                            </ej-grid>
                         </td>
                     </tr>
                 </table>
             </div>
-            </form>
-        </div>
-            }
+            <div class="row">
+                <table border="0" class="table" width="100%">
+                    <thead>
+                        <tr><th>Mano de obra</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <ej-grid id="FlatGrid2" allow-paging="true">
+                                    <e-datamanager json="(IEnumerable<object>)ViewBag.datasource2" update-url="ItemListWFNormalUpdate" insert-url="ItemListWFNormalInsert" remove-url="ItemListWFNormalDelete" adaptor="remoteSaveAdaptor" />
+                                    <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" edit-mode="@(EditMode.Dialog)"></e-edit-settings>
+                                    <e-toolbar-settings show-toolbar="true" toolbar-items="@(new List<string>() { "add", "edit", "delete", "update", "cancel" })"></e-toolbar-settings>
+                                    <e-columns>
+                                        <e-column field="ID" header-text="ID" is-identity="true" is-primary-key="true" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Seccion" header-text="Seccion" validation-rules='new Dictionary<string, object>() { {"required",true}}' text-align="Right" width="75"></e-column>
+                                        <e-column field="Clave" header-text="Clave" validation-rules='new Dictionary<string, object>() { {"required",true}}' text-align="Right" width="75"></e-column>
+                                        <e-column field="Cantidad" header-text="Cantidad" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
+                                        <e-column field="Dias" header-text="Dias" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Descripcion" header-text="Descripcion" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
+                                        <e-column field="PrecioUnit" header-text="PrecioUnit" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Categoria" header-text="Categoria" foreign-key-field="Categoria" foreign-key-value="Categoria" datasource="ViewBag.datasourcedrop2" edit-type="Dropdown"></e-column>
+                                    </e-columns>
+                                </ej-grid>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <table border="0">
+                <tr><td><button type="submit" class="btn btn-default" value="AddAll">Guardar cambios y agregar salón</button></td></tr>
+            </table>
+        </form>
+    </div>
+}

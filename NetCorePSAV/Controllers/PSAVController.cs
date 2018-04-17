@@ -129,6 +129,7 @@ namespace GCCorePSAV.Controllers
                         Response.Cookies.Append("EVN", model.EventName, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                         ViewBag.CategoriaList = ConSQL.GetCategoryItemList(1);
                         ViewBag.SubcategoriaList = ConSQL.GetSubcategoryItemList(1);
+                        Response.Cookies.Append("PriceL", model.TpListaPrecio, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                         return RedirectToAction("NIL");
                     }
                     else
@@ -139,10 +140,23 @@ namespace GCCorePSAV.Controllers
                 }
             }
         }
+        [HttpPost]
+        public IActionResult NIL(string AddCat,string Item)
+        {
+            if (!string.IsNullOrEmpty(AddCat))
+            {
+                ViewBag.datasource = ConSQL.GetCategories();
+                ViewBag.datasource2 = ConSQL.GetSubCategories();
+                ViewBag.datasource3 = ConSQL.GetItems();
+                //ViewBag.datasourceILI
+            }
+            return View();
+        }
         public IActionResult NIL()
         {
-            ViewBag.datasource = ConSQL.GetCategoryItemList(1);
-            ViewBag.datasource2 = ConSQL.GetSubcategoryItemList(1);
+            ViewBag.datasource = ConSQL.GetCategories();
+            ViewBag.datasource2 = ConSQL.GetSubCategories();
+            ViewBag.datasource3 = ConSQL.GetItems();
             return View();
         }
         [HttpPost]

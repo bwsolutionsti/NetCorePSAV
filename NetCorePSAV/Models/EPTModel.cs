@@ -19,6 +19,7 @@ namespace GCCorePSAV.Models
     public class EPTModel
     {
         public string RepVtas { get; set; }
+        public string TpListaPrecio { get; set; }
         public string PMgr { get; set; }
         [Display(Name ="# EPT")]
         [Required]
