@@ -604,7 +604,44 @@ namespace GCCorePSAV.Data
             conn.Close();
             return categories;
         }
-
+        public List<NetCorePSAV.Models.ILNewModel.ILGrid> GetGrids(string IDItem)
+        {
+            List<NetCorePSAV.Models.ILNewModel.ILGrid> categories = new List<NetCorePSAV.Models.ILNewModel.ILGrid>();
+            string QuerySearch = "SELECT tci.tci_id,tcc.tcc_name,tcs.tc_subcategoria,tci.descripcion,tci.incluye,tci.precio";
+            QuerySearch += " FROM psav_dev.tc_items tci";
+            QuerySearch += " inner join psav_dev.tc_subcategoria tcs on tcs.tc_ID = tci.tcsc_id";
+            QuerySearch += " inner join psav_dev.tc_category tcc on tcc.tcc_id = tci.tcc_id";
+            QuerySearch += " where tci.tci_id="+IDItem;
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                NetCorePSAV.Models.ILNewModel.ILGrid category = new NetCorePSAV.Models.ILNewModel.ILGrid();
+                category.ID = msdr.GetValue(0).ToString();
+                category.Categoria = msdr.GetValue(1).ToString();
+                category.Subcategoria = msdr.GetValue(2).ToString();
+                category.Descripcion = msdr.GetValue(3).ToString();
+                category.Incluye = msdr.GetValue(4).ToString();
+                category.PrecioUnit = msdr.GetValue(5).ToString();
+                categories.Add(category);
+            }
+            conn.Close();
+            return categories;
+        }
+        public void SaveIL(List<NetCorePSAV.Models.ILNewModel.ILGrid> ILG,string IDEvento)
+        {
+            foreach(NetCorePSAV.Models.ILNewModel.ILGrid ILGs in ILG)
+            {
+                string queryInsert = "insert into td_nil(tci_id,tdnil_cantidad,tme_id) values(" + ILGs.ID + ",'" + ILGs.Cantidad + "'," + IDEvento + ")";
+                MySqlConnection conn = new MySqlConnection(con);
+                MySqlCommand cmd = new MySqlCommand(queryInsert, conn);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }            
+        }
         //freelance
         public void UpdateOL(List<Models.SyncPSAV.FreelanceOL> FOList, List<Models.SyncPSAV.Viaticos> ViaticosL, List<Models.SyncPSAV.VentasFeeTot> ComVenL,
             List<Models.SyncPSAV.GastosFinancieros> GasFinL, List<Models.SyncPSAV.Consumibles> ConsuL, List<Models.SyncPSAV.CargosInternos> CIntL, string idevt)

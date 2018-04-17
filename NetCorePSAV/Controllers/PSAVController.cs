@@ -140,23 +140,64 @@ namespace GCCorePSAV.Controllers
                 }
             }
         }
-        [HttpPost]
-        public IActionResult NIL(string AddCat,string Item)
+        public static List<NetCorePSAV.Models.ILNewModel.ILGrid> ListGridIL = new List<NetCorePSAV.Models.ILNewModel.ILGrid>();
+        public ActionResult ILU([FromBody]CRUDModel<NetCorePSAV.Models.ILNewModel.ILGrid> myObject2)
         {
+            var ord = myObject2.Value;
+            NetCorePSAV.Models.ILNewModel.ILGrid val2 = ListGridIL.Where(or => or.ID == ord.ID).FirstOrDefault();
+            val2.Cantidad = ord.Cantidad;
+            return Json(myObject2.Value);
+        }
+        public ActionResult ILD([FromBody]CRUDModel<NetCorePSAV.Models.ILNewModel.ILGrid> value)
+        {
+            ListGridIL.Remove(ListGridIL.Where(or => or.ID == value.Key.ToString()).FirstOrDefault());
+            return Json(value);
+        }
+        [HttpPost]
+        public IActionResult NIL(string AddCat,string Item,Models.ItemListModel.ItemListEventModel ILM,string AddOne)
+        {
+            ViewBag.datasource2 = WFList;
+            ViewBag.datasourcedrop2 = ConSQL.GetListCategory("2");//Aquí se estan  guardando toda la lista de workforce
             if (!string.IsNullOrEmpty(AddCat))
             {
-                ViewBag.datasource = ConSQL.GetCategories();
-                ViewBag.datasource2 = ConSQL.GetSubCategories();
-                ViewBag.datasource3 = ConSQL.GetItems();
-                //ViewBag.datasourceILI
+                ViewBag.datasourceC = ConSQL.GetCategories();
+                ViewBag.datasourceSC = ConSQL.GetSubCategories();
+                ViewBag.datasourceI = ConSQL.GetItems();
+                if (ListGridIL.Count > 0) {
+                    List<NetCorePSAV.Models.ILNewModel.ILGrid> iL = new List<NetCorePSAV.Models.ILNewModel.ILGrid>();
+                    iL = ConSQL.GetGrids(Item);
+                    ListGridIL.Add(iL[0]);
+                }
+                else
+                {
+                    ListGridIL = ConSQL.GetGrids(Item);
+                }
+                ViewBag.datasourceILI = ListGridIL;
             }
-            return View();
+            if (!string.IsNullOrEmpty(AddOne))
+            {
+                switch (AddOne)
+                {
+                    case "1"://guardar
+                        List<NetCorePSAV.Models.ILNewModel.ILGrid> iL = ListGridIL;
+                        ConSQL.SaveIL(iL, Request.Cookies["IDE"].ToString());
+                        break;
+                    case "2"://vdesc
+                        ServList = new List<Models.SyncPSAV.ItemListServices>();
+                        ConSQL.SaveIL(iL, Request.Cookies["IDE"].ToString());
+                        return RedirectToAction("VtaDesc"); break;
+                    case "3"://borrador                       
+                        return RedirectToAction("EPT"); 
+                        break;
+                }
+            }
+            return View(ILM);
         }
         public IActionResult NIL()
         {
-            ViewBag.datasource = ConSQL.GetCategories();
-            ViewBag.datasource2 = ConSQL.GetSubCategories();
-            ViewBag.datasource3 = ConSQL.GetItems();
+            ViewBag.datasourceC = ConSQL.GetCategories();
+            ViewBag.datasourceSC = ConSQL.GetSubCategories();
+            ViewBag.datasourceI = ConSQL.GetItems();
             return View();
         }
         [HttpPost]

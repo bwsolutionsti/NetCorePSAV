@@ -23,6 +23,36 @@
             form.appendChild(el);
             form.submit();
         }
+        function submitForm2() {
+            var form = document.forms['myForm'];
+            // form.action = 'put your url here';
+            var el = document.createElement("input");
+            el.type = "hidden";
+            el.name = "AddOne";
+            el.value = "1";
+            form.appendChild(el);
+            form.submit();
+        }
+        function submitForm3() {
+            var form = document.forms['myForm'];
+            // form.action = 'put your url here';
+            var el = document.createElement("input");
+            el.type = "hidden";
+            el.name = "AddOne";
+            el.value = "2";
+            form.appendChild(el);
+            form.submit();
+        }
+        function submitForm4() {
+            var form = document.forms['myForm'];
+            // form.action = 'put your url here';
+            var el = document.createElement("input");
+            el.type = "hidden";
+            el.name = "AddOne";
+            el.value = "3";
+            form.appendChild(el);
+            form.submit();
+        }
     </script>
     <br />
     <div class="container-fluid">
@@ -62,19 +92,19 @@
                     <tr>
                         <td width="25%">
                             <span>Categoria</span>
-                            <ej-drop-down-list id="Categoria" datasource="ViewBag.datasource" watermark-text="Seleccione Categoria" cascade-to="SubCategoria" width="100%">
+                            <ej-drop-down-list id="Categoria" datasource="ViewBag.datasourceC" watermark-text="Seleccione Categoria" cascade-to="SubCategoria" width="100%">
                                 <e-drop-down-list-fields text="Nombre" id="ParentID" value="ParentID" />
                             </ej-drop-down-list>
                         </td>
                         <td width="25%">
                             <span>SubCategoría</span>
-                            <ej-drop-down-list id="SubCategoria" datasource="ViewBag.datasource2" watermark-text="Seleccione Subcategoria" cascade-to="Item" width="100%">
+                            <ej-drop-down-list id="SubCategoria" datasource="ViewBag.datasourceSC" watermark-text="Seleccione Subcategoria" cascade-to="Item" width="100%">
                                 <e-drop-down-list-fields text="Nombre" id="SCID" value="SCID" />
                             </ej-drop-down-list>
                         </td>
                         <td width="50%">
                             <span>Item</span>
-                            <ej-drop-down-list id="Item" datasource="ViewBag.datasource3" watermark-text="Seleccione Item" width="100%">
+                            <ej-drop-down-list id="Item" datasource="ViewBag.datasourceI" watermark-text="Seleccione Item" width="100%">
                                 <e-drop-down-list-fields text="descripcion" id="ID" value="ID" />
                             </ej-drop-down-list>
                         </td>
@@ -133,7 +163,9 @@
                 </table>
             </div>
             <table border="0">
-                <tr><td><button type="submit" class="btn btn-default" value="AddAll">Guardar cambios y agregar salón</button></td></tr>
+                <tr><td><button type="submit" class="btn btn-default" value="AddOne" onclick="submitForm2(); return false">Guardar cambios y agregar salón</button></td></tr>
+                <tr><td><button type="submit" class="btn btn-default" value="AddOne" onclick="submitForm3(); return false">Guardar y avanzar</button></td></tr>
+                <tr><td><button type="submit" class="btn btn-default" value="AddOne" onclick="submitForm4(); return false">Guardar borrador</button></td></tr>
             </table>
         </form>
     </div>

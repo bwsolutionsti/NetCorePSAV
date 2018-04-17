@@ -39,5 +39,19 @@ namespace NetCorePSAV.Models
             public string PrecioUnit { get; set; }
             public string Cantidad { get; set; }
         }
+        public class ILGrid
+        {
+            public string ID { get; set; }
+            public string Categoria { get; set; }
+            public string Subcategoria { get; set; }
+            public string Descripcion { get; set; }
+            public string Incluye { get; set; }
+            public string PrecioUnit { get; set; }
+            public string Cantidad { get; set; }
+        }
+        public class ILSalon
+        {
+
+        }
     }
 }
