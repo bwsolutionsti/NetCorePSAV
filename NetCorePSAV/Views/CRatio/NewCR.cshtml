@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Http
 @using GCCorePSAV.Models
 @using GCCorePSAV.Controllers.Services
+@model NetCorePSAV.Models.NCRModel.newCRView
 @inject LoggedInComponent Lgc
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
@@ -9,58 +10,25 @@
 {
     <div class="row"><h5>Nuevo Capture Ratio</h5></div>
     <div class="row">
-        <table border="0">
-            <thead><tr><th>Datos DET</th></tr></thead>
-            <tbody><tr><td>DET:&nbsp;</td><td>&nbsp;</td><td><input type="text" class="form-control" /></td><td>&nbsp;</td>
-                <td>Llenado por:&nbsp;</td><td>&nbsp;</td><td><input type="text" class="form-control" value="@Lgc.UsuarioDraw" /></td></tr>
-            </tbody>
-        </table>
-        <table border="0">
-            <thead>
+        <div class="col-lg-6">
+            <table>
                 <tr>
-                    <th>Datos Location</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Ciudad:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" /></td><td>&nbsp;</td>
-                    <td>No. Location:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" /></td><td>&nbsp;</td>
-                    <td>Hotel:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" />
-                </tr>
-            </tbody>
-        </table>
-        <table border="0">
-            <thead>
-                <tr>
-                    <th colspan="4">Datos Evento</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Evento:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" /></td><td>&nbsp;</td>
-                    <td>Fecha Inicio:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="date" /></td><td>&nbsp;</td>
-                    <td>Fecha Fin:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="date" /></td><td>&nbsp;</td>
-                    <td>Tipo Evento:&nbsp;</td><td>&nbsp;</td><td><select class="form-control"></select></td>
+                    <td><div class="form-group"><label asp-for="DET" class="control-label"></label><select asp-for="DET" class="form-control"></select></div></td>
+                    <td><div class="form-group"><label asp-for="SMgr" class="control-label"></label><select asp-for="SMgr" class="form-control"></select></div></td>
                 </tr>
                 <tr>
-                    <td>Cliente:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" /></td><td>&nbsp;</td>
-                    <td>Nombre Contacto:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" /></td><td>&nbsp;</td>
-                    <td>Celular Cliente:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" /></td><td>&nbsp;</td>
-                    <td>Correo Cliente:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" />
+                    <td><div class="form-group"><label asp-for="NLocation" class="control-label"></label><select asp-for="NLocation" class="form-control"></select></div></td>
+                    <td><div class="form-group"><label asp-for="NuLocation" class="control-label"></label><select asp-for="NuLocation" class="form-control"></select></div></td>
                 </tr>
                 <tr>
-                    <td>Agencia:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" /></td><td>&nbsp;</td>
-                    <td>Nombre Contacto:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" /></td><td>&nbsp;</td>
-                    <td>Celular Agencia:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" /></td><td>&nbsp;</td>
-                    <td>Correo Intermediario:&nbsp;</td><td>&nbsp;</td><td><input class="form-control" type="text" />
+                    <td><div class="form-group"><label asp-for="prospecto" class="control-label"></label><select asp-for="prospecto" class="form-control"></select></div></td>
+                    <td><div class="form-group"><label asp-for="empresa" class="control-label"></label><select asp-for="empresa" class="form-control"></select></div></td>
                 </tr>
                 <tr>
-                    <td>Empresa AV:&nbsp;</td><td>&nbsp;</td><td><input type="text" class="form-control" /></td>
+                    <td><div class="form-group"><label asp-for="correo" class="control-label"></label><select asp-for="correo" class="form-control"></select></div></td>
+                    <td><div class="form-group"><label asp-for="telefono" class="control-label"></label><select asp-for="telefono" class="form-control"></select></div></td>
                 </tr>
-                <tr>
-                    <td><button class="btn btn-success">Guardar</button></td><td>&nbsp;</td><td><button class="btn btn-warning">Borrador</button></td><td>&nbsp;</td><td><button class="btn btn-danger">Cancelar</button></td>
-                </tr>
-            </tbody>
-        </table>
+            </table>
+        </div>
     </div>
 }
