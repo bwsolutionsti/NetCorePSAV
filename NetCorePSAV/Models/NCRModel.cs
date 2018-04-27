@@ -32,8 +32,10 @@ namespace NetCorePSAV.Models
             [Display(Name = "Nombre de Evento")]
             public string nombreevento { get; set; }
             [Display(Name = "Fecha Inicio")]
+            [DataType(DataType.Date)]
             public string fechainicio { get; set; }
             [Display(Name = "Fecha de Término")]
+            [DataType(DataType.Date)]
             public string fechafin { get; set; }
             [Display(Name = "Compañía AV")]
             public string AV { get; set; }
@@ -47,6 +49,7 @@ namespace NetCorePSAV.Models
             [Display(Name = "Lugar próximo evento")]
             public string lpe { get; set; }
             [Display(Name = "Fecha próximo evento")]
+            [DataType(DataType.Date)]
             public string fpe { get; set; }
             [Display(Name = "Comentarios")]
             public string comments { get; set; }

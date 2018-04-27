@@ -10,23 +10,55 @@
 {
     <div class="row"><h5>Nuevo Capture Ratio</h5></div>
     <div class="row">
-        <div class="col-lg-6">
-            <table>
+        <div class="col-lg-12">
+            <table width="100%">
                 <tr>
-                    <td><div class="form-group"><label asp-for="DET" class="control-label"></label><select asp-for="DET" class="form-control"></select></div></td>
-                    <td><div class="form-group"><label asp-for="SMgr" class="control-label"></label><select asp-for="SMgr" class="form-control"></select></div></td>
+                    <td width="50%"><div class="form-group"><label asp-for="DET" class="control-label"></label><select asp-for="DET" class="form-control"></select></div></td>
+                    <td width="50%"><div class="form-group"><label asp-for="SMgr" class="control-label"></label><select asp-for="SMgr" class="form-control"></select></div></td>
                 </tr>
                 <tr>
-                    <td><div class="form-group"><label asp-for="NLocation" class="control-label"></label><select asp-for="NLocation" class="form-control"></select></div></td>
-                    <td><div class="form-group"><label asp-for="NuLocation" class="control-label"></label><select asp-for="NuLocation" class="form-control"></select></div></td>
+                    <td width="50%"><div class="form-group"><label asp-for="NLocation" class="control-label"></label><select asp-for="NLocation" class="form-control"></select></div></td>
+                    <td width="50%"><div class="form-group"><label asp-for="NuLocation" class="control-label"></label><select asp-for="NuLocation" class="form-control"></select></div></td>
                 </tr>
                 <tr>
-                    <td><div class="form-group"><label asp-for="prospecto" class="control-label"></label><select asp-for="prospecto" class="form-control"></select></div></td>
-                    <td><div class="form-group"><label asp-for="empresa" class="control-label"></label><select asp-for="empresa" class="form-control"></select></div></td>
+                    <td width="50%"><div class="form-group"><label asp-for="prospecto" class="control-label"></label><input asp-for="prospecto" class="form-control" /></div></td>
+                    <td width="50%"><div class="form-group"><label asp-for="empresa" class="control-label"></label><input asp-for="empresa" class="form-control" /></div></td>
                 </tr>
                 <tr>
-                    <td><div class="form-group"><label asp-for="correo" class="control-label"></label><select asp-for="correo" class="form-control"></select></div></td>
-                    <td><div class="form-group"><label asp-for="telefono" class="control-label"></label><select asp-for="telefono" class="form-control"></select></div></td>
+                    <td width="50%"><div class="form-group"><label asp-for="correo" class="control-label"></label><input asp-for="correo" class="form-control" /></div></td>
+                    <td width="50%"><div class="form-group"><label asp-for="telefono" class="control-label"></label><input asp-for="telefono" class="form-control" /></div></td>
+                </tr>
+                <tr>
+                    <td width="50%"><div class="form-group"><label asp-for="etiqueta" class="control-label"></label><select asp-for="etiqueta" class="form-control"></select></div></td>
+                    <td width="50%"><div class="form-group"><label asp-for="tipoevento" class="control-label"></label><select asp-for="tipoevento" class="form-control"></select></div></td>
+                </tr>
+                <tr>
+                    <td width="50%"><div class="form-group"><label asp-for="nombreevento" class="control-label"></label><input asp-for="nombreevento" class="form-control" /></div></td>
+                    <td width="50%"><div class="form-group"><label asp-for="fechainicio" class="control-label"></label><input asp-for="fechainicio" class="form-control" /></div></td>
+                </tr>
+                <tr>
+                    <td width="50%"><div class="form-group"><label asp-for="fechafin" class="control-label"></label><input asp-for="fechafin" class="form-control" /></div></td>
+                    <td width="50%"><div class="form-group"><label asp-for="AV" class="control-label"></label><input asp-for="AV" class="form-control" /></div></td>
+                </tr>
+                <tr>
+                    <td width="50%"><div class="form-group"><label asp-for="LB" class="control-label"></label><input asp-for="LB" class="form-control" /></div></td>
+                    <td width="50%"><div class="form-group"><label asp-for="LBMotivo" class="control-label"></label><select asp-for="LBMotivo" class="form-control"></select></div></td>
+                </tr>
+                <tr>
+                    <td width="50%"><div class="form-group"><label asp-for="servadic" class="control-label"></label><select asp-for="servadic" class="form-control"></select></div></td>
+                    <td width="50%"><div class="form-group"><label asp-for="sadic" class="control-label"></label><select asp-for="sadic" class="form-control"></select></div></td>
+                </tr>
+                <tr>
+                    <td width="50%"><div class="form-group"><label asp-for="lpe" class="control-label"></label><input asp-for="lpe" class="form-control" /></div></td>
+                    <td width="5%"><div class="form-group"><label asp-for="fpe" class="control-label"></label><input asp-for="fpe" class="form-control" /></div></td>
+                </tr>
+                <tr>
+                    <td width="50%"><div class="form-group"><label asp-for="comments" class="control-label"></label><textarea asp-for="comments" class="form-control"></textarea></div></td>
+                    <td width="50%">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td><button type="submit" class="btn btn-success">Guardar</button></td>
+                    <td><button type="reset" class="btn btn-success">Cancelar</button></td>
                 </tr>
             </table>
         </div>
