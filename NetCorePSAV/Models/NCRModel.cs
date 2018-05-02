@@ -8,6 +8,48 @@ namespace NetCorePSAV.Models
 {
     public class NCRModel
     {
+        #region catalogs
+        public class DET
+        {
+            public string IDDet { get; set; }
+            public string Nombre { get; set; }
+        }
+        public class SMgr
+        {
+            public string IDSM { get; set; }
+            public string Nombre { get; set; }
+        }
+        public class NLocation
+        {
+            public string ParentID { get; set; }
+            public string Nombre { get; set; }
+        }
+        public class NuLocation
+        {
+            public string ParentID { get; set; }
+            public string Nombre { get; set; }
+        }
+        public class Etiqueta
+        {
+            public string IDEtiqueta { get; set; }
+            public string Nombre { get; set; }
+        }
+        public class TipoEvento
+        {
+            public string IDTipoEvento { get; set; }
+            public string Nombre { get; set; }
+        }
+        public class LBMotivo
+        {
+            public string IDMLB { get; set; }
+            public string Nombre { get; set; }
+        }
+        public class sadic
+        {
+            public string IDSA { get; set; }
+            public string Nombre { get; set; }
+        }
+        #endregion
         public class newCRView
         {
             public string DET { get; set; }
@@ -17,11 +59,12 @@ namespace NetCorePSAV.Models
             public string NLocation { get; set; }
             [Display(Name = "Número Location")]
             public string NuLocation { get; set; }
-            [Display(Name = "Prospecto")]
+            [Display(Name = "Prospecto")]            
             public string prospecto { get; set; }
             [Display(Name = "Empresa")]
             public string empresa { get; set; }
             [Display(Name = "Correo Electrónico")]
+            [DataType(DataType.EmailAddress,ErrorMessage ="Ingrese una dirección válida")]
             public string correo { get; set; }
             [Display(Name = "Teléfono")]
             public string telefono { get; set; }
@@ -40,11 +83,13 @@ namespace NetCorePSAV.Models
             [Display(Name = "Compañía AV")]
             public string AV { get; set; }
             [Display(Name = "Lost Business")]
+            [DataType(DataType.Currency)]
             public string LB { get; set; }
             [Display(Name = "Motivo de Lost Business")]
             public string LBMotivo { get; set; }
             [Display(Name = "Servicios Adicionales")]
             public string servadic { get; set; }
+            [Display(Name = "Servicios Adicionales")]
             public string sadic { get; set; }//array de serv adicionales
             [Display(Name = "Lugar próximo evento")]
             public string lpe { get; set; }

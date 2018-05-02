@@ -17,7 +17,52 @@ namespace NetCorePSAV.Controllers
         }
         public IActionResult NewCR()
         {
+            GCCorePSAV.Data.clsQuery cls = new GCCorePSAV.Data.clsQuery();
+            //get all data from DB
+            //DET
+            ViewBag.DET = cls.GetDETs();
+            //SAles Manager
+            ViewBag.RepVtas = cls.RepVtas();
+            //Location - Cascade
+            ViewBag.Locations = cls.GetNLocations();
+            //Etiqueta
+            ViewBag.Etiquetas = cls.GetEtiquetas();
+            //TipoEvento
+            ViewBag.TipoEvento = cls.GetTipoEventos();
+            //MotivoLb
+            ViewBag.LBMotivo = cls.GetMotivos();
+            //Sadic
+            ViewBag.sadic = cls.GetSadics();
             return View();
+        }
+        [HttpPost]
+        public IActionResult NewCR(NetCorePSAV.Models.NCRModel.newCRView NCR)
+        {
+            GCCorePSAV.Data.clsQuery cls = new GCCorePSAV.Data.clsQuery();
+            if (ModelState.IsValid)
+            {
+                cls.SaveNCR(NCR);
+                return RedirectToAction("CaptureRatio");
+            }
+            else
+            {                
+                //get all data from DB
+                //DET
+                ViewBag.DET = cls.GetDETs();
+                //SAles Manager
+                ViewBag.RepVtas = cls.RepVtas();
+                //Location - Cascade
+                ViewBag.Locations = cls.GetNLocations();
+                //Etiqueta
+                ViewBag.Etiquetas = cls.GetEtiquetas();
+                //TipoEvento
+                ViewBag.TipoEvento = cls.GetTipoEventos();
+                //MotivoLb
+                ViewBag.LBMotivo = cls.GetMotivos();
+                //Sadic
+                ViewBag.sadic = cls.GetSadics();
+                return View();
+            }
         }
     }
 }

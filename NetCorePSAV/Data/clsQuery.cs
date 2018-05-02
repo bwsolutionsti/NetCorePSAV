@@ -9,6 +9,129 @@ namespace GCCorePSAV.Data
     public class clsQuery
     {
         private const string con = "Uid=root;Database=psav_dev;Pwd=(Conexi0npsavdatabasedev)1605;Host=35.188.2.70;";// CertificateFile=client.pfx;CertificatePassword=Mak3bbee;";/*SSL Mode=Required*/
+        #region NewCR
+        public void SaveNCR(NetCorePSAV.Models.NCRModel.newCRView NCR)
+        {
+            string queryToExec = "insert into psav_dev.td_cration (tcl_id,tcrv_id,tcsm_id,tdcr_prospecto,tdcr_empresa,tdcr_correo,";
+            queryToExec += "tdcr_telefono,tcet_id,tcte_id,tdcr_nomevento,tdcr_finicio,tdcr_ffin,tdcr_av,tdcr_lb,tcmlb_id,tcsa_id,tdcr_lpe,";
+            queryToExec += "tdcr_fpe,tdcr_comments) values("+NCR.NLocation+","+NCR.DET+","+NCR.SMgr+",'"+NCR.prospecto.ToUpper() + "','"+NCR.empresa.ToUpper() + "',";
+            queryToExec += "'"+NCR.correo.ToUpper() + "','"+NCR.telefono+"',"+NCR.etiqueta+","+NCR.tipoevento+",'"+NCR.nombreevento.ToUpper() + "','"+NCR.fechainicio+"',";
+            queryToExec += "'"+NCR.fechafin+"','"+NCR.AV.ToUpper() + "',"+NCR.LB+","+NCR.LBMotivo+","+NCR.sadic+",'"+NCR.lpe.ToUpper() + "','"+NCR.fpe+"','"+NCR.comments.ToUpper()+"')";
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(queryToExec, conn);
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+        public List<NetCorePSAV.Models.NCRModel.sadic> GetSadics()
+        {
+            string queryToExec = "SELECT * FROM psav_dev.tc_crservadic";
+            List<NetCorePSAV.Models.NCRModel.sadic> etiquetas = new List<NetCorePSAV.Models.NCRModel.sadic>();
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(queryToExec, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                NetCorePSAV.Models.NCRModel.sadic etiqueta = new NetCorePSAV.Models.NCRModel.sadic();
+                etiqueta.IDSA = msdr.GetValue(0).ToString();
+                etiqueta.Nombre = msdr.GetValue(1).ToString();
+                etiquetas.Add(etiqueta);
+            }
+            conn.Close();
+            return etiquetas;
+        }
+        public List<NetCorePSAV.Models.NCRModel.NLocation> GetNLocations()
+        {
+            string queryToExec = "SELECT * FROM psav_dev.tc_location";
+            List<NetCorePSAV.Models.NCRModel.NLocation> etiquetas = new List<NetCorePSAV.Models.NCRModel.NLocation>();
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(queryToExec, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                NetCorePSAV.Models.NCRModel.NLocation etiqueta = new NetCorePSAV.Models.NCRModel.NLocation();
+                etiqueta.ParentID = msdr.GetValue(0).ToString();
+                etiqueta.Nombre = msdr.GetValue(1).ToString() + " - " + msdr.GetValue(2).ToString();
+                etiquetas.Add(etiqueta);
+            }
+            conn.Close();
+            return etiquetas;
+        }
+        public List<NetCorePSAV.Models.NCRModel.DET> GetDETs()
+        {
+            List<NetCorePSAV.Models.NCRModel.DET> VD = new List<NetCorePSAV.Models.NCRModel.DET>();
+            string QuerySearch = "SELECT * FROM psav_dev.tc_det";
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                NetCorePSAV.Models.NCRModel.DET RV = new NetCorePSAV.Models.NCRModel.DET();
+                RV.IDDet = msdr.GetValue(0).ToString();
+                RV.Nombre = GetFullNameByIDPerson(msdr.GetValue(1).ToString());
+                VD.Add(RV);
+            }
+            conn.Close();
+            return VD;
+        }
+        public List<NetCorePSAV.Models.NCRModel.Etiqueta> GetEtiquetas()
+        {
+            string queryToExec = "SELECT * FROM psav_dev.tc_etiquetas";
+            List<NetCorePSAV.Models.NCRModel.Etiqueta> etiquetas = new List<NetCorePSAV.Models.NCRModel.Etiqueta>();
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(queryToExec, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                NetCorePSAV.Models.NCRModel.Etiqueta etiqueta = new NetCorePSAV.Models.NCRModel.Etiqueta();
+                etiqueta.IDEtiqueta = msdr.GetValue(0).ToString();
+                etiqueta.Nombre = msdr.GetValue(1).ToString();
+                etiquetas.Add(etiqueta);
+            }
+            conn.Close();
+            return etiquetas;
+        }
+        public List<NetCorePSAV.Models.NCRModel.TipoEvento> GetTipoEventos()
+        {
+            string queryToExec = "SELECT * FROM psav_dev.tc_tipoevento";
+            List<NetCorePSAV.Models.NCRModel.TipoEvento> etiquetas = new List<NetCorePSAV.Models.NCRModel.TipoEvento>();
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(queryToExec, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                NetCorePSAV.Models.NCRModel.TipoEvento etiqueta = new NetCorePSAV.Models.NCRModel.TipoEvento();
+                etiqueta.IDTipoEvento = msdr.GetValue(0).ToString();
+                etiqueta.Nombre = msdr.GetValue(1).ToString();
+                etiquetas.Add(etiqueta);
+            }
+            conn.Close();
+            return etiquetas;
+        }
+        public List<NetCorePSAV.Models.NCRModel.LBMotivo> GetMotivos()
+        {
+            string queryToExec = "SELECT * FROM psav_dev.tc_motivolb";
+            List<NetCorePSAV.Models.NCRModel.LBMotivo> etiquetas = new List<NetCorePSAV.Models.NCRModel.LBMotivo>();
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(queryToExec, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                NetCorePSAV.Models.NCRModel.LBMotivo etiqueta = new NetCorePSAV.Models.NCRModel.LBMotivo();
+                etiqueta.IDMLB = msdr.GetValue(0).ToString();
+                etiqueta.Nombre = msdr.GetValue(1).ToString();
+                etiquetas.Add(etiqueta);
+            }
+            conn.Close();
+            return etiquetas;
+        }
+        #endregion
         #region Security - Account - Manage
         public bool _loginSession(string _username, string pwd)
         {

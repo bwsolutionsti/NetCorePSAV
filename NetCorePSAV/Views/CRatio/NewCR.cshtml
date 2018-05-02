@@ -8,59 +8,150 @@
 @await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
 @if (Lgc.isAuth)
 {
-    <div class="row"><h5>Nuevo Capture Ratio</h5></div>
-    <div class="row">
-        <div class="col-lg-12">
-            <table width="100%">
-                <tr>
-                    <td width="50%"><div class="form-group"><label asp-for="DET" class="control-label"></label><select asp-for="DET" class="form-control"></select></div></td>
-                    <td width="50%"><div class="form-group"><label asp-for="SMgr" class="control-label"></label><select asp-for="SMgr" class="form-control"></select></div></td>
-                </tr>
-                <tr>
-                    <td width="50%"><div class="form-group"><label asp-for="NLocation" class="control-label"></label><select asp-for="NLocation" class="form-control"></select></div></td>
-                    <td width="50%"><div class="form-group"><label asp-for="NuLocation" class="control-label"></label><select asp-for="NuLocation" class="form-control"></select></div></td>
-                </tr>
-                <tr>
-                    <td width="50%"><div class="form-group"><label asp-for="prospecto" class="control-label"></label><input asp-for="prospecto" class="form-control" /></div></td>
-                    <td width="50%"><div class="form-group"><label asp-for="empresa" class="control-label"></label><input asp-for="empresa" class="form-control" /></div></td>
-                </tr>
-                <tr>
-                    <td width="50%"><div class="form-group"><label asp-for="correo" class="control-label"></label><input asp-for="correo" class="form-control" /></div></td>
-                    <td width="50%"><div class="form-group"><label asp-for="telefono" class="control-label"></label><input asp-for="telefono" class="form-control" /></div></td>
-                </tr>
-                <tr>
-                    <td width="50%"><div class="form-group"><label asp-for="etiqueta" class="control-label"></label><select asp-for="etiqueta" class="form-control"></select></div></td>
-                    <td width="50%"><div class="form-group"><label asp-for="tipoevento" class="control-label"></label><select asp-for="tipoevento" class="form-control"></select></div></td>
-                </tr>
-                <tr>
-                    <td width="50%"><div class="form-group"><label asp-for="nombreevento" class="control-label"></label><input asp-for="nombreevento" class="form-control" /></div></td>
-                    <td width="50%"><div class="form-group"><label asp-for="fechainicio" class="control-label"></label><input asp-for="fechainicio" class="form-control" /></div></td>
-                </tr>
-                <tr>
-                    <td width="50%"><div class="form-group"><label asp-for="fechafin" class="control-label"></label><input asp-for="fechafin" class="form-control" /></div></td>
-                    <td width="50%"><div class="form-group"><label asp-for="AV" class="control-label"></label><input asp-for="AV" class="form-control" /></div></td>
-                </tr>
-                <tr>
-                    <td width="50%"><div class="form-group"><label asp-for="LB" class="control-label"></label><input asp-for="LB" class="form-control" /></div></td>
-                    <td width="50%"><div class="form-group"><label asp-for="LBMotivo" class="control-label"></label><select asp-for="LBMotivo" class="form-control"></select></div></td>
-                </tr>
-                <tr>
-                    <td width="50%"><div class="form-group"><label asp-for="servadic" class="control-label"></label><select asp-for="servadic" class="form-control"></select></div></td>
-                    <td width="50%"><div class="form-group"><label asp-for="sadic" class="control-label"></label><select asp-for="sadic" class="form-control"></select></div></td>
-                </tr>
-                <tr>
-                    <td width="50%"><div class="form-group"><label asp-for="lpe" class="control-label"></label><input asp-for="lpe" class="form-control" /></div></td>
-                    <td width="5%"><div class="form-group"><label asp-for="fpe" class="control-label"></label><input asp-for="fpe" class="form-control" /></div></td>
-                </tr>
-                <tr>
-                    <td width="50%"><div class="form-group"><label asp-for="comments" class="control-label"></label><textarea asp-for="comments" class="form-control"></textarea></div></td>
-                    <td width="50%">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td><button type="submit" class="btn btn-success">Guardar</button></td>
-                    <td><button type="reset" class="btn btn-success">Cancelar</button></td>
-                </tr>
-            </table>
+    <form method="post" asp-controller="CRatio" asp-action="NewCR">
+        <div class="row"><h5>Nuevo Capture Ratio</h5></div>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="row">
+            <div class="col-lg-12">
+                <table width="100%">
+                    <tr>
+                        <td width="50%">
+                            <div class="form-group">
+                                <label asp-for="DET" class="control-label"></label>
+                                <select asp-for="DET" class="form-control">
+                                    <option value="0">Seleccionar</option>
+                                    @foreach (var pmgr in ViewBag.DET)
+                                    {
+                                        <option value="@pmgr.IDDet">@pmgr.Nombre</option>
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                        <td width="50%">
+                            <div class="form-group">
+                                <label asp-for="SMgr" class="control-label"></label>
+                                <select asp-for="SMgr" class="form-control">
+                                    <option value="0">Seleccionar</option>
+                                    @foreach (var pmgr in ViewBag.RepVtas)
+                                    {
+                                        <option value="@pmgr.IDRepVtas">@pmgr.NombreCompleto</option>
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50%">
+                            <div class="form-group">
+                                <label asp-for="NLocation" class="control-label"></label>
+                                <select asp-for="NLocation" class="form-control">
+                                    @foreach (var Etiquetaa in ViewBag.Locations)
+                                    {
+                                        <option value="@Etiquetaa.ParentID">@Etiquetaa.Nombre</option>
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                        <td width="50%">
+                            <div class="form-group">
+                                <label asp-for="NuLocation" class="control-label"></label>
+                                <select asp-for="NuLocation" class="form-control">
+                                    @foreach (var Etiquetaa in ViewBag.Locations)
+                                    {
+                                        <option value="@Etiquetaa.ParentID">@Etiquetaa.Nombre</option>
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50%"><div class="form-group"><label asp-for="prospecto" class="control-label"></label><input asp-for="prospecto" class="form-control" /></div></td>
+                        <td width="50%"><div class="form-group"><label asp-for="empresa" class="control-label"></label><input asp-for="empresa" class="form-control" /></div></td>
+                    </tr>
+                    <tr>
+                        <td width="50%"><div class="form-group"><label asp-for="correo" class="control-label"></label><input asp-for="correo" class="form-control" /></div></td>
+                        <td width="50%"><div class="form-group"><label asp-for="telefono" class="control-label"></label><input asp-for="telefono" class="form-control" /></div></td>
+                    </tr>
+                    <tr>
+                        <td width="50%">
+                            <div class="form-group">
+                                <label asp-for="etiqueta" class="control-label"></label>
+                                <select asp-for="etiqueta" class="form-control">
+                                    @foreach (var Etiquetaa in ViewBag.Etiquetas)
+                                    {
+                                        <option value="@Etiquetaa.IDEtiqueta">@Etiquetaa.Nombre</option>
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                        <td width="50%">
+                            <div class="form-group">
+                                <label asp-for="tipoevento" class="control-label"></label>
+                                <select asp-for="tipoevento" class="form-control">
+                                    @foreach (var Etiquetaa in ViewBag.TipoEvento)
+                                    {
+                                        <option value="@Etiquetaa.IDTipoEvento">@Etiquetaa.Nombre</option>
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50%"><div class="form-group"><label asp-for="nombreevento" class="control-label"></label><input asp-for="nombreevento" class="form-control" /></div></td>
+                        <td width="50%"><div class="form-group"><label asp-for="fechainicio" class="control-label"></label><input asp-for="fechainicio" class="form-control" /></div></td>
+                    </tr>
+                    <tr>
+                        <td width="50%"><div class="form-group"><label asp-for="fechafin" class="control-label"></label><input asp-for="fechafin" class="form-control" /></div></td>
+                        <td width="50%"><div class="form-group"><label asp-for="AV" class="control-label"></label><input asp-for="AV" class="form-control" /></div></td>
+                    </tr>
+                    <tr>
+                        <td width="50%"><div class="form-group"><label asp-for="LB" class="control-label"></label><input asp-for="LB" class="form-control" /></div></td>
+                        <td width="50%">
+                            <div class="form-group">
+                                <label asp-for="LBMotivo" class="control-label"></label>
+                                <select asp-for="LBMotivo" class="form-control">
+                                    @foreach (var Etiquetaa in ViewBag.LBMotivo)
+                                    {
+                                        <option value="@Etiquetaa.IDMLB">@Etiquetaa.Nombre</option>
+                                    }
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50%"><div class="form-group"><label asp-for="servadic" class="control-label"></label><select asp-for="servadic" class="form-control" onchange="doenable();"><option value="0">NO</option><option value="1">SI</option></select></div></td>
+                        <td width="50%">
+                            <div class="form-group">
+                                <label asp-for="sadic" class="control-label"></label>
+                                <ej-drop-down-list id="sadic" datasource="ViewBag.sadic" show-checkbox="true" width="50%" disabled>
+                                    <e-drop-down-list-fields text="Nombre" value="IDSA" />
+                                </ej-drop-down-list>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50%"><div class="form-group"><label asp-for="lpe" class="control-label"></label><input asp-for="lpe" class="form-control" /></div></td>
+                        <td width="5%"><div class="form-group"><label asp-for="fpe" class="control-label"></label><input asp-for="fpe" class="form-control" /></div></td>
+                    </tr>
+                    <tr>
+                        <td width="50%"><div class="form-group"><label asp-for="comments" class="control-label"></label><textarea asp-for="comments" class="form-control"></textarea></div></td>
+                        <td width="50%">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><button type="submit" class="btn btn-success">Guardar</button></td>
+                        <td><button type="reset" class="btn btn-warning">Cancelar</button></td>
+                    </tr>
+                </table>
+            </div>
         </div>
-    </div>
+    </form>
+    <script type="text/javascript">
+        function doenable() {
+            var siono = $("servadic option:selected").val();
+            if (siono == '1') { $('#sadic').removeAttr('disabled'); } else { $('#sadic').attr('disabled', 'disabled'); }
+        }
+    </script>
+    @section Scripts {
+        @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    }
 }
