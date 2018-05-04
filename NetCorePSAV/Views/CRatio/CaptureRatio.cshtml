@@ -2,23 +2,36 @@
 @using Microsoft.AspNetCore.Http
 @using GCCorePSAV.Models
 @using GCCorePSAV.Controllers.Services
+@model NetCorePSAV.Models.NCRModel.SearchNCR
 @inject LoggedInComponent Lgc
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @await Lgc.IsAuth(HttpContextAccessor.HttpContext.Request.Cookies["Bearer"], HttpContextAccessor.HttpContext.Request.Cookies["pandoraRules"])
 @if (Lgc.isAuth)
 {
+    <script type="text/javascript">
+        function submitFormConsult() {
+            var form = document.forms['myForm'];
+            // form.action = 'put your url here';
+            var el = document.createElement("input");
+            el.type = "hidden";
+            el.name = "Consulta";
+            el.value = "1";
+            form.appendChild(el);
+            form.submit();
+        }
+    </script>
     <br />
     <div class="row">
         <h5>Capture Ratio</h5>
     </div>
     <div class="row">
         <ul class="nav nav-pills">
-            <li role="presentation" class="active"><a asp-action="CaptureRatio" asp-controller="CR">Consultas</a></li>
+            <li role="presentation" class="active"><a asp-action="CaptureRatio" asp-controller="CRatio">Consultas</a></li>
             <li role="presentation"><a asp-action="NewCR" asp-controller="CRatio">Nuevo</a></li>
         </ul>
     </div>
     <div class="row">
-        <form method="post" asp-action="CaptureRatio" asp-controller="CR">
+        <form method="post" asp-action="CaptureRatio" asp-controller="CRatio" name="myForm">
             <table class="table table-responsive">
                 <tr>
                     <td>
@@ -28,17 +41,32 @@
                                 <table border="0">
                                     <tr>
                                         <td>Fecha Inicio:&nbsp;</td>
-                                        <td><input class="form-control" type="date" /></td>
+                                        <td><input class="form-control" type="date" asp-for="finicio" /></td>
                                         <td>&nbsp;</td>
                                         <td>Fecha Fin:&nbsp;</td>
-                                        <td><input class="form-control" type="date" /></td>
+                                        <td><input class="form-control" type="date" asp-for="ffin" /></td>
                                         <td>&nbsp;</td>
                                         <td>Evento:&nbsp;</td>
-                                        <td><input class="form-control" /></td>
+                                        <td><input class="form-control" asp-for="evento" /></td>
                                     </tr>
-                                    <tr><td>Ciudad:&nbsp;</td><td><select class="form-control" name="Hotel"></select></td><td>&nbsp;</td><td>Hotel:&nbsp;</td><td><select class="form-control" name="ciudad"></select></td><td>&nbsp;</td><td>Cliente:&nbsp;</td><td><input class="form-control" /></td></tr>
-                                    <tr><td>DET:&nbsp;</td><td><select class="form-control" name="Hotel"></select></td><td>&nbsp;</td><td>Llenado por:&nbsp;</td><td><select class="form-control" name="ciudad"></select></td></tr>
-                                    <tr><td><button class=" btn btn-success">Consultar</button></td></tr>
+                                    <tr>
+                                        <td>Location:&nbsp;</td>
+                                        <td><select class="form-control" name="Location" asp-for="location"></select></td>
+                                        <td>&nbsp;</td>
+                                        <td>Empresa:&nbsp;</td>
+                                        <td><input class="form-control" asp-for="empresa" type="text" /></td>
+                                        <td>&nbsp;</td>
+                                        <td>Prospecto:&nbsp;</td>
+                                        <td><input class="form-control" type="text" asp-for="prospecto" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Motivo de Lost Business:&nbsp;</td>
+                                        <td><select class="form-control" asp-for="lbmotivo"></select></td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr><td><button class=" btn btn-success" type="submit" onclick="submitFormConsult();return false">Consultar</button></td></tr>
                                 </table>
                             </div>
                         </div>
@@ -47,4 +75,37 @@
             </table>
         </form>
     </div>
+    @if (ViewBag.TieneFilas)
+    {
+        <div class="row">
+            <form method="post" asp-action="CaptureRatio" asp-controller="ExportCRResult" name="exportForm">
+                <table class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Evento</th>
+                            <th>Empresa</th>
+                            <th>Location</th>
+                            <th>Lost Business</th>
+                            <th>Motivo de Lost Business</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var cra in ViewBag.CRResult)
+                        {
+                            <tr>
+                                <td>@cra.Evento</td>
+                                <td>@cra.Empresa</td>
+                                <td>@cra.Location</td>
+                                <td>@cra.LB</td>
+                                <td>@cra.LBMotivo</td>
+                            </tr>
+                        }
+                        <tr>
+                            <td><button type="submit" class="btn btn-success">Exportar</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    }
 }

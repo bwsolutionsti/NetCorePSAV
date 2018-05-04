@@ -10,9 +10,20 @@ namespace NetCorePSAV.Controllers
 {
     public class CRatioController : Controller
     {
+        [HttpPost]
+        public IActionResult CaptureRatio(NetCorePSAV.Models.NCRModel.SearchNCR nCR,string Consulta)
+        {
+            GCCorePSAV.Data.clsQuery cls = new GCCorePSAV.Data.clsQuery();
+            if (Consulta.Equals("1"))
+            {
+
+            }
+            return View();
+        }
         // GET: /<controller>/
         public IActionResult CaptureRatio()
         {
+            ViewBag.TieneFilas = false;
             return View();
         }
         public IActionResult NewCR()

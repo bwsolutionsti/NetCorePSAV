@@ -10,6 +10,33 @@ namespace GCCorePSAV.Data
     {
         private const string con = "Uid=root;Database=psav_dev;Pwd=(Conexi0npsavdatabasedev)1605;Host=35.188.2.70;";// CertificateFile=client.pfx;CertificatePassword=Mak3bbee;";/*SSL Mode=Required*/
         #region NewCR
+        public List<NetCorePSAV.Models.NCRModel.PreConsultaNCR> GetPreConsultaNCRs(NetCorePSAV.Models.NCRModel.SearchNCR nCR)
+        {
+            string queryToExec = "SELECT * FROM psav_dev.td_cration where ";
+            int contadorCampos = 0;
+            if (!string.IsNullOrEmpty(nCR.evento))
+            {
+
+            }
+            List<NetCorePSAV.Models.NCRModel.PreConsultaNCR> pres = new List<NetCorePSAV.Models.NCRModel.PreConsultaNCR>();
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(queryToExec, conn);
+            conn.Open();
+            MySqlDataReader mdr = cmd.ExecuteReader();
+            while (mdr.Read())
+            {
+                NetCorePSAV.Models.NCRModel.PreConsultaNCR pre = new NetCorePSAV.Models.NCRModel.PreConsultaNCR();
+                pre.IDNCR = mdr.GetValue(0).ToString();
+                pre.Evento = mdr.GetValue(1).ToString();
+                pre.Empresa= mdr.GetValue(2).ToString();
+                pre.Location = mdr.GetValue(3).ToString();
+                pre.LB = mdr.GetValue(4).ToString();
+                pre.LBMotivo = mdr.GetValue(5).ToString();
+                pres.Add(pre);
+            }
+            conn.Close();
+            return pres;
+        }
         public void SaveNCR(NetCorePSAV.Models.NCRModel.newCRView NCR)
         {
             string queryToExec = "insert into psav_dev.td_cration (tcl_id,tcrv_id,tcsm_id,tdcr_prospecto,tdcr_empresa,tdcr_correo,";

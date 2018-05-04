@@ -8,6 +8,25 @@ namespace NetCorePSAV.Models
 {
     public class NCRModel
     {
+        public class PreConsultaNCR
+        {
+            public string IDNCR { get; set; }
+            public string Evento { get; set; }
+            public string Empresa { get; set; }
+            public string Location { get; set; }
+            public string LB { get; set; }
+            public string LBMotivo { get; set; }
+        }
+        public class SearchNCR
+        {
+            public string finicio { get; set; }
+            public string ffin { get; set; }
+            public string evento { get; set; }
+            public string empresa { get; set; }
+            public string location { get; set; }
+            public string prospecto { get; set; }
+            public string lbmotivo { get; set; }
+        }
         #region catalogs
         public class DET
         {
