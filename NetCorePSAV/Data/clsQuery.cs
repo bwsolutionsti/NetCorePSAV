@@ -10,13 +10,94 @@ namespace GCCorePSAV.Data
     {
         private const string con = "Uid=root;Database=psav_dev;Pwd=(Conexi0npsavdatabasedev)1605;Host=35.188.2.70;";// CertificateFile=client.pfx;CertificatePassword=Mak3bbee;";/*SSL Mode=Required*/
         #region NewCR
-        public List<NetCorePSAV.Models.NCRModel.PreConsultaNCR> GetPreConsultaNCRs(NetCorePSAV.Models.NCRModel.SearchNCR nCR)
+        public List<NetCorePSAV.Models.NCRModel.NCRReporte> GetCRReportes(NetCorePSAV.Models.NCRModel.SearchNCR nCR)
         {
-            string queryToExec = "SELECT * FROM psav_dev.td_cration where ";
+            string queryToExec = "SELECT tcl.tcl_nombre,tcl.tcl_numero,tcl.tcl_region,tcl.tcl_ciudad,tdcr.tcrv_id,tdcr.tcsm_id,tdcr.tdcr_prospecto,tdcr.tdcr_empresa,tdcr.tdcr_correo,tdcr.tdcr_telefono,tcet.tce_nombre,tcte.tcte_nombe,tdcr.tdcr_nomevento,tdcr.tdcr_finicio,tdcr.tdcr_ffin,tdcr.tdcr_av,tdcr.tdcr_lb,tcml.tcmlb_nombre,tdcr.tcsa_id,tdcr.tdcr_lpe,tdcr.tdcr_fpe,tdcr.tdcr_comments FROM psav_dev.td_cration tdcr inner join psav_dev.tc_location tcl on tcl.tcl_id=tdcr.tcl_id inner join psav_dev.tc_etiquetas tcet on tcet.tce_id=tdcr.tcet_id inner join psav_dev.tc_tipoevento tcte on tcte.tcte_id=tdcr.tcte_id inner join psav_dev.tc_motivolb tcml on tcml.tcmlb_id=tdcr.tcmlb_id where ";
             int contadorCampos = 0;
             if (!string.IsNullOrEmpty(nCR.evento))
             {
-
+                queryToExec += "tdcr.tdcr_nomevento like '%" + nCR.evento + "%' ";
+            }
+            if (!string.IsNullOrEmpty(nCR.empresa))
+            {
+                if (queryToExec.Contains("like")) { queryToExec += " or "; }
+                queryToExec += "tdcr.tdcr_empresa like '%" + nCR.empresa + "%' ";
+            }
+            if (!string.IsNullOrEmpty(nCR.prospecto))
+            {
+                if (queryToExec.Contains("like")) { queryToExec += " or "; }
+                queryToExec += "tdcr.tdcr_prospecto like '%" + nCR.prospecto + "%' ";
+            }
+            if (!string.IsNullOrEmpty(nCR.lbmotivo))
+            {
+                if (queryToExec.Contains("like")) { queryToExec += " and "; }
+                queryToExec += "tdcr.tcmlb_id=" + nCR.lbmotivo;
+            }
+            if (!string.IsNullOrEmpty(nCR.location))
+            {
+                queryToExec += " or tdcr.tcl_id=" + nCR.location;
+            }
+            List<NetCorePSAV.Models.NCRModel.NCRReporte> pres = new List<NetCorePSAV.Models.NCRModel.NCRReporte>();
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(queryToExec, conn);
+            conn.Open();
+            MySqlDataReader mdr = cmd.ExecuteReader();
+            while (mdr.Read())
+            {
+                NetCorePSAV.Models.NCRModel.NCRReporte pre = new NetCorePSAV.Models.NCRModel.NCRReporte();
+                pre.nloc = mdr.GetValue(0).ToString();
+                pre.numloc=mdr.GetValue(1).ToString();
+                pre.region= mdr.GetValue(2).ToString();
+                pre.ciudad= mdr.GetValue(3).ToString();
+                pre.det= mdr.GetValue(4).ToString();
+                pre.smgr= mdr.GetValue(5).ToString();
+                pre.prospecto= mdr.GetValue(6).ToString();
+                pre.empresa= mdr.GetValue(7).ToString();
+                pre.correo= mdr.GetValue(8).ToString();
+                pre.telefono= mdr.GetValue(9).ToString();
+                pre.etiqueta= mdr.GetValue(10).ToString();
+                pre.tipoevento= mdr.GetValue(11).ToString();
+                pre.nomevento= mdr.GetValue(12).ToString();
+                pre.finicio= mdr.GetValue(13).ToString();
+                pre.ffin= mdr.GetValue(14).ToString();
+                pre.ciaav= mdr.GetValue(15).ToString();
+                pre.lb= mdr.GetValue(16).ToString();
+                pre.lbm= mdr.GetValue(17).ToString();
+                pre.servadic= mdr.GetValue(18).ToString();
+                pre.lpe= mdr.GetValue(19).ToString();
+                pre.fpe= mdr.GetValue(20).ToString();
+                pre.comentarios= mdr.GetValue(21).ToString();
+                pres.Add(pre);
+            }
+            conn.Close();
+            return pres;
+        }
+        public List<NetCorePSAV.Models.NCRModel.PreConsultaNCR> GetPreConsultaNCRs(NetCorePSAV.Models.NCRModel.SearchNCR nCR)
+        {
+            string queryToExec = "SELECT tdcr.tdcr_id,tdcr.tdcr_nomevento,tdcr.tdcr_empresa,tcl.tcl_nombre,tdcr.tdcr_lb,tcmlb.tcmlb_nombre FROM psav_dev.td_cration tdcr inner join psav_dev.tc_location tcl on tcl.tcl_id=tdcr.tcl_id inner join psav_dev.tc_motivolb tcmlb on tcmlb.tcmlb_id=tdcr.tcmlb_id where ";
+            int contadorCampos = 0;
+            if (!string.IsNullOrEmpty(nCR.evento))
+            {
+                queryToExec += "tdcr.tdcr_nomevento like '%" + nCR.evento + "%' ";
+            }
+            if (!string.IsNullOrEmpty(nCR.empresa))
+            {
+                if (queryToExec.Contains("like")) { queryToExec += " or "; }
+                queryToExec += "tdcr.tdcr_empresa like '%" + nCR.empresa + "%' ";
+            }
+            if (!string.IsNullOrEmpty(nCR.prospecto))
+            {
+                if (queryToExec.Contains("like")) { queryToExec += " or "; }
+                queryToExec += "tdcr.tdcr_prospecto like '%" + nCR.prospecto + "%' ";
+            }
+            if (!string.IsNullOrEmpty(nCR.lbmotivo))
+            {
+                if (queryToExec.Contains("like")) { queryToExec += " and "; }
+                queryToExec += "tdcr.tcmlb_id="+nCR.lbmotivo;
+            }
+            if (!string.IsNullOrEmpty(nCR.location))
+            {
+                queryToExec += " or tdcr.tcl_id=" + nCR.location;
             }
             List<NetCorePSAV.Models.NCRModel.PreConsultaNCR> pres = new List<NetCorePSAV.Models.NCRModel.PreConsultaNCR>();
             MySqlConnection conn = new MySqlConnection(con);

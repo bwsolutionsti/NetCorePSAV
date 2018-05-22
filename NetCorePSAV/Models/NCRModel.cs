@@ -8,6 +8,31 @@ namespace NetCorePSAV.Models
 {
     public class NCRModel
     {
+        public class NCRReporte
+        {
+            public string nloc { get; set; }
+            public string numloc { get; set; }
+            public string region { get; set; }
+            public string ciudad { get; set; }
+            public string det { get; set; }
+            public string smgr { get; set; }
+            public string prospecto { get; set; }
+            public string empresa { get; set; }
+            public string correo { get; set; }
+            public string telefono { get; set; }
+            public string etiqueta { get; set; }
+            public string tipoevento { get; set; }
+            public string nomevento { get; set; }
+            public string finicio { get; set; }
+            public string ffin { get; set; }
+            public string ciaav { get; set; }
+            public string lb { get; set; }
+            public string lbm { get; set; }
+            public string servadic { get; set; }
+            public string lpe { get; set; }
+            public string fpe { get; set; }
+            public string comentarios { get; set; }
+        }
         public class PreConsultaNCR
         {
             public string IDNCR { get; set; }

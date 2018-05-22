@@ -33,7 +33,7 @@ namespace NetCorePSAV
         {
             // Add framework services.
             services.AddMvc();
-            //services.AddSession();
+            services.AddSession();
             //services.AddIdentity();
             services.AddTransient<GCCorePSAV.Controllers.Services.LoggedInComponent>();
             services.AddDistributedMemoryCache();
@@ -56,7 +56,7 @@ namespace NetCorePSAV
             }
 
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

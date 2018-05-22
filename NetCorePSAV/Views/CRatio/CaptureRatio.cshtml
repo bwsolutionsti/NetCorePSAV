@@ -19,6 +19,16 @@
             form.appendChild(el);
             form.submit();
         }
+        function submitFormExport() {
+            var form = document.forms['myForm'];
+            // form.action = 'put your url here';
+            var el = document.createElement("input");
+            el.type = "hidden";
+            el.name = "Exporta";
+            el.value = "1";
+            form.appendChild(el);
+            form.submit();
+        }
     </script>
     <br />
     <div class="row">
@@ -30,8 +40,9 @@
             <li role="presentation"><a asp-action="NewCR" asp-controller="CRatio">Nuevo</a></li>
         </ul>
     </div>
-    <div class="row">
-        <form method="post" asp-action="CaptureRatio" asp-controller="CRatio" name="myForm">
+    <form method="post" asp-action="CaptureRatio" asp-controller="CRatio" name="myForm">
+        <div class="row">
+
             <table class="table table-responsive">
                 <tr>
                     <td>
@@ -51,7 +62,14 @@
                                     </tr>
                                     <tr>
                                         <td>Location:&nbsp;</td>
-                                        <td><select class="form-control" name="Location" asp-for="location"></select></td>
+                                        <td>
+                                            <select class="form-control" name="Location" asp-for="location">
+                                                @foreach (var Etiquetaa in ViewBag.Locations)
+                                                {
+                                                    <option value="@Etiquetaa.ParentID">@Etiquetaa.Nombre</option>
+                                                }
+                                            </select>
+                                        </td>
                                         <td>&nbsp;</td>
                                         <td>Empresa:&nbsp;</td>
                                         <td><input class="form-control" asp-for="empresa" type="text" /></td>
@@ -61,7 +79,14 @@
                                     </tr>
                                     <tr>
                                         <td>Motivo de Lost Business:&nbsp;</td>
-                                        <td><select class="form-control" asp-for="lbmotivo"></select></td>
+                                        <td>
+                                            <select class="form-control" asp-for="lbmotivo">
+                                                @foreach (var Etiquetaa in ViewBag.LBMotivo)
+                                                {
+                                                    <option value="@Etiquetaa.IDMLB">@Etiquetaa.Nombre</option>
+                                                }
+                                            </select>
+                                        </td>
                                         <td>&nbsp;</td>
                                         <td>&nbsp;</td>
                                         <td>&nbsp;</td>
@@ -73,12 +98,10 @@
                     </td>
                 </tr>
             </table>
-        </form>
     </div>
     @if (ViewBag.TieneFilas)
     {
         <div class="row">
-            <form method="post" asp-action="CaptureRatio" asp-controller="ExportCRResult" name="exportForm">
                 <table class="table table-responsive">
                     <thead>
                         <tr>
@@ -90,7 +113,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach(var cra in ViewBag.CRResult)
+                        @foreach (var cra in ViewBag.CRResult)
                         {
                             <tr>
                                 <td>@cra.Evento</td>
@@ -101,11 +124,12 @@
                             </tr>
                         }
                         <tr>
-                            <td><button type="submit" class="btn btn-success">Exportar</button></td>
+                            <td><button type="submit" class="btn btn-success" onclick="submitFormExport();return false">Exportar</button></td>
                         </tr>
                     </tbody>
                 </table>
-            </form>
+
         </div>
     }
+    </form>
 }
