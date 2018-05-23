@@ -179,7 +179,7 @@ namespace GCCorePSAV.Data
             {
                 NetCorePSAV.Models.NCRModel.NLocation etiqueta = new NetCorePSAV.Models.NCRModel.NLocation();
                 etiqueta.ParentID = msdr.GetValue(0).ToString();
-                etiqueta.Nombre = msdr.GetValue(1).ToString() + " - " + msdr.GetValue(2).ToString();
+                etiqueta.Nombre = msdr.GetValue(2).ToString() + " - " + msdr.GetValue(1).ToString();
                 etiqueta.ID = msdr.GetValue(3).ToString();
                 etiquetas.Add(etiqueta);
             }
@@ -198,7 +198,7 @@ namespace GCCorePSAV.Data
             {
                 NetCorePSAV.Models.NCRModel.NLocation etiqueta = new NetCorePSAV.Models.NCRModel.NLocation();
                 etiqueta.ParentID = msdr.GetValue(0).ToString();
-                etiqueta.Nombre = msdr.GetValue(1).ToString() + " - " + msdr.GetValue(2).ToString();
+                etiqueta.Nombre = msdr.GetValue(2).ToString() + " - " + msdr.GetValue(1).ToString();
                 etiquetas.Add(etiqueta);
             }
             conn.Close();
