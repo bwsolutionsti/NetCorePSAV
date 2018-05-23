@@ -12,7 +12,7 @@ namespace GCCorePSAV.Data
         #region NewCR
         public List<NetCorePSAV.Models.NCRModel.NCRReporte> GetCRReportes(NetCorePSAV.Models.NCRModel.SearchNCR nCR)
         {
-            string queryToExec = "SELECT tcl.tcl_nombre,tcl.tcl_numero,tcl.tcl_region,tcl.tcl_ciudad,tdcr.tcrv_id,tdcr.tcsm_id,tdcr.tdcr_prospecto,tdcr.tdcr_empresa,tdcr.tdcr_correo,tdcr.tdcr_telefono,tcet.tce_nombre,tcte.tcte_nombe,tdcr.tdcr_nomevento,tdcr.tdcr_finicio,tdcr.tdcr_ffin,tdcr.tdcr_av,tdcr.tdcr_lb,tcml.tcmlb_nombre,tdcr.tcsa_id,tdcr.tdcr_lpe,tdcr.tdcr_fpe,tdcr.tdcr_comments FROM psav_dev.td_cration tdcr inner join psav_dev.tc_location tcl on tcl.tcl_id=tdcr.tcl_id inner join psav_dev.tc_etiquetas tcet on tcet.tce_id=tdcr.tcet_id inner join psav_dev.tc_tipoevento tcte on tcte.tcte_id=tdcr.tcte_id inner join psav_dev.tc_motivolb tcml on tcml.tcmlb_id=tdcr.tcmlb_id where ";
+            string queryToExec = "SELECT tcl.tcl_nombre,tcl.tcl_numero,tcl.tcl_region,tcl.tcl_ciudad,tdcr.tcrv_id,tdcr.tcsm_id,tdcr.tdcr_prospecto,tdcr.tdcr_empresa,tdcr.tdcr_correo,tdcr.tdcr_telefono,tcet.tce_nombre,tcte.tcte_nombe,tdcr.tdcr_nomevento,tdcr.tdcr_finicio,tdcr.tdcr_ffin,tdcr.tdcr_av,tdcr.tdcr_lb,tcml.tcmlb_nombre,tdcr.tcsa_id,tdcr.tdcr_lpe,tdcr.tdcr_fpe,tdcr.tdcr_comments,tdcr_servadic FROM psav_dev.td_cration tdcr inner join psav_dev.tc_location tcl on tcl.tcl_id=tdcr.tcl_id inner join psav_dev.tc_etiquetas tcet on tcet.tce_id=tdcr.tcet_id inner join psav_dev.tc_tipoevento tcte on tcte.tcte_id=tdcr.tcte_id inner join psav_dev.tc_motivolb tcml on tcml.tcmlb_id=tdcr.tcmlb_id where ";
             int contadorCampos = 0;
             if (!string.IsNullOrEmpty(nCR.evento))
             {
@@ -63,7 +63,7 @@ namespace GCCorePSAV.Data
                 pre.ciaav= mdr.GetValue(15).ToString();
                 pre.lb= mdr.GetValue(16).ToString();
                 pre.lbm= mdr.GetValue(17).ToString();
-                pre.servadic= mdr.GetValue(18).ToString();
+                pre.servadic= mdr.GetValue(22).ToString();
                 pre.lpe= mdr.GetValue(19).ToString();
                 pre.fpe= mdr.GetValue(20).ToString();
                 pre.comentarios= mdr.GetValue(21).ToString();
@@ -122,9 +122,9 @@ namespace GCCorePSAV.Data
         {
             string queryToExec = "insert into psav_dev.td_cration (tcl_id,tcrv_id,tcsm_id,tdcr_prospecto,tdcr_empresa,tdcr_correo,";
             queryToExec += "tdcr_telefono,tcet_id,tcte_id,tdcr_nomevento,tdcr_finicio,tdcr_ffin,tdcr_av,tdcr_lb,tcmlb_id,tcsa_id,tdcr_lpe,";
-            queryToExec += "tdcr_fpe,tdcr_comments) values("+NCR.NLocation+","+NCR.DET+","+NCR.SMgr+",'"+NCR.prospecto.ToUpper() + "','"+NCR.empresa.ToUpper() + "',";
+            queryToExec += "tdcr_fpe,tdcr_comments,tdcr_servadic) values("+NCR.NuLocation+","+NCR.DET+","+NCR.SMgr+",'"+NCR.prospecto.ToUpper() + "','"+NCR.empresa.ToUpper() + "',";
             queryToExec += "'"+NCR.correo.ToUpper() + "','"+NCR.telefono+"',"+NCR.etiqueta+","+NCR.tipoevento+",'"+NCR.nombreevento.ToUpper() + "','"+NCR.fechainicio+"',";
-            queryToExec += "'"+NCR.fechafin+"','"+NCR.AV.ToUpper() + "',"+NCR.LB+","+NCR.LBMotivo+","+NCR.sadic+",'"+NCR.lpe.ToUpper() + "','"+NCR.fpe+"','"+NCR.comments.ToUpper()+"')";
+            queryToExec += "'"+NCR.fechafin+"','"+NCR.AV.ToUpper() + "',"+NCR.LB+","+NCR.LBMotivo+",1,'"+NCR.lpe.ToUpper() + "','"+NCR.fpe+"','"+NCR.comments.ToUpper()+"','"+NCR.sadic+"')";
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(queryToExec, conn);
             conn.Open();
@@ -144,6 +144,43 @@ namespace GCCorePSAV.Data
                 NetCorePSAV.Models.NCRModel.sadic etiqueta = new NetCorePSAV.Models.NCRModel.sadic();
                 etiqueta.IDSA = msdr.GetValue(0).ToString();
                 etiqueta.Nombre = msdr.GetValue(1).ToString();
+                etiquetas.Add(etiqueta);
+            }
+            conn.Close();
+            return etiquetas;
+        }
+        public List<NetCorePSAV.Models.NCRModel.NLocation> GetCiudades()
+        {
+            string queryToExec = "SELECT distinct(tcl_ciudad) as ciudad FROM psav_dev.tc_location order by 1 asc";
+            List<NetCorePSAV.Models.NCRModel.NLocation> etiquetas = new List<NetCorePSAV.Models.NCRModel.NLocation>();
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(queryToExec, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                NetCorePSAV.Models.NCRModel.NLocation etiqueta = new NetCorePSAV.Models.NCRModel.NLocation();
+                etiqueta.ParentID = msdr.GetValue(0).ToString();
+                etiqueta.Nombre = msdr.GetValue(0).ToString();
+                etiquetas.Add(etiqueta);
+            }
+            conn.Close();
+            return etiquetas;
+        }
+        public List<NetCorePSAV.Models.NCRModel.NLocation> GetNuLocations()
+        {
+            string queryToExec = "SELECT tcl_ciudad,tcl_nombre,tcl_numero,tcl_id FROM psav_dev.tc_location order by 2 asc";
+            List<NetCorePSAV.Models.NCRModel.NLocation> etiquetas = new List<NetCorePSAV.Models.NCRModel.NLocation>();
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(queryToExec, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                NetCorePSAV.Models.NCRModel.NLocation etiqueta = new NetCorePSAV.Models.NCRModel.NLocation();
+                etiqueta.ParentID = msdr.GetValue(0).ToString();
+                etiqueta.Nombre = msdr.GetValue(1).ToString() + " - " + msdr.GetValue(2).ToString();
+                etiqueta.ID = msdr.GetValue(3).ToString();
                 etiquetas.Add(etiqueta);
             }
             conn.Close();

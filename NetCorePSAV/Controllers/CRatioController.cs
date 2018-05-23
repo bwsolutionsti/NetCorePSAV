@@ -51,14 +51,15 @@ namespace NetCorePSAV.Controllers
                         ews.Cells["k" + (i + 3).ToString()].Value = reportes[i].etiqueta;
                         ews.Cells["l" + (i + 3).ToString()].Value = reportes[i].tipoevento;
                         ews.Cells["m" + (i + 3).ToString()].Value = reportes[i].nomevento;
-                        ews.Cells["n" + (i + 3).ToString()].Value = reportes[i].finicio;
-                        ews.Cells["o" + (i + 3).ToString()].Value = reportes[i].ffin;
+                        ews.Cells["n" + (i + 3).ToString()].Value = Convert.ToDateTime(reportes[i].finicio).ToString("dd/MM/yyyy");
+                        ews.Cells["o" + (i + 3).ToString()].Value = Convert.ToDateTime(reportes[i].ffin).ToString("dd/MM/yyyy");
                         ews.Cells["p" + (i + 3).ToString()].Value = reportes[i].ciaav;
                         ews.Cells["q" + (i + 3).ToString()].Value = reportes[i].lb;
+                        ews.Cells["q" + (i + 3).ToString()].Style.Numberformat.Format = "0.00";
                         ews.Cells["r" + (i + 3).ToString()].Value = reportes[i].lbm;
                         ews.Cells["s" + (i + 3).ToString()].Value = reportes[i].servadic;
                         ews.Cells["t" + (i + 3).ToString()].Value = reportes[i].lpe;
-                        ews.Cells["u" + (i + 3).ToString()].Value = reportes[i].fpe;
+                        ews.Cells["u" + (i + 3).ToString()].Value = Convert.ToDateTime(reportes[i].fpe).ToString("dd/MM/yyyy");
                         ews.Cells["v" + (i + 3).ToString()].Value = reportes[i].comentarios;
                     }
                     //termina excel
@@ -118,6 +119,8 @@ namespace NetCorePSAV.Controllers
             ViewBag.RepVtas = cls.RepVtas();
             //Location - Cascade
             ViewBag.Locations = cls.GetNLocations();
+            ViewBag.datasourceC = cls.GetCiudades();
+            ViewBag.datasourceI = cls.GetNuLocations();
             //Etiqueta
             ViewBag.Etiquetas = cls.GetEtiquetas();
             //TipoEvento
@@ -146,6 +149,8 @@ namespace NetCorePSAV.Controllers
                 ViewBag.RepVtas = cls.RepVtas();
                 //Location - Cascade
                 ViewBag.Locations = cls.GetNLocations();
+                ViewBag.datasourceC = cls.GetCiudades();
+                ViewBag.datasourceI = cls.GetNuLocations();
                 //Etiqueta
                 ViewBag.Etiquetas = cls.GetEtiquetas();
                 //TipoEvento

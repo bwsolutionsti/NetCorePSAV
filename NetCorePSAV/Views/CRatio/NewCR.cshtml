@@ -43,24 +43,18 @@
                     <tr>
                         <td width="50%">
                             <div class="form-group">
-                                <label asp-for="NLocation" class="control-label"></label>
-                                <select asp-for="NLocation" class="form-control">
-                                    @foreach (var Etiquetaa in ViewBag.Locations)
-                                    {
-                                        <option value="@Etiquetaa.ParentID">@Etiquetaa.Nombre</option>
-                                    }
-                                </select>
+                                <span>Ciudad</span>
+                                <ej-drop-down-list id="NLocation" datasource="ViewBag.datasourceC" watermark-text="Seleccione Ciudad" cascade-to="NuLocation" width="75%">
+                                    <e-drop-down-list-fields text="Nombre" id="ParentID" value="ParentID" />
+                                </ej-drop-down-list>
                             </div>
                         </td>
                         <td width="50%">
                             <div class="form-group">
-                                <label asp-for="NuLocation" class="control-label"></label>
-                                <select asp-for="NuLocation" class="form-control">
-                                    @foreach (var Etiquetaa in ViewBag.Locations)
-                                    {
-                                        <option value="@Etiquetaa.ParentID">@Etiquetaa.Nombre</option>
-                                    }
-                                </select>
+                                <span>Location</span>
+                                <ej-drop-down-list id="NuLocation" datasource="ViewBag.datasourceI" watermark-text="Seleccione Location" width="75%">
+                                    <e-drop-down-list-fields text="Nombre" id="ID" value="ID" />
+                                </ej-drop-down-list>
                             </div>
                         </td>
                     </tr>
@@ -119,7 +113,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td width="50%"><div class="form-group"><label asp-for="servadic" class="control-label"></label><select asp-for="servadic" class="form-control" onchange="doenable();"><option value="0">NO</option><option value="1">SI</option></select></div></td>
+                        <td width="50%">@*<div class="form-group"><label asp-for="servadic" class="control-label"></label><select asp-for="servadic" class="form-control" onchange="doenable();"><option value="0">NO</option><option value="1">SI</option></select></div>*@&nbsp;</td>
                         <td width="50%">
                             <div class="form-group">
                                 <label asp-for="sadic" class="control-label"></label>
