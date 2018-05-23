@@ -169,7 +169,7 @@ namespace GCCorePSAV.Data
         }
         public List<NetCorePSAV.Models.NCRModel.NLocation> GetNuLocations()
         {
-            string queryToExec = "SELECT tcl_ciudad,tcl_nombre,tcl_numero,tcl_id FROM psav_dev.tc_location order by 2 asc";
+            string queryToExec = "SELECT tcl_ciudad,tcl_nombre,tcl_numero,tcl_id FROM psav_dev.tc_location order by 3 asc";
             List<NetCorePSAV.Models.NCRModel.NLocation> etiquetas = new List<NetCorePSAV.Models.NCRModel.NLocation>();
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(queryToExec, conn);
@@ -188,7 +188,7 @@ namespace GCCorePSAV.Data
         }
         public List<NetCorePSAV.Models.NCRModel.NLocation> GetNLocations()
         {
-            string queryToExec = "SELECT * FROM psav_dev.tc_location";
+            string queryToExec = "SELECT * FROM psav_dev.tc_location order by tcl_numero asc";
             List<NetCorePSAV.Models.NCRModel.NLocation> etiquetas = new List<NetCorePSAV.Models.NCRModel.NLocation>();
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(queryToExec, conn);
