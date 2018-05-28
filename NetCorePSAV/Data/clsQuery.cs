@@ -92,12 +92,25 @@ namespace GCCorePSAV.Data
             }
             if (!string.IsNullOrEmpty(nCR.lbmotivo))
             {
+                if (nCR.lbmotivo.Equals("0")) { 
                 if (queryToExec.Contains("like")) { queryToExec += " and "; }
-                queryToExec += "tdcr.tcmlb_id="+nCR.lbmotivo;
+                queryToExec += "tdcr.tcmlb_id=tdcr.tcmlb_id";
+                }
+                else
+                {
+                    if (queryToExec.Contains("like")) { queryToExec += " and "; }
+                    queryToExec += "tdcr.tcmlb_id=" + nCR.lbmotivo;
+                }
             }
             if (!string.IsNullOrEmpty(nCR.location))
             {
-                queryToExec += " or tdcr.tcl_id=" + nCR.location;
+                if (nCR.location.Equals("0")) {
+                    queryToExec += " or tdcr.tcl_id=tdcr.tcl_id";
+                }
+                else
+                {
+                    queryToExec += " or tdcr.tcl_id=" + nCR.location;
+                }
             }
             List<NetCorePSAV.Models.NCRModel.PreConsultaNCR> pres = new List<NetCorePSAV.Models.NCRModel.PreConsultaNCR>();
             MySqlConnection conn = new MySqlConnection(con);
@@ -203,6 +216,25 @@ namespace GCCorePSAV.Data
             }
             conn.Close();
             return etiquetas;
+        }
+        public string GetNameSMDet(string idPuesto,string idtipo)
+        {
+            string QuerySearch = "";
+            switch (idtipo)
+            {
+                case "1":
+                    QuerySearch= "SELECT tmp_id FROM psav_dev.tc_det where tcd_id="+idPuesto;
+                    break;
+                case "2":
+                    QuerySearch = "SELECT tm_pid FROM psav_dev.tc_repventas where tcrv_id=" + idPuesto;
+                    break;
+            }
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(QuerySearch, conn);
+            conn.Open();
+            string regreso = GetFullNameByIDPerson(cmd.ExecuteScalar().ToString());
+            conn.Close();
+            return regreso;
         }
         public List<NetCorePSAV.Models.NCRModel.DET> GetDETs()
         {

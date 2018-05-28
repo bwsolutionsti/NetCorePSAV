@@ -42,8 +42,8 @@ namespace NetCorePSAV.Controllers
                         ews.Cells["b" + (i + 3).ToString()].Value = reportes[i].numloc;
                         ews.Cells["c" + (i + 3).ToString()].Value = reportes[i].region;
                         ews.Cells["d" + (i + 3).ToString()].Value = reportes[i].ciudad;
-                        ews.Cells["e" + (i + 3).ToString()].Value = reportes[i].det;
-                        ews.Cells["f" + (i + 3).ToString()].Value = reportes[i].smgr;
+                        ews.Cells["e" + (i + 3).ToString()].Value = cls.GetNameSMDet(reportes[i].det, "1");
+                        ews.Cells["f" + (i + 3).ToString()].Value = cls.GetNameSMDet(reportes[i].smgr,"2");
                         ews.Cells["g" + (i + 3).ToString()].Value = reportes[i].prospecto;
                         ews.Cells["h" + (i + 3).ToString()].Value = reportes[i].empresa;
                         ews.Cells["i" + (i + 3).ToString()].Value = reportes[i].correo;

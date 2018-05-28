@@ -64,6 +64,7 @@
                                         <td>Location:&nbsp;</td>
                                         <td>
                                             <select class="form-control" name="Location" asp-for="location">
+                                                <option value="0">Todos</option>
                                                 @foreach (var Etiquetaa in ViewBag.Locations)
                                                 {
                                                     <option value="@Etiquetaa.ParentID">@Etiquetaa.Nombre</option>
@@ -81,10 +82,11 @@
                                         <td>Motivo de Lost Business:&nbsp;</td>
                                         <td>
                                             <select class="form-control" asp-for="lbmotivo">
+                                                <option value="0">Todos</option>
                                                 @foreach (var Etiquetaa in ViewBag.LBMotivo)
-                                                {
-                                                    <option value="@Etiquetaa.IDMLB">@Etiquetaa.Nombre</option>
-                                                }
+    {
+                                            <option value="@Etiquetaa.IDMLB">@Etiquetaa.Nombre</option>
+}
                                             </select>
                                         </td>
                                         <td>&nbsp;</td>
