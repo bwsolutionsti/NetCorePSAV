@@ -12,7 +12,7 @@
         <div class="row"><h5>Nuevo Capture Ratio</h5></div>
         <div asp-validation-summary="All" class="text-danger"></div>
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12">                
                 <table width="100%">
                     <tr>
                         <td width="50%">
@@ -21,21 +21,23 @@
                                 <select asp-for="DET" class="form-control">
                                     <option value="0">Seleccionar</option>
                                     @foreach (var pmgr in ViewBag.DET)
-                                    {
-                                        <option value="@pmgr.IDDet">@pmgr.Nombre</option>
-                                    }
+                    {
+                        <option value="@pmgr.IDDet">@pmgr.Nombre</option>
+    }
                                 </select>
                             </div>
                         </td>
+                    </tr>
+                    <tr>
                         <td width="50%">
                             <div class="form-group">
                                 <label asp-for="SMgr" class="control-label"></label>
                                 <select asp-for="SMgr" class="form-control">
                                     <option value="0">Seleccionar</option>
                                     @foreach (var pmgr in ViewBag.RepVtas)
-                                    {
-                                        <option value="@pmgr.IDRepVtas">@pmgr.NombreCompleto</option>
-                                    }
+                    {
+                        <option value="@pmgr.IDRepVtas">@pmgr.NombreCompleto</option>
+    }
                                 </select>
                             </div>
                         </td>
@@ -49,6 +51,8 @@
                                 </ej-drop-down-list>
                             </div>
                         </td>
+                    </tr>
+                    <tr>
                         <td width="50%">
                             <div class="form-group">
                                 <span class="bold"><b>Location</b></span>
@@ -60,10 +64,14 @@
                     </tr>
                     <tr>
                         <td width="50%"><div class="form-group"><label asp-for="prospecto" class="control-label"></label><input asp-for="prospecto" class="form-control" /></div></td>
+                    </tr>
+                    <tr>
                         <td width="50%"><div class="form-group"><label asp-for="empresa" class="control-label"></label><input asp-for="empresa" class="form-control" /></div></td>
                     </tr>
                     <tr>
                         <td width="50%"><div class="form-group"><label asp-for="correo" class="control-label"></label><input asp-for="correo" class="form-control" /></div></td>
+                    </tr>
+                    <tr>
                         <td width="50%"><div class="form-group"><label asp-for="telefono" class="control-label"></label><input asp-for="telefono" class="form-control" /></div></td>
                     </tr>
                     <tr>
@@ -72,48 +80,58 @@
                                 <label asp-for="etiqueta" class="control-label"></label>
                                 <select asp-for="etiqueta" class="form-control">
                                     @foreach (var Etiquetaa in ViewBag.Etiquetas)
-                                    {
-                                        <option value="@Etiquetaa.IDEtiqueta">@Etiquetaa.Nombre</option>
-                                    }
+                    {
+                        <option value="@Etiquetaa.IDEtiqueta">@Etiquetaa.Nombre</option>
+    }
                                 </select>
                             </div>
                         </td>
+                    </tr>
+                    <tr>
                         <td width="50%">
                             <div class="form-group">
                                 <label asp-for="tipoevento" class="control-label"></label>
                                 <select asp-for="tipoevento" class="form-control">
                                     @foreach (var Etiquetaa in ViewBag.TipoEvento)
-                                    {
-                                        <option value="@Etiquetaa.IDTipoEvento">@Etiquetaa.Nombre</option>
-                                    }
+                    {
+                        <option value="@Etiquetaa.IDTipoEvento">@Etiquetaa.Nombre</option>
+    }
                                 </select>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td width="50%"><div class="form-group"><label asp-for="nombreevento" class="control-label"></label><input asp-for="nombreevento" class="form-control" /></div></td>
+                    </tr>
+                    <tr>
                         <td width="50%"><div class="form-group"><label asp-for="fechainicio" class="control-label"></label><input asp-for="fechainicio" class="form-control" /></div></td>
                     </tr>
                     <tr>
                         <td width="50%"><div class="form-group"><label asp-for="fechafin" class="control-label"></label><input asp-for="fechafin" class="form-control" /></div></td>
+                    </tr>
+                    <tr>
                         <td width="50%"><div class="form-group"><label asp-for="AV" class="control-label"></label><input asp-for="AV" class="form-control" /></div></td>
                     </tr>
                     <tr>
                         <td width="50%"><div class="form-group"><label asp-for="LB" class="control-label"></label><input asp-for="LB" class="form-control" /></div></td>
+                    </tr>
+                    <tr>
                         <td width="50%">
                             <div class="form-group">
                                 <label asp-for="LBMotivo" class="control-label"></label>
                                 <select asp-for="LBMotivo" class="form-control">
                                     @foreach (var Etiquetaa in ViewBag.LBMotivo)
-                                    {
-                                        <option value="@Etiquetaa.IDMLB">@Etiquetaa.Nombre</option>
-                                    }
+                    {
+                        <option value="@Etiquetaa.IDMLB">@Etiquetaa.Nombre</option>
+    }
                                 </select>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td width="50%">@*<div class="form-group"><label asp-for="servadic" class="control-label"></label><select asp-for="servadic" class="form-control" onchange="doenable();"><option value="0">NO</option><option value="1">SI</option></select></div>*@&nbsp;</td>
+                    </tr>
+                    <tr>
                         <td width="50%">
                             <div class="form-group">
                                 <label asp-for="sadic" class="control-label"></label>
@@ -125,6 +143,8 @@
                     </tr>
                     <tr>
                         <td width="50%"><div class="form-group"><label asp-for="lpe" class="control-label"></label><input asp-for="lpe" class="form-control" /></div></td>
+                    </tr>
+                    <tr>
                         <td width="5%"><div class="form-group"><label asp-for="fpe" class="control-label"></label><input asp-for="fpe" class="form-control" /></div></td>
                     </tr>
                     <tr>
