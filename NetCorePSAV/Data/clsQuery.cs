@@ -30,12 +30,27 @@ namespace GCCorePSAV.Data
             }
             if (!string.IsNullOrEmpty(nCR.lbmotivo))
             {
-                if (queryToExec.Contains("like")) { queryToExec += " and "; }
-                queryToExec += "tdcr.tcmlb_id=" + nCR.lbmotivo;
+                if (nCR.lbmotivo.Equals("0"))
+                {
+                    if (queryToExec.Contains("like")) { queryToExec += " and "; }
+                    queryToExec += "tdcr.tcmlb_id=tdcr.tcmlb_id";
+                }
+                else
+                {
+                    if (queryToExec.Contains("like")) { queryToExec += " and "; }
+                    queryToExec += "tdcr.tcmlb_id=" + nCR.lbmotivo;
+                }
             }
             if (!string.IsNullOrEmpty(nCR.location))
             {
-                queryToExec += " or tdcr.tcl_id=" + nCR.location;
+                if (nCR.location.Equals("0"))
+                {
+                    queryToExec += " or tdcr.tcl_id=tdcr.tcl_id";
+                }
+                else
+                {
+                    queryToExec += " or tdcr.tcl_id=" + nCR.location;
+                }
             }
             List<NetCorePSAV.Models.NCRModel.NCRReporte> pres = new List<NetCorePSAV.Models.NCRModel.NCRReporte>();
             MySqlConnection conn = new MySqlConnection(con);
