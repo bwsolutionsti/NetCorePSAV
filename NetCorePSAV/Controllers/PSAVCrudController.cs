@@ -125,6 +125,151 @@ namespace GCCorePSAV.Controllers
             return Json(value);
         }
         #endregion
+        #region TipoEvento
+        public static List<NetCorePSAV.Models.PSAVCrud.TipoEventoModel> TEList = new List<NetCorePSAV.Models.PSAVCrud.TipoEventoModel>();
+        public ActionResult MotivosLB()
+        {
+            if (MLBList.Count.Equals(0))
+            {
+                BindDataSourceTE();
+            }
+            ViewBag.datasource = MLBList;
+            return View();
+        }
+        public void BindDataSourceTE() { TEList = QueryCrud.GetTipoEventos(); }
+        public ActionResult MLBNormalUpdate([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.TipoEventoModel> myObject)
+        {
+            var ord = myObject.Value;
+            NetCorePSAV.Models.PSAVCrud.TipoEventoModel val = TEList.Where(or => or.ID == ord.ID).FirstOrDefault();
+            val.ID = ord.ID; val.Nombre = ord.Nombre;
+            QueryCrud.UpdateTE(1, val);
+            return Json(myObject.Value);
+        }
+        public ActionResult MLBNormalInsert([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.TipoEventoModel> value)
+        {
+            NetCorePSAV.Models.PSAVCrud.TipoEventoModel val = value.Value;
+            val.ID = QueryCrud.UpdateTE(0, value.Value);
+            TEList.Insert(TEList.Count, val);
+            return Json(TEList);
+        }
+        public ActionResult MLBNormalDelete([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.TipoEventoModel> value)
+        {
+            NetCorePSAV.Models.PSAVCrud.TipoEventoModel val = new NetCorePSAV.Models.PSAVCrud.TipoEventoModel();
+            val.ID = value.Key.ToString();
+            QueryCrud.UpdateTE(2, val);
+            TEList.Remove(TEList.Where(or => or.ID == value.Key.ToString()).FirstOrDefault());
+            return Json(value);
+        }
+        #endregion
+        #region MotivoLB
+        public static List<NetCorePSAV.Models.PSAVCrud.MotivosLBModel> MLBList = new List<NetCorePSAV.Models.PSAVCrud.MotivosLBModel>();
+        public ActionResult MotivosLB()
+        {
+            if (MLBList.Count.Equals(0))
+            {
+                BindDataSourceMLB();
+            }
+            ViewBag.datasource = MLBList;
+            return View();
+        }
+        public void BindDataSourceMLB() { MLBList = QueryCrud.GetMotivos(); }
+        public ActionResult MLBNormalUpdate([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.MotivosLBModel> myObject)
+        {
+            var ord = myObject.Value;
+            NetCorePSAV.Models.PSAVCrud.MotivosLBModel val = MLBList.Where(or => or.ID == ord.ID).FirstOrDefault();
+            val.ID = ord.ID; val.Nombre = ord.Nombre;
+            QueryCrud.UpdateMLB(1, val);
+            return Json(myObject.Value);
+        }
+        public ActionResult MLBNormalInsert([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.MotivosLBModel> value)
+        {
+            NetCorePSAV.Models.PSAVCrud.MotivosLBModel val = value.Value;
+            val.ID = QueryCrud.UpdateMLB(0, value.Value);
+            MLBList.Insert(MLBList.Count, val);
+            return Json(MLBList);
+        }
+        public ActionResult MLBNormalDelete([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.MotivosLBModel> value)
+        {
+            NetCorePSAV.Models.PSAVCrud.MotivosLBModel val = new NetCorePSAV.Models.PSAVCrud.MotivosLBModel();
+            val.ID = value.Key.ToString();
+            QueryCrud.UpdateMLB(2, val);
+            MLBList.Remove(MLBList.Where(or => or.ID == value.Key.ToString()).FirstOrDefault());
+            return Json(value);
+        }
+        #endregion
+        #region Etiquetas
+        public static List<NetCorePSAV.Models.PSAVCrud.EtiquetasModel> EtiquetasList = new List<NetCorePSAV.Models.PSAVCrud.EtiquetasModel>();
+        public ActionResult Etiquetas()
+        {
+            if (EtiquetasList.Count.Equals(0))
+            {
+                BindDataSourceTag();
+            }
+            ViewBag.datasource = EtiquetasList;
+            return View();
+        }
+        public void BindDataSourceTag() { EtiquetasList= QueryCrud.GetEtiquetas(); }
+        public ActionResult TagNormalUpdate([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.EtiquetasModel> myObject)
+        {
+            var ord = myObject.Value;
+            NetCorePSAV.Models.PSAVCrud.EtiquetasModel val = EtiquetasList.Where(or => or.ID == ord.ID).FirstOrDefault();
+            val.ID = ord.ID; val.Nombre = ord.Nombre; 
+            QueryCrud.UpdateEtiquetas(1, val);
+            return Json(myObject.Value);
+        }
+        public ActionResult TagNormalInsert([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.EtiquetasModel> value)
+        {
+            NetCorePSAV.Models.PSAVCrud.EtiquetasModel val = value.Value;
+            val.ID = QueryCrud.UpdateEtiquetas(0, value.Value);
+            EtiquetasList.Insert(EtiquetasList.Count, val);
+            return Json(EtiquetasList);
+        }
+        public ActionResult TagNormalDelete([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.EtiquetasModel> value)
+        {
+            NetCorePSAV.Models.PSAVCrud.EtiquetasModel val = new NetCorePSAV.Models.PSAVCrud.EtiquetasModel();
+            val.ID = value.Key.ToString();
+            QueryCrud.UpdateEtiquetas(2, val);
+            EtiquetasList.Remove(EtiquetasList.Where(or => or.ID == value.Key.ToString()).FirstOrDefault());
+            return Json(value);
+        }
+        #endregion
+        #region Location
+        public static List<NetCorePSAV.Models.PSAVCrud.LocationModel> LocationList = new List<NetCorePSAV.Models.PSAVCrud.LocationModel>();
+        public ActionResult Location()
+        {
+            if (LocationList.Count.Equals(0))
+            {
+                BindDataSourceLocation();
+            }
+            ViewBag.datasource = LocationList;
+            return View();
+        }
+        public Data.ClsQueryCrudSensitive QueryCrud = new Data.ClsQueryCrudSensitive();
+        public void BindDataSourceLocation() { LocationList = QueryCrud.GetLocations(); }
+        public ActionResult LocationNormalUpdate([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.LocationModel> myObject)
+        {
+            var ord = myObject.Value;
+            NetCorePSAV.Models.PSAVCrud.LocationModel val = LocationList.Where(or => or.ID == ord.ID).FirstOrDefault();
+            val.ID = ord.ID; val.Nombre = ord.Nombre; val.Numero= ord.Numero; val.Region= ord.Region;val.Ciudad = ord.Ciudad;
+            QueryCrud.UpdateLocation(1,val);
+            return Json(myObject.Value);
+        }
+        public ActionResult LocationNormalInsert([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.LocationModel> value)
+        {
+            NetCorePSAV.Models.PSAVCrud.LocationModel val = value.Value;
+            val.ID = QueryCrud.UpdateLocation( 0,value.Value);
+            LocationList.Insert(LocationList.Count, val);
+            return Json(LocationList);
+        }
+        public ActionResult LocationNormalDelete([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.LocationModel> value)
+        {
+            NetCorePSAV.Models.PSAVCrud.LocationModel val = new NetCorePSAV.Models.PSAVCrud.LocationModel();
+            val.ID = value.Key.ToString();
+            QueryCrud.UpdateLocation(2,val);
+            LocationList.Remove(LocationList.Where(or => or.ID == value.Key.ToString()).FirstOrDefault());
+            return Json(value);
+        }
+        #endregion
         #region Coins
         public static List<Models.PSAVCrud.SyncModels.CoinModel> CoinsList = new List<Models.PSAVCrud.SyncModels.CoinModel>();
         public ActionResult Coins()

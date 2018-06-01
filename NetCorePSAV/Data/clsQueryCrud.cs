@@ -10,7 +10,169 @@ namespace GCCorePSAV.Data
     public class ClsQueryCrudSensitive
     {
         private const string con = "Uid=root;Database=psav_dev;Pwd=(Conexi0npsavdatabasedev)1605;Host=35.188.2.70;";
-
+        #region TipoEvento
+        public List<NetCorePSAV.Models.PSAVCrud.TipoEventoModel> GetTipoEventos()
+        {
+            string TabSQLSens = "SELECT * FROM psav_dev.tc_tipoevento";
+            List<NetCorePSAV.Models.PSAVCrud.TipoEventoModel> locations = new List<NetCorePSAV.Models.PSAVCrud.TipoEventoModel>();
+            MySqlConnection conn = new MySqlConnection(con);//estamos estableciendo conexión con mySql
+            MySqlCommand cmd = new MySqlCommand(TabSQLSens, conn); //estamos ejecutando el código SELECT FROM
+            conn.Open();
+            MySqlDataReader sdr = cmd.ExecuteReader();//le estamos diciendo que lea los datos guardados en la base de datos
+            while (sdr.Read())
+            {
+                NetCorePSAV.Models.PSAVCrud.TipoEventoModel location = new NetCorePSAV.Models.PSAVCrud.TipoEventoModel();
+                location.ID = sdr.GetValue(0).ToString();
+                location.Nombre = sdr.GetValue(1).ToString();
+                locations.Add(location);
+            }
+            conn.Close();
+            return locations;
+        }
+        public string UpdateTE(int typeUpdate, NetCorePSAV.Models.PSAVCrud.TipoEventoModel locationModel)
+        {
+            string queryToInsert = ""; string valor = "";
+            switch (typeUpdate)
+            {
+                case 0:
+                    queryToInsert = "insert into psav_dev.tc_tipoevento (tcte_nombe) values('" + locationModel.Nombre + "')";
+                    valor = SaveWithIDReturn(queryToInsert);
+                    break;
+                case 1:
+                    queryToInsert = "update psav_dev.tc_tipoevento set tcte_nombe='" + locationModel.Nombre + "' where tcte_id=" + locationModel.ID;
+                    SaveWithoutValidation(queryToInsert);
+                    break;
+                case 2:
+                    queryToInsert = "delete from psav_dev.tc_tipoevento where tcte_id=" + locationModel.ID;
+                    SaveWithoutValidation(queryToInsert);
+                    break;
+            }
+            return valor;
+        }
+        #endregion
+        #region MotivosLB
+        public List<NetCorePSAV.Models.PSAVCrud.MotivosLBModel> GetMotivos()
+        {
+            string TabSQLSens = "SELECT * FROM psav_dev.tc_etiquetas";
+            List<NetCorePSAV.Models.PSAVCrud.MotivosLBModel> locations = new List<NetCorePSAV.Models.PSAVCrud.MotivosLBModel>();
+            MySqlConnection conn = new MySqlConnection(con);//estamos estableciendo conexión con mySql
+            MySqlCommand cmd = new MySqlCommand(TabSQLSens, conn); //estamos ejecutando el código SELECT FROM
+            conn.Open();
+            MySqlDataReader sdr = cmd.ExecuteReader();//le estamos diciendo que lea los datos guardados en la base de datos
+            while (sdr.Read())
+            {
+                NetCorePSAV.Models.PSAVCrud.MotivosLBModel location = new NetCorePSAV.Models.PSAVCrud.MotivosLBModel();
+                location.ID = sdr.GetValue(0).ToString();
+                location.Nombre = sdr.GetValue(1).ToString();
+                locations.Add(location);
+            }
+            conn.Close();
+            return locations;
+        }
+        public string UpdateMLB(int typeUpdate, NetCorePSAV.Models.PSAVCrud.MotivosLBModel locationModel)
+        {
+            string queryToInsert = ""; string valor = "";
+            switch (typeUpdate)
+            {
+                case 0:
+                    queryToInsert = "insert into psav_dev.tc_motivolb (tcmlb_nombre) values('" + locationModel.Nombre + "')";
+                    valor = SaveWithIDReturn(queryToInsert);
+                    break;
+                case 1:
+                    queryToInsert = "update psav_dev.tc_motivolb set tcmlb_nombre='" + locationModel.Nombre + "' where tcmlb_id=" + locationModel.ID;
+                    SaveWithoutValidation(queryToInsert);
+                    break;
+                case 2:
+                    queryToInsert = "delete from psav_dev.tc_motivolb where tcmlb_id=" + locationModel.ID;
+                    SaveWithoutValidation(queryToInsert);
+                    break;
+            }
+            return valor;
+        }
+        #endregion
+        #region Etiquetas
+        public List<NetCorePSAV.Models.PSAVCrud.EtiquetasModel> GetEtiquetas()
+        {
+            string TabSQLSens = "SELECT * FROM psav_dev.tc_etiquetas";
+            List<NetCorePSAV.Models.PSAVCrud.EtiquetasModel> locations = new List<NetCorePSAV.Models.PSAVCrud.EtiquetasModel>();
+            MySqlConnection conn = new MySqlConnection(con);//estamos estableciendo conexión con mySql
+            MySqlCommand cmd = new MySqlCommand(TabSQLSens, conn); //estamos ejecutando el código SELECT FROM
+            conn.Open();
+            MySqlDataReader sdr = cmd.ExecuteReader();//le estamos diciendo que lea los datos guardados en la base de datos
+            while (sdr.Read())
+            {
+                NetCorePSAV.Models.PSAVCrud.EtiquetasModel location = new NetCorePSAV.Models.PSAVCrud.EtiquetasModel();
+                location.ID = sdr.GetValue(0).ToString();
+                location.Nombre = sdr.GetValue(1).ToString();
+                locations.Add(location);
+            }
+            conn.Close();
+            return locations;
+        }
+        public string UpdateEtiquetas(int typeUpdate, NetCorePSAV.Models.PSAVCrud.EtiquetasModel locationModel)
+        {
+            string queryToInsert = ""; string valor = "";
+            switch (typeUpdate)
+            {
+                case 0:
+                    queryToInsert = "insert into psav_dev.tc_etiquetas (tce_nombre) values('" + locationModel.Nombre + "')";
+                    valor = SaveWithIDReturn(queryToInsert);
+                    break;
+                case 1:
+                    queryToInsert = "update psav_dev.tc_etiquetas set tce_nombre='" + locationModel.Nombre + "' where tce_id=" + locationModel.ID;
+                    SaveWithoutValidation(queryToInsert);
+                    break;
+                case 2:
+                    queryToInsert = "delete from psav_dev.tc_etiquetas where tce_id=" + locationModel.ID;
+                    SaveWithoutValidation(queryToInsert);
+                    break;
+            }
+            return valor;
+        }
+        #endregion
+        #region Location
+        public List<NetCorePSAV.Models.PSAVCrud.LocationModel> GetLocations()
+        {
+            string TabSQLSens = "SELECT * FROM psav_dev.tc_location";
+            List<NetCorePSAV.Models.PSAVCrud.LocationModel> locations = new List<NetCorePSAV.Models.PSAVCrud.LocationModel>();
+            MySqlConnection conn = new MySqlConnection(con);//estamos estableciendo conexión con mySql
+            MySqlCommand cmd = new MySqlCommand(TabSQLSens, conn); //estamos ejecutando el código SELECT FROM
+            conn.Open();
+            MySqlDataReader sdr = cmd.ExecuteReader();//le estamos diciendo que lea los datos guardados en la base de datos
+            while (sdr.Read())
+            {
+                NetCorePSAV.Models.PSAVCrud.LocationModel location = new NetCorePSAV.Models.PSAVCrud.LocationModel();
+                location.ID = sdr.GetValue(0).ToString();
+                location.Nombre = sdr.GetValue(1).ToString();
+                location.Numero = sdr.GetValue(2).ToString();
+                location.Region = sdr.GetValue(3).ToString();
+                location.Ciudad = sdr.GetValue(4).ToString();
+                locations.Add(location);
+            }
+            conn.Close();
+            return locations;
+        }
+        public string UpdateLocation(int typeUpdate,NetCorePSAV.Models.PSAVCrud.LocationModel locationModel)
+        {
+            string queryToInsert = "";string valor = "";
+            switch (typeUpdate)
+            {
+                case 0:
+                    queryToInsert = "insert into psav_dev.tc_location (tcl_nombre,tcl_numero,tcl_region,tcl_ciudad) values('"+locationModel.Nombre+"','"+locationModel.Numero+"','"+locationModel.Region+"','"+locationModel.Ciudad+"')";
+                    valor=SaveWithIDReturn(queryToInsert);
+                    break;
+                case 1:
+                    queryToInsert = "update psav_dev.tc_location set tcl_nombre='"+locationModel.Nombre+"',tcl_numero='"+locationModel.Numero+"',tcl_region='"+locationModel.Region+"',tcl_ciudad='"+locationModel.Ciudad+"' where tcl_id=" + locationModel.ID;
+                    SaveWithoutValidation(queryToInsert);
+                    break;
+                case 2:
+                    queryToInsert = "delete from psav_dev.tc_location where tcl_id=" + locationModel.ID;
+                    SaveWithoutValidation(queryToInsert);
+                    break;
+            }
+            return valor;
+        }
+        #endregion
         public List<Models.PSAVCrud.SensitiveModel.SensitiveModelTabla> GetcategSens()//estamos referenciando la información del modelo y lo estamos guardando en getcategsens
         {
             string TabSQLSens = "SELECT * FROM psav_dev.tc_sensitive";
