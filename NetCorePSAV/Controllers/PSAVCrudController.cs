@@ -133,7 +133,7 @@ namespace GCCorePSAV.Controllers
             {
                 BindDataSourceTE();
             }
-            ViewBag.datasource = MLBList;
+            ViewBag.datasource = TEList;
             return View();
         }
         public void BindDataSourceTE() { TEList = QueryCrud.GetTipoEventos(); }

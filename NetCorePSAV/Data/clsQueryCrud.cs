@@ -53,7 +53,7 @@ namespace GCCorePSAV.Data
         #region MotivosLB
         public List<NetCorePSAV.Models.PSAVCrud.MotivosLBModel> GetMotivos()
         {
-            string TabSQLSens = "SELECT * FROM psav_dev.tc_etiquetas";
+            string TabSQLSens = "SELECT * FROM psav_dev.tc_motivolb";
             List<NetCorePSAV.Models.PSAVCrud.MotivosLBModel> locations = new List<NetCorePSAV.Models.PSAVCrud.MotivosLBModel>();
             MySqlConnection conn = new MySqlConnection(con);//estamos estableciendo conexión con mySql
             MySqlCommand cmd = new MySqlCommand(TabSQLSens, conn); //estamos ejecutando el código SELECT FROM
