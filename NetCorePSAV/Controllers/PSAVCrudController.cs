@@ -125,6 +125,42 @@ namespace GCCorePSAV.Controllers
             return Json(value);
         }
         #endregion
+        #region ServAdicionales
+        public static List<NetCorePSAV.Models.PSAVCrud.ServiciosAdicionalesModel> SAList = new List<NetCorePSAV.Models.PSAVCrud.ServiciosAdicionalesModel>();
+        public ActionResult ServiciosAdicionales()
+        {
+            if (TEList.Count.Equals(0))
+            {
+                BindDataSourceSA();
+            }
+            ViewBag.datasource = TEList;
+            return View();
+        }
+        public void BindDataSourceSA() { SAList = QueryCrud.GetServiciosAdicionales(); }
+        public ActionResult TENormalUpdate([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.ServiciosAdicionalesModel> myObject)
+        {
+            var ord = myObject.Value;
+            NetCorePSAV.Models.PSAVCrud.ServiciosAdicionalesModel val = SAList.Where(or => or.ID == ord.ID).FirstOrDefault();
+            val.ID = ord.ID; val.Nombre = ord.Nombre;
+            QueryCrud.UpdateSA(1, val);
+            return Json(myObject.Value);
+        }
+        public ActionResult TENormalInsert([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.ServiciosAdicionalesModel> value)
+        {
+            NetCorePSAV.Models.PSAVCrud.ServiciosAdicionalesModel val = value.Value;
+            val.ID = QueryCrud.UpdateSA(0, value.Value);
+            SAList.Insert(SAList.Count, val);
+            return Json(TEList);
+        }
+        public ActionResult TENormalDelete([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.ServiciosAdicionalesModel> value)
+        {
+            NetCorePSAV.Models.PSAVCrud.ServiciosAdicionalesModel val = new NetCorePSAV.Models.PSAVCrud.ServiciosAdicionalesModel();
+            val.ID = value.Key.ToString();
+            QueryCrud.UpdateSA(2, val);
+            SAList.Remove(SAList.Where(or => or.ID == value.Key.ToString()).FirstOrDefault());
+            return Json(value);
+        }
+        #endregion
         #region TipoEvento
         public static List<NetCorePSAV.Models.PSAVCrud.TipoEventoModel> TEList = new List<NetCorePSAV.Models.PSAVCrud.TipoEventoModel>();
         public ActionResult TipoEvento()

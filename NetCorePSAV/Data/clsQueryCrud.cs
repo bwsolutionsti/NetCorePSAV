@@ -10,6 +10,46 @@ namespace GCCorePSAV.Data
     public class ClsQueryCrudSensitive
     {
         private const string con = "Uid=root;Database=psav_dev;Pwd=(Conexi0npsavdatabasedev)1605;Host=35.188.2.70;";
+        #region ServiciosAdicionales
+        public List<NetCorePSAV.Models.PSAVCrud.ServiciosAdicionalesModel> GetServiciosAdicionales()
+        {
+            string TabSQLSens = "SELECT * FROM psav_dev.tc_crservadic";
+            List<NetCorePSAV.Models.PSAVCrud.ServiciosAdicionalesModel> locations = new List<NetCorePSAV.Models.PSAVCrud.ServiciosAdicionalesModel>();
+            MySqlConnection conn = new MySqlConnection(con);//estamos estableciendo conexión con mySql
+            MySqlCommand cmd = new MySqlCommand(TabSQLSens, conn); //estamos ejecutando el código SELECT FROM
+            conn.Open();
+            MySqlDataReader sdr = cmd.ExecuteReader();//le estamos diciendo que lea los datos guardados en la base de datos
+            while (sdr.Read())
+            {
+                NetCorePSAV.Models.PSAVCrud.ServiciosAdicionalesModel location = new NetCorePSAV.Models.PSAVCrud.ServiciosAdicionalesModel();
+                location.ID = sdr.GetValue(0).ToString();
+                location.Nombre = sdr.GetValue(1).ToString();
+                locations.Add(location);
+            }
+            conn.Close();
+            return locations;
+        }
+        public string UpdateSA(int typeUpdate, NetCorePSAV.Models.PSAVCrud.ServiciosAdicionalesModel locationModel)
+        {
+            string queryToInsert = ""; string valor = "";
+            switch (typeUpdate)
+            {
+                case 0:
+                    queryToInsert = "insert into psav_dev.tc_crservadic (tcsa_nombre) values('" + locationModel.Nombre + "')";
+                    valor = SaveWithIDReturn(queryToInsert);
+                    break;
+                case 1:
+                    queryToInsert = "update psav_dev.tc_crservadic set tcsa_nombre='" + locationModel.Nombre + "' where tcsa_id=" + locationModel.ID;
+                    SaveWithoutValidation(queryToInsert);
+                    break;
+                case 2:
+                    queryToInsert = "delete from psav_dev.tc_crservadic where tcsa_id=" + locationModel.ID;
+                    SaveWithoutValidation(queryToInsert);
+                    break;
+            }
+            return valor;
+        }
+        #endregion
         #region TipoEvento
         public List<NetCorePSAV.Models.PSAVCrud.TipoEventoModel> GetTipoEventos()
         {
