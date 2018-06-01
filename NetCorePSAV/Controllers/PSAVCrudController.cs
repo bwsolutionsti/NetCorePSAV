@@ -129,7 +129,7 @@ namespace GCCorePSAV.Controllers
         public static List<NetCorePSAV.Models.PSAVCrud.TipoEventoModel> TEList = new List<NetCorePSAV.Models.PSAVCrud.TipoEventoModel>();
         public ActionResult TipoEvento()
         {
-            if (MLBList.Count.Equals(0))
+            if (TEList.Count.Equals(0))
             {
                 BindDataSourceTE();
             }
