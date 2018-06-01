@@ -127,7 +127,7 @@ namespace GCCorePSAV.Controllers
         #endregion
         #region TipoEvento
         public static List<NetCorePSAV.Models.PSAVCrud.TipoEventoModel> TEList = new List<NetCorePSAV.Models.PSAVCrud.TipoEventoModel>();
-        public ActionResult MotivosLB()
+        public ActionResult TipoEvento()
         {
             if (MLBList.Count.Equals(0))
             {
@@ -137,7 +137,7 @@ namespace GCCorePSAV.Controllers
             return View();
         }
         public void BindDataSourceTE() { TEList = QueryCrud.GetTipoEventos(); }
-        public ActionResult MLBNormalUpdate([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.TipoEventoModel> myObject)
+        public ActionResult TENormalUpdate([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.TipoEventoModel> myObject)
         {
             var ord = myObject.Value;
             NetCorePSAV.Models.PSAVCrud.TipoEventoModel val = TEList.Where(or => or.ID == ord.ID).FirstOrDefault();
@@ -145,14 +145,14 @@ namespace GCCorePSAV.Controllers
             QueryCrud.UpdateTE(1, val);
             return Json(myObject.Value);
         }
-        public ActionResult MLBNormalInsert([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.TipoEventoModel> value)
+        public ActionResult TENormalInsert([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.TipoEventoModel> value)
         {
             NetCorePSAV.Models.PSAVCrud.TipoEventoModel val = value.Value;
             val.ID = QueryCrud.UpdateTE(0, value.Value);
             TEList.Insert(TEList.Count, val);
             return Json(TEList);
         }
-        public ActionResult MLBNormalDelete([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.TipoEventoModel> value)
+        public ActionResult TENormalDelete([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.TipoEventoModel> value)
         {
             NetCorePSAV.Models.PSAVCrud.TipoEventoModel val = new NetCorePSAV.Models.PSAVCrud.TipoEventoModel();
             val.ID = value.Key.ToString();
