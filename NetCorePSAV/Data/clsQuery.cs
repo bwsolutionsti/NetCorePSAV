@@ -49,7 +49,7 @@ namespace GCCorePSAV.Data
                 }
                 else
                 {
-                    queryToExec += " or tdcr.tcl_id=" + nCR.location;
+                    queryToExec += " and tdcr.tcl_id=" + nCR.location;
                 }
             }
             List<NetCorePSAV.Models.NCRModel.NCRReporte> pres = new List<NetCorePSAV.Models.NCRModel.NCRReporte>();
@@ -124,7 +124,7 @@ namespace GCCorePSAV.Data
                 }
                 else
                 {
-                    queryToExec += " or tdcr.tcl_id=" + nCR.location;
+                    queryToExec += " and tdcr.tcl_id=" + nCR.location;
                 }
             }
             List<NetCorePSAV.Models.NCRModel.PreConsultaNCR> pres = new List<NetCorePSAV.Models.NCRModel.PreConsultaNCR>();
