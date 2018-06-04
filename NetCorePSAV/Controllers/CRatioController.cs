@@ -132,11 +132,12 @@ namespace NetCorePSAV.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult NewCR(NetCorePSAV.Models.NCRModel.newCRView NCR)
+        public IActionResult NewCR(NetCorePSAV.Models.NCRModel.newCRView NCR,string hiddenEle)
         {
             GCCorePSAV.Data.clsQuery cls = new GCCorePSAV.Data.clsQuery();
             if (ModelState.IsValid)
             {
+                NCR.sadic = hiddenEle;
                 cls.SaveNCR(NCR);
                 return RedirectToAction("CaptureRatio");
             }

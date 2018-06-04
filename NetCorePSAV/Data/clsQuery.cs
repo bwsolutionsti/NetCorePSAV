@@ -45,11 +45,22 @@ namespace GCCorePSAV.Data
             {
                 if (nCR.location.Equals("0"))
                 {
-                    queryToExec += " or tdcr.tcl_id=tdcr.tcl_id";
+                    queryToExec += " and tdcr.tcl_id=tdcr.tcl_id";
                 }
                 else
                 {
                     queryToExec += " and tdcr.tcl_id=" + nCR.location;
+                }
+            }
+            if (!string.IsNullOrEmpty(nCR.finicio) || !string.IsNullOrEmpty(nCR.ffin))
+            {
+                if (!nCR.finicio.Contains("mm"))
+                {
+                    queryToExec += " and tdcr.tdcr_finicio>='" + nCR.finicio + "'";
+                }
+                if (!nCR.ffin.Contains("mm"))
+                {
+                    queryToExec += " and tdcr.tdcr_ffin<='" + nCR.ffin + "'";
                 }
             }
             List<NetCorePSAV.Models.NCRModel.NCRReporte> pres = new List<NetCorePSAV.Models.NCRModel.NCRReporte>();
@@ -120,11 +131,22 @@ namespace GCCorePSAV.Data
             if (!string.IsNullOrEmpty(nCR.location))
             {
                 if (nCR.location.Equals("0")) {
-                    queryToExec += " or tdcr.tcl_id=tdcr.tcl_id";
+                    queryToExec += " and tdcr.tcl_id=tdcr.tcl_id";
                 }
                 else
                 {
                     queryToExec += " and tdcr.tcl_id=" + nCR.location;
+                }
+            }
+            if (!string.IsNullOrEmpty(nCR.finicio)||!string.IsNullOrEmpty(nCR.ffin))
+            {
+                if (!nCR.finicio.Contains("mm"))
+                {
+                    queryToExec += " and tdcr.tdcr_finicio>='" + nCR.finicio + "'";
+                }
+                if (!nCR.ffin.Contains("mm"))
+                {
+                    queryToExec += " and tdcr.tdcr_ffin<='" + nCR.ffin + "'";
                 }
             }
             List<NetCorePSAV.Models.NCRModel.PreConsultaNCR> pres = new List<NetCorePSAV.Models.NCRModel.PreConsultaNCR>();
