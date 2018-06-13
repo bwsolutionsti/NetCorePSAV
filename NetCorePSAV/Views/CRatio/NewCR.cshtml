@@ -9,7 +9,7 @@
 @if (Lgc.isAuth)
 {
     <form method="post" asp-controller="CRatio" asp-action="NewCR">
-        <div class="row"><h5>Nuevo Capture Ratio</h5></div>
+        <div class="row"><h5>Nuevo Lost Business</h5></div>
         <div asp-validation-summary="All" class="text-danger"></div>
         <div class="row">
             <div class="col-lg-12">                
@@ -113,7 +113,7 @@
                         <td width="50%"><div class="form-group"><label asp-for="AV" class="control-label"></label><input asp-for="AV" class="form-control" /></div></td>
                     </tr>
                     <tr>
-                        <td width="50%"><div class="form-group"><label asp-for="LB" class="control-label"></label><input asp-for="LB" class="form-control" /></div></td>
+                        <td width="50%">@*<div class="form-group"><label asp-for="LB" class="control-label"></label><input asp-for="LB" class="form-control" /></div>*@</td>
                     </tr>
                     <tr>
                         <td width="50%">

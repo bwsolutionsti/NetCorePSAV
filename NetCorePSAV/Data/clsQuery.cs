@@ -168,6 +168,17 @@ namespace GCCorePSAV.Data
             conn.Close();
             return pres;
         }
+        public double GetServAdicAmmount(string fieldtText)
+        {
+            string queryToExec = "SELECT tcsa_precio FROM psav_dev.tc_crservadic where tcsa_nombre='"+fieldtText+"'";
+            string valor = "";
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(queryToExec, conn);
+            conn.Open();
+            valor = cmd.ExecuteScalar().ToString();
+            conn.Close();
+            return Convert.ToDouble(valor);
+        }
         public void SaveNCR(NetCorePSAV.Models.NCRModel.newCRView NCR)
         {
             string queryToExec = "insert into psav_dev.td_cration (tcl_id,tcrv_id,tcsm_id,tdcr_prospecto,tdcr_empresa,tdcr_correo,";

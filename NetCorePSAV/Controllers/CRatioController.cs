@@ -138,6 +138,15 @@ namespace NetCorePSAV.Controllers
             if (ModelState.IsValid)
             {
                 NCR.sadic = hiddenEle;
+                //get send items  to sum ammounts
+                string[] arrayServAdic = hiddenEle.Split(',');
+                double valor = 0;
+                foreach(string str in arrayServAdic)
+                {
+                    valor = valor + cls.GetServAdicAmmount(str);
+                }
+                NCR.LB = valor.ToString();
+                //end get items
                 cls.SaveNCR(NCR);
                 return RedirectToAction("CaptureRatio");
             }

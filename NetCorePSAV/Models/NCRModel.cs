@@ -132,9 +132,9 @@ namespace NetCorePSAV.Models
             public string LB { get; set; }
             [Display(Name = "Motivo de Lost Business")]
             public string LBMotivo { get; set; }
-            [Display(Name = "Servicios Adicionales")]
+            [Display(Name = "Etiqueta de Servicios")]
             public string servadic { get; set; }
-            [Display(Name = "Servicios Adicionales")]
+            [Display(Name = "Etiqueta de Servicios")]
             public string sadic { get; set; }//array de serv adicionales
             [Display(Name = "Lugar próximo evento")]
             public string lpe { get; set; }
