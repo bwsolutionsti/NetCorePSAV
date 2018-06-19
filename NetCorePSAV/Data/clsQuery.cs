@@ -2066,7 +2066,8 @@ namespace GCCorePSAV.Data
         }
         public List<Models.SyncPSAV.VentaDes> GetCategoryEvent(string IDEvent)
         {
-            string query = "SELECT distinct itl.tcct_id FROM psav_dev.td_itemlist itl where itl.tme_id="+IDEvent;
+            //string query = "SELECT distinct itl.tcct_id FROM psav_dev.td_itemlist itl where itl.tme_id="+IDEvent;
+            string query = "SELECT tcc_name FROM psav_dev.td_nil tdn inner join psav_dev.tc_items tci on tci.tci_id=tdn.tci_id inner join psav_dev.tc_category tcc on tcc.tcc_id=tci.tcc_id where tdn.tme_id=" + IDEvent;
             List<Models.SyncPSAV.VentaDes> lVD = new List<Models.SyncPSAV.VentaDes>();
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(query, conn);
@@ -2086,7 +2087,8 @@ namespace GCCorePSAV.Data
         }
         public List<Models.SyncPSAV.VentaFee> GetCategoryEvtFee(string IDEvent)
         {
-            string query = "SELECT distinct itl.tcct_id FROM psav_dev.td_itemlist itl where itl.tme_id=" + IDEvent + " union select distinct itlwf.tcct_id from psav_dev.td_itemlistwf itlwf where itlwf.tme_id=" + IDEvent;
+            //string query = "SELECT distinct itl.tcct_id FROM psav_dev.td_itemlist itl where itl.tme_id=" + IDEvent + " union select distinct itlwf.tcct_id from psav_dev.td_itemlistwf itlwf where itlwf.tme_id=" + IDEvent;
+            string query = "SELECT tcc_name FROM psav_dev.td_nil tdn inner join psav_dev.tc_items tci on tci.tci_id=tdn.tci_id inner join psav_dev.tc_category tcc on tcc.tcc_id=tci.tcc_id where tdn.tme_id=" + IDEvent + " union select distinct itlwf.tcct_id from psav_dev.td_itemlistwf itlwf where itlwf.tme_id=" + IDEvent;
             List<Models.SyncPSAV.VentaFee> lVD = new List<Models.SyncPSAV.VentaFee>();
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(query, conn);
