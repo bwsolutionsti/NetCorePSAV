@@ -1926,7 +1926,7 @@ namespace GCCorePSAV.Data
                 EPTC.EventName = msdr.GetValue(1).ToString();
                 EPTC.Client = msdr.GetValue(2).ToString();
                 EPTC.StartDate = msdr.GetValue(3).ToString();
-                EPTC.CreateDate= msdr.GetValue(4).ToString();
+                EPTC.CreateDate = Convert.ToDateTime(msdr.GetValue(4).ToString()).ToString("dd/MM/yyyy");
                 EPTList.Add(EPTC);
             }
             conn.Close();
