@@ -197,7 +197,7 @@ namespace GCCorePSAV.Controllers
                         ViewBag.datasource = ServList;
                         ViewBag.datasource2 = WFList;
                         ILM = new Models.ItemListModel.ItemListEventModel();
-                        ConSQL.SaveIL(iL, Request.Cookies["IDE"].ToString());
+                        ConSQL.SaveIL(iL, Request.Cookies["IDE"].ToString(),IDITL);
                         ViewBag.datasourceC = ConSQL.GetCategories();
                         ViewBag.datasourceSC = ConSQL.GetSubCategories();
                         ViewBag.datasourceI = ConSQL.GetItems();
@@ -220,13 +220,13 @@ namespace GCCorePSAV.Controllers
                         ViewBag.datasource = ServList;
                         ViewBag.datasource2 = WFList;
                         ILM = new Models.ItemListModel.ItemListEventModel();
-                        ConSQL.SaveIL(ListGridIL, Request.Cookies["IDE"].ToString());
+                        ConSQL.SaveIL(ListGridIL, Request.Cookies["IDE"].ToString(),IDITL);
                         ViewBag.datasourceC = ConSQL.GetCategories();
                         ViewBag.datasourceSC = ConSQL.GetSubCategories();
                         ViewBag.datasourceI = ConSQL.GetItems();
                         ListGridIL = new List<NetCorePSAV.Models.ILNewModel.ILGrid>();
                         ServList = new List<Models.SyncPSAV.ItemListServices>();
-                        ConSQL.SaveIL(ListGridIL, Request.Cookies["IDE"].ToString());
+                        ConSQL.SaveIL(ListGridIL, Request.Cookies["IDE"].ToString(),IDITL);
                         return RedirectToAction("VtaDesc"); break;
                     case "3"://borrador     
                         //List<NetCorePSAV.Models.ILNewModel.ILGrid> iL = ListGridIL;
@@ -245,7 +245,7 @@ namespace GCCorePSAV.Controllers
                         ViewBag.datasource = ServList;
                         ViewBag.datasource2 = WFList;
                         ILM = new Models.ItemListModel.ItemListEventModel();
-                        ConSQL.SaveIL(ListGridIL, Request.Cookies["IDE"].ToString());
+                        ConSQL.SaveIL(ListGridIL, Request.Cookies["IDE"].ToString(),IDITL);
                         ViewBag.datasourceC = ConSQL.GetCategories();
                         ViewBag.datasourceSC = ConSQL.GetSubCategories();
                         ViewBag.datasourceI = ConSQL.GetItems();

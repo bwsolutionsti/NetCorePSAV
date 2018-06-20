@@ -978,11 +978,11 @@ namespace GCCorePSAV.Data
             conn.Close();
             return categories;
         }
-        public void SaveIL(List<NetCorePSAV.Models.ILNewModel.ILGrid> ILG,string IDEvento)
+        public void SaveIL(List<NetCorePSAV.Models.ILNewModel.ILGrid> ILG,string IDEvento,string iditl)
         {
             foreach(NetCorePSAV.Models.ILNewModel.ILGrid ILGs in ILG)
             {
-                string queryInsert = "insert into td_nil(tci_id,tdnil_cantidad,tme_id) values(" + ILGs.ID + ",'" + ILGs.Cantidad + "'," + IDEvento + ")";
+                string queryInsert = "insert into td_nil(tci_id,tdnil_cantidad,tme_id,tditl_id) values(" + ILGs.ID + ",'" + ILGs.Cantidad + "'," + IDEvento + ","+iditl+")";
                 MySqlConnection conn = new MySqlConnection(con);
                 MySqlCommand cmd = new MySqlCommand(queryInsert, conn);
                 conn.Open();
@@ -1717,7 +1717,8 @@ namespace GCCorePSAV.Data
         //Lista de los servicios del salon
         public List<Models.SyncPSAV.ItemListServices> GetOneILIL(string idevt,string tmilt)
         {
-            string QueryILIL = "SELECT * FROM psav_dev.td_itemlist where tme_id="+idevt+" and tmilt_id="+tmilt;
+            //string QueryILIL = "SELECT * FROM psav_dev.td_itemlist where tme_id="+idevt+" and tmilt_id="+tmilt;
+            string QueryILIL = "SELECT tdn.tdnil_id,tdn.tditl_id,tci.tci_id as clave,tdn.tdnil_cantidad,tci.descripcion,tci.comentarios,tci.incluye,tci.precio,tcc.tcc_name,tdn.tme_id,'' as dias FROM psav_dev.td_nil tdn inner join psav_dev.tc_items tci on tci.tci_id=tdn.tci_id inner join psav_dev.tc_category tcc on tcc.tcc_id=tci.tcc_id where tdn.tme_id=" + idevt+" and tdn.tditl_id="+tmilt;
             List<Models.SyncPSAV.ItemListServices> ILIL = new List<Models.SyncPSAV.ItemListServices>();
             MySqlConnection conn = new MySqlConnection(con);
             MySqlCommand cmd = new MySqlCommand(QueryILIL, conn);
@@ -1730,11 +1731,11 @@ namespace GCCorePSAV.Data
                 Ils.IDITL = msdr.GetValue(1).ToString();
                 Ils.Clave = msdr.GetValue(2).ToString();
                 Ils.Cantidad = msdr.GetValue(3).ToString();
-                Ils.Descripcion = msdr.GetValue(4).ToString();
-                Ils.PrecioUnit = msdr.GetValue(5).ToString();
-                Ils.Categoria = msdr.GetValue(6).ToString();
-                Ils.IDEvento = Convert.ToInt32(msdr.GetValue(7).ToString());
-                Ils.Dias= string.IsNullOrEmpty(msdr.GetValue(8).ToString()) ? "" : msdr.GetValue(8).ToString();
+                Ils.Descripcion = msdr.GetValue(4).ToString() + " " + msdr.GetValue(5).ToString() + " "+msdr.GetValue(6).ToString();
+                Ils.PrecioUnit = msdr.GetValue(7).ToString();
+                Ils.Categoria = msdr.GetValue(8).ToString();
+                Ils.IDEvento = Convert.ToInt32(msdr.GetValue(9).ToString());
+                Ils.Dias= string.IsNullOrEmpty(msdr.GetValue(10).ToString()) ? "" : msdr.GetValue(10).ToString();
                 ILIL.Add(Ils);
             }
             conn.Close();
