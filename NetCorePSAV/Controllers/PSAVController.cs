@@ -1548,7 +1548,7 @@ namespace GCCorePSAV.Controllers
                         {
                             wkItemList.Cells["B" + (lastPos).ToString()].Value = LILS[a].Clave;//Event
                             wkItemList.Cells["C" + (lastPos).ToString()].Value = LILS[a].Cantidad;//Event
-                            wkItemList.Cells["D" + (lastPos).ToString()].Value = LILS[a].Dia;//Event
+                            wkItemList.Cells["D" + (lastPos).ToString()].Value = LILS[a].Dias;//Event
                             wkItemList.Cells["E" + (lastPos).ToString()].Value = LILS[a].Descripcion;//Event
                             wkItemList.Cells["F" + (lastPos).ToString()].Value = LILS[a].PrecioUnit;//Event
                             wkItemList.Cells["I" + (lastPos).ToString()].Value = LILS[a].Categoria;//Event
