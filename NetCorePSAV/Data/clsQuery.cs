@@ -1735,7 +1735,7 @@ namespace GCCorePSAV.Data
                 Ils.PrecioUnit = msdr.GetValue(7).ToString();
                 Ils.Categoria = msdr.GetValue(8).ToString();
                 Ils.IDEvento = Convert.ToInt32(msdr.GetValue(9).ToString());
-                Ils.Dias= string.IsNullOrEmpty(msdr.GetValue(10).ToString()) ? "" : msdr.GetValue(10).ToString();
+                Ils.Dias= string.IsNullOrEmpty(msdr.GetValue(10).ToString()) ? "1" : msdr.GetValue(10).ToString();
                 ILIL.Add(Ils);
             }
             conn.Close();
