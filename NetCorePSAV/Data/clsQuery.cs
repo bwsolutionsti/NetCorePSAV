@@ -1022,7 +1022,7 @@ namespace GCCorePSAV.Data
             SaveWithoutValidation("delete from td_eptvfeetot where tme_id=" + idevt);
             for (int i = 0; i < ComVenL.Count; i++)
             {
-                string QueryInsert = "insert into td_eptvfeetot(tdevf_nombre,tdevf_puesto,tdevf_comision,tdevf_ventaneta,tdevf_comisiontot,tme_id) values('" + ComVenL[i].Nombres + "','" + ComVenL[i].Puesto + "','" + ComVenL[i].Comision + "','" + ComVenL[i].VentaNeta + "','" + ComVenL[i].Comisiontot + "'," + idevt + ")";
+                string QueryInsert = "insert into td_eptvfeetot(tdevf_nombre,tdevf_puesto,tdevf_comision,tdevf_ventaneta,tdevf_comisiontot,tme_id) values('" + ComVenL[i].Nombres + "','" + ComVenL[i].Puesto + "','2','" + ComVenL[i].VentaNeta + "','2'," + idevt + ")";
                 SaveWithoutValidation(QueryInsert);
             }
             //gastos financieros
@@ -1066,7 +1066,7 @@ namespace GCCorePSAV.Data
             //com venta total
             for (int i = 0; i < ComVenL.Count; i++)
             {
-                string QueryInsert = "insert into td_eptvfeetot(tdevf_nombre,tdevf_puesto,tdevf_comision,tdevf_ventaneta,tdevf_comisiontot,tme_id) values('" + ComVenL[i].Nombres + "','" + ComVenL[i].Puesto + "','" + ComVenL[i].Comision + "','" + ComVenL[i].VentaNeta + "','" + ComVenL[i].Comisiontot + "'," + idevt + ")";
+                string QueryInsert = "insert into td_eptvfeetot(tdevf_nombre,tdevf_puesto,tdevf_comision,tdevf_ventaneta,tdevf_comisiontot,tme_id) values('" + ComVenL[i].Nombres + "','" + ComVenL[i].Puesto + "','2','" + ComVenL[i].VentaNeta + "','2'," + idevt + ")";
                 SaveWithoutValidation(QueryInsert);
             }
             //gastos financieros
@@ -1726,7 +1726,7 @@ namespace GCCorePSAV.Data
         //Lista de los servicios del salon
         public List<Models.SyncPSAV.ItemListServices> GetOneILIL(string idevt,string tmilt)
         {
-            //string QueryILIL = "SELECT * FROM psav_dev.td_itemlist where tme_id="+idevt+" and tmilt_id="+tmilt;
+            string QueryILILOld = "SELECT * FROM psav_dev.td_itemlist where tme_id="+idevt+" and tmilt_id="+tmilt;
             string QueryILIL = "SELECT tdn.tdnil_id,tdn.tditl_id,tci.tci_id as clave,tdn.tdnil_cantidad,tci.descripcion,tci.comentarios,tci.incluye,tci.precio,tcc.tcc_name,tdn.tme_id,'' as dias FROM psav_dev.td_nil tdn inner join psav_dev.tc_items tci on tci.tci_id=tdn.tci_id inner join psav_dev.tc_category tcc on tcc.tcc_id=tci.tcc_id where tdn.tme_id=" + idevt+" and tdn.tditl_id="+tmilt;
             List<Models.SyncPSAV.ItemListServices> ILIL = new List<Models.SyncPSAV.ItemListServices>();
             MySqlConnection conn = new MySqlConnection(con);
@@ -1745,6 +1745,26 @@ namespace GCCorePSAV.Data
                 Ils.Categoria = msdr.GetValue(8).ToString();
                 Ils.IDEvento = Convert.ToInt32(msdr.GetValue(9).ToString());
                 Ils.Dias= string.IsNullOrEmpty(msdr.GetValue(10).ToString()) ? "1" : msdr.GetValue(10).ToString();
+                ILIL.Add(Ils);
+            }
+            conn.Close();
+            //old
+            conn = new MySqlConnection(con);
+            cmd = new MySqlCommand(QueryILILOld, conn);
+            conn.Open();
+            msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                Models.SyncPSAV.ItemListServices Ils = new Models.SyncPSAV.ItemListServices();
+                Ils.ID = msdr.GetValue(0).ToString();
+                Ils.IDITL = msdr.GetValue(1).ToString();
+                Ils.Clave = msdr.GetValue(2).ToString();
+                Ils.Cantidad = msdr.GetValue(3).ToString();
+                Ils.Descripcion = msdr.GetValue(4).ToString();
+                Ils.PrecioUnit = msdr.GetValue(5).ToString();
+                Ils.Categoria = msdr.GetValue(6).ToString();
+                Ils.IDEvento = Convert.ToInt32(msdr.GetValue(7).ToString());
+                Ils.Dias = string.IsNullOrEmpty(msdr.GetValue(8).ToString()) ? "1" : msdr.GetValue(8).ToString();
                 ILIL.Add(Ils);
             }
             conn.Close();

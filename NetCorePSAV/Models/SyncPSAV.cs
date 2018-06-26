@@ -242,6 +242,7 @@ namespace GCCorePSAV.Models
             public class ItemListWorkForce
         {
             public int IDEvento { get; set; }
+            [Key]
             public string ID { get; set; }
             public string IDITL { get; set; }
             public string Seccion { get; set; }

@@ -102,11 +102,15 @@
                                 <e-drop-down-list-fields text="Nombre" id="SCID" value="SCID" />
                             </ej-drop-down-list>
                         </td>
-                        <td width="50%">
+                        <td width="30%">
                             <span>Item</span>
                             <ej-drop-down-list id="Item" datasource="ViewBag.datasourceI" watermark-text="Seleccione Item" width="100%">
                                 <e-drop-down-list-fields text="descripcion" id="ID" value="ID" />
                             </ej-drop-down-list>
+                        </td>
+                        <td width="20%">
+                            <span>Cantidad</span>
+                            <input type="text" name="qty" id="qty" placeholder="Cantidad" class="form-control" />
                         </td>
                     </tr>
                     <tr>
@@ -118,7 +122,7 @@
                         <td colspan="3">
                             <ej-grid id="FlatGrid" allow-paging="true">
                                 <e-datamanager json="(IEnumerable<object>)ViewBag.datasourceILI" update-url="ILU" remove-url="ILD" adaptor="remoteSaveAdaptor" />
-                                <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" edit-mode="@(EditMode.InlineForm)"></e-edit-settings>
+                                <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" edit-mode="@(EditMode.Normal)"></e-edit-settings>
                                 <e-toolbar-settings show-toolbar="true" toolbar-items="@(new List<string>() { "edit", "delete", "update", "cancel" })"></e-toolbar-settings>
                                 <e-columns>
                                     <e-column field="ID" header-text="ID" is-identity="true" is-primary-key="true" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
@@ -132,6 +136,31 @@
                             </ej-grid>
                         </td>
                     </tr>
+                </table>
+                <table border="0" class="table" width="100%">
+                    <thead>
+                        <tr><th>Renta de equipo y servicios (Manual)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <ej-grid id="FlatGridManual" allow-paging="true">
+                                    <e-datamanager json="(IEnumerable<object>)ViewBag.datasourceM" update-url="ItemListNormalUpdate" insert-url="ItemListNormalInsert" remove-url="ItemListNormalDelete" adaptor="remoteSaveAdaptor" />
+                                    <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" edit-mode="@(EditMode.Dialog)"></e-edit-settings>
+                                    <e-toolbar-settings show-toolbar="true" toolbar-items="@(new List<string>() { "add", "edit", "delete", "update", "cancel" })"></e-toolbar-settings>
+                                    <e-columns>
+                                        <e-column field="ID" header-text="ID"  is-primary-key="true" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Clave" header-text="Clave" validation-rules='new Dictionary<string, object>() { {"required",true} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Cantidad" header-text="Cantidad" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
+                                        <e-column field="Dias" header-text="Dias" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Descripcion" header-text="Descripcion" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
+                                        <e-column field="PrecioUnit" header-text="PrecioUnit" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="Categoria" header-text="Categoria" foreign-key-field="ID" foreign-key-value="Categoria" datasource="ViewBag.datasourcedrop" edit-type="Dropdown"></e-column>
+                                    </e-columns>
+                                </ej-grid>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
             <div class="row">
@@ -147,7 +176,7 @@
                                     <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" edit-mode="@(EditMode.Dialog)"></e-edit-settings>
                                     <e-toolbar-settings show-toolbar="true" toolbar-items="@(new List<string>() { "add", "edit", "delete", "update", "cancel" })"></e-toolbar-settings>
                                     <e-columns>
-                                        <e-column field="ID" header-text="ID" is-identity="true" is-primary-key="true" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                                        <e-column field="ID" header-text="ID" is-primary-key="true" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
                                         <e-column field="Seccion" header-text="Seccion" validation-rules='new Dictionary<string, object>() { {"required",true}}' text-align="Right" width="75"></e-column>
                                         <e-column field="Clave" header-text="Clave" validation-rules='new Dictionary<string, object>() { {"required",true}}' text-align="Right" width="75"></e-column>
                                         <e-column field="Cantidad" header-text="Cantidad" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>

@@ -148,16 +148,35 @@ namespace GCCorePSAV.Controllers
             val2.Cantidad = ord.Cantidad;
             return Json(myObject2.Value);
         }
+        public ActionResult ILU([FromBody]CRUDModel<NetCorePSAV.Models.ILNewModel.ILGrid> myObject2)
+        {
+            var ord = myObject2.Value;
+            NetCorePSAV.Models.ILNewModel.ILGrid val2 = ListGridIL.Where(or => or.ID == ord.ID).FirstOrDefault();
+            val2.Cantidad = ord.Cantidad;
+            return Json(myObject2.Value);
+        }
         public ActionResult ILDe([FromBody]CRUDModel<NetCorePSAV.Models.ILNewModel.ILGrid> value)
         {
             ListGridEIL.Remove(ListGridEIL.Where(or => or.ID == value.Key.ToString()).FirstOrDefault());
             return Json(value);
         }
+        public ActionResult ILD([FromBody]CRUDModel<NetCorePSAV.Models.ILNewModel.ILGrid> value)
+        {
+            ListGridIL.Remove(ListGridIL.Where(or => or.ID == value.Key.ToString()).FirstOrDefault());
+            return Json(value);
+        }
         [HttpPost]
-        public IActionResult NIL(string AddCat,string Item,Models.ItemListModel.ItemListEventModel ILM,string AddOne)
+        public IActionResult NIL(string AddCat,string Item,Models.ItemListModel.ItemListEventModel ILM,string AddOne,string qty)
         {
             ViewBag.datasource2 = WFList;
+            if (ServList.Count == 0)
+            {
+                BindServList(); BindServListWF();
+            }
+            ViewBag.datasourcedrop = ConSQL.GetListCategory("1");//aquí se estan guardando toda la lista de Categoria
             ViewBag.datasourcedrop2 = ConSQL.GetListCategory("2");//Aquí se estan  guardando toda la lista de workforce
+
+            ViewBag.datasourceM = ServList;
             if (!string.IsNullOrEmpty(AddCat))
             {
                 ViewBag.datasourceC = ConSQL.GetCategories();
@@ -166,11 +185,13 @@ namespace GCCorePSAV.Controllers
                 if (ListGridIL.Count > 0) {
                     List<NetCorePSAV.Models.ILNewModel.ILGrid> iL = new List<NetCorePSAV.Models.ILNewModel.ILGrid>();
                     iL = ConSQL.GetGrids(Item);
-                    ListGridIL.Add(iL[0]);
+                    iL[0].Cantidad = qty;
+                    ListGridIL.Add(iL[0]);                    
                 }
                 else
                 {
                     ListGridIL = ConSQL.GetGrids(Item);
+                    ListGridIL[0].Cantidad = qty;
                 }
                 ViewBag.datasourceILI = ListGridIL;
             }
@@ -187,7 +208,10 @@ namespace GCCorePSAV.Controllers
                         ILM = new Models.ItemListModel.ItemListEventModel();//estamos accesando a las propiedades del modelo itemlistevent
                         ILM.EventoName = Request.Cookies["EVN"].ToString();//En la propiedad eventoname estamos guardando el valor de fin de mes 1
                         ILM.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());//Estamos guardando el valor de ID 0
-                        //ConSQL.SaveItemListDetail(ServList, IDITL, Request.Cookies["IDE"].ToString());//Estamos guardando en BD las variables en corchetes
+                        if (ServList.Count > 0)
+                        {
+                            ConSQL.SaveItemListDetail(ServList, IDITL, Request.Cookies["IDE"].ToString());//Estamos guardando en BD las variables en corchetes
+                        }
                         ConSQL.SaveItemListWFDetail(WFList, IDITLWF, Request.Cookies["IDE"].ToString());
                         ViewBag.datasourcedrop = ConSQL.GetListCategory("1");//Se esta guardando una cuenta de 11
                         ViewBag.datasourcedrop2 = ConSQL.GetListCategory("2");//Se esta guardando una cuenta de 5
@@ -210,7 +234,10 @@ namespace GCCorePSAV.Controllers
                         ILM = new Models.ItemListModel.ItemListEventModel();//estamos accesando a las propiedades del modelo itemlistevent
                         ILM.EventoName = Request.Cookies["EVN"].ToString();//En la propiedad eventoname estamos guardando el valor de fin de mes 1
                         ILM.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());//Estamos guardando el valor de ID 0
-                        //ConSQL.SaveItemListDetail(ServList, IDITL, Request.Cookies["IDE"].ToString());//Estamos guardando en BD las variables en corchetes
+                        if (ServList.Count > 0)
+                        {
+                            ConSQL.SaveItemListDetail(ServList, IDITL, Request.Cookies["IDE"].ToString());//Estamos guardando en BD las variables en corchetes
+                        }
                         ConSQL.SaveItemListWFDetail(WFList, IDITLWF, Request.Cookies["IDE"].ToString());
                         ViewBag.datasourcedrop = ConSQL.GetListCategory("1");//Se esta guardando una cuenta de 11
                         ViewBag.datasourcedrop2 = ConSQL.GetListCategory("2");//Se esta guardando una cuenta de 5
@@ -235,7 +262,10 @@ namespace GCCorePSAV.Controllers
                         ILM = new Models.ItemListModel.ItemListEventModel();//estamos accesando a las propiedades del modelo itemlistevent
                         ILM.EventoName = Request.Cookies["EVN"].ToString();//En la propiedad eventoname estamos guardando el valor de fin de mes 1
                         ILM.IDEvento = Convert.ToInt32(Request.Cookies["IDE"].ToString());//Estamos guardando el valor de ID 0
-                        //ConSQL.SaveItemListDetail(ServList, IDITL, Request.Cookies["IDE"].ToString());//Estamos guardando en BD las variables en corchetes
+                        if (ServList.Count > 0)
+                        {
+                            ConSQL.SaveItemListDetail(ServList, IDITL, Request.Cookies["IDE"].ToString());//Estamos guardando en BD las variables en corchetes
+                        }
                         ConSQL.SaveItemListWFDetail(WFList, IDITLWF, Request.Cookies["IDE"].ToString());
                         ViewBag.datasourcedrop = ConSQL.GetListCategory("1");//Se esta guardando una cuenta de 11
                         ViewBag.datasourcedrop2 = ConSQL.GetListCategory("2");//Se esta guardando una cuenta de 5
@@ -261,6 +291,12 @@ namespace GCCorePSAV.Controllers
             ViewBag.datasourceC = ConSQL.GetCategories();
             ViewBag.datasourceSC = ConSQL.GetSubCategories();
             ViewBag.datasourceI = ConSQL.GetItems();
+            ViewBag.datasource2 = WFList;
+            BindServList(); BindServListWF();
+            ViewBag.datasourcedrop = ConSQL.GetListCategory("1");//aquí se estan guardando toda la lista de Categoria
+            ViewBag.datasourcedrop2 = ConSQL.GetListCategory("2");//Aquí se estan  guardando toda la lista de workforce
+
+            ViewBag.datasourceM = ServList;
             return View();
         }
         [HttpPost]
@@ -773,8 +809,10 @@ namespace GCCorePSAV.Controllers
         }
         public ActionResult ItemListWFNormalInsert([FromBody]CRUDModel<Models.SyncPSAV.ItemListWorkForce> value)
         {
+            value.Value.ID= (WFList.Count + 1).ToString();
             Models.SyncPSAV.ItemListWorkForce val = value.Value;
             WFList.Insert(WFList.Count, val);
+            WFList[WFList.Count-1].ID= (WFList.Count + 1).ToString();
             return Json(WFList);
         }
         public ActionResult ItemListWFNormalDelete([FromBody]CRUDModel<Models.SyncPSAV.ItemListWorkForce> value)
@@ -1674,6 +1712,7 @@ namespace GCCorePSAV.Controllers
                                 wkItemList.InsertRow(lastPos, 1);
                                 wkItemList.Cells[lastPos + 1, 1, lastPos + 1, 40].Copy(wkItemList.Cells[lastPos, 1, lastPos, 40]);
                             }
+                            if (!sumaFilas && LIWF.Count <= 2) { lastPos++; }
                             lastPos++;
                         }
 
@@ -1736,10 +1775,21 @@ namespace GCCorePSAV.Controllers
                         WSSubrenta.Cells["B" + (i + 12).ToString()].Value = SR[i].Invoice;
                         WSSubrenta.Cells["C" + (i + 12).ToString()].Value = SR[i].Supplier;
                         WSSubrenta.Cells["D" + (i + 12).ToString()].Value = SR[i].Descripcion;
-                        WSSubrenta.Cells["E" + (i + 12).ToString()].Value = SR[i].Gastosub;
-                        WSSubrenta.Cells["F" + (i + 12).ToString()].Value = SR[i].Ventasub;
-                        WSSubrenta.Cells["F" + (i + 12).ToString()].Style.Numberformat.Format = "0.00";
-                        WSSubrenta.Cells["E" + (i + 12).ToString()].Style.Numberformat.Format = "0.00";
+                        if (!string.IsNullOrEmpty(SR[i].Gastosub))
+                        {
+                            WSSubrenta.Cells["E" + (i + 12).ToString()].Value = Convert.ToDouble(SR[i].Gastosub);
+                        }
+                        else { WSSubrenta.Cells["E" + (i + 12).ToString()].Value = 0.00; }
+                        if (!string.IsNullOrEmpty(SR[i].Ventasub))
+                        {
+                            WSSubrenta.Cells["F" + (i + 12).ToString()].Value = Convert.ToDouble(SR[i].Ventasub);
+                        }
+                        else
+                        {
+                            WSSubrenta.Cells["F" + (i + 12).ToString()].Value = 0.00;
+                        }
+                        WSSubrenta.Cells["F" + (i + 12).ToString()].Style.Numberformat.Format = "#,##0.00";
+                        WSSubrenta.Cells["E" + (i + 12).ToString()].Style.Numberformat.Format = "#,##0.00";
                     }
                     //check for OL
                     ExcelWorksheet WSOL = package.Workbook.Worksheets[7];
@@ -1752,8 +1802,15 @@ namespace GCCorePSAV.Controllers
                         WSOL.Cells["A" + (i + 12).ToString()].Value = FOL[i].Nombres;
                         WSOL.Cells["B" + (i + 12).ToString()].Value = FOL[i].Puesto;
                         WSOL.Cells["C" + (i + 12).ToString()].Value = FOL[i].Dias;
-                        WSOL.Cells["D" + (i + 12).ToString()].Value = FOL[i].Sueldo;
-                        WSOL.Cells["D" + (i + 12).ToString()].Style.Numberformat.Format = "0.00";
+                        if (!string.IsNullOrEmpty(FOL[i].Sueldo))
+                        {
+                            WSOL.Cells["D" + (i + 12).ToString()].Value = Convert.ToDouble(FOL[i].Sueldo);
+                        }
+                        else
+                        {
+                            WSOL.Cells["D" + (i + 12).ToString()].Value = 0.00;
+                        }
+                        WSOL.Cells["D" + (i + 12).ToString()].Style.Numberformat.Format = "#,##0.00";
                     }
 
                     //Check viaticos
@@ -1763,8 +1820,15 @@ namespace GCCorePSAV.Controllers
                         WSOL.Cells["A" + (i + 44).ToString()].Value = VTS[i].Nombres;
                         WSOL.Cells["B" + (i + 44).ToString()].Value = VTS[i].Puesto;
                         WSOL.Cells["C" + (i + 44).ToString()].Value = VTS[i].Observaciones;
-                        WSOL.Cells["D" + (i + 44).ToString()].Value = VTS[i].TotalSol;
-                        WSOL.Cells["D" + (i + 44).ToString()].Style.Numberformat.Format = "0.00";
+                        if (!string.IsNullOrEmpty(VTS[i].TotalSol))
+                        {
+                            WSOL.Cells["D" + (i + 44).ToString()].Value = Convert.ToDouble(VTS[i].TotalSol);
+                        }
+                        else
+                        {
+                            WSOL.Cells["D" + (i + 44).ToString()].Value = 0.00;
+                        }
+                        WSOL.Cells["D" + (i + 44).ToString()].Style.Numberformat.Format = "#,##0.00";
                     }
 
                     //comision de ventas
@@ -1798,8 +1862,15 @@ namespace GCCorePSAV.Controllers
                         WSOL.Cells["A" + (i + 76).ToString()].Value = CNS[i].Cotizacion;
                         WSOL.Cells["B" + (i + 76).ToString()].Value = CNS[i].Supplier;
                         WSOL.Cells["C" + (i + 76).ToString()].Value = CNS[i].Description;
-                        WSOL.Cells["D" + (i + 76).ToString()].Value = CNS[i].Costo;
-                        WSOL.Cells["D" + (i + 76).ToString()].Style.Numberformat.Format = "0.00";
+                        if (!string.IsNullOrEmpty(CNS[i].Costo))
+                        {
+                            WSOL.Cells["E" + (i + 76).ToString()].Value = Convert.ToDouble(CNS[i].Costo);
+                        }
+                        else
+                        {
+                            WSOL.Cells["E" + (i + 76).ToString()].Value = 0.00;
+                        }
+                        WSOL.Cells["E" + (i + 76).ToString()].Style.Numberformat.Format = "#,##0.00";
                     }
 
                     //Cargos internos
