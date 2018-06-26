@@ -233,6 +233,72 @@ namespace GCCorePSAV.Controllers
             return Json(value);
         }
         #endregion
+        #region subcategorias
+        public static List<NetCorePSAV.Models.PSAVCrud.ILCrudModel.SubCategoria> SubCategoriasList = new List<NetCorePSAV.Models.PSAVCrud.ILCrudModel.SubCategoria>();
+        public ActionResult subcategoria()
+        {
+            if (SubCategoriasList.Count.Equals(0)) { BindDataSourceSubCategoria(); }
+            ViewBag.datasource = CategoriasList;
+            return View();
+        }
+        public void BindDataSourceSubCategoria() { SubCategoriasList = QueryCrud.GetSubCategories(); }
+        public ActionResult SCNormalUpdate([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.ILCrudModel.SubCategoria> myObject)
+        {
+            var ord = myObject.Value;
+            NetCorePSAV.Models.PSAVCrud.ILCrudModel.SubCategoria val = SubCategoriasList.Where(or => or.ID == ord.ID).FirstOrDefault();
+            val.ID = ord.ID; val.Nombre = ord.Nombre;
+            QueryCrud.UpdateSCategories(1, val);
+            return Json(myObject.Value);
+        }
+        public ActionResult SCNormalInsert([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.ILCrudModel.SubCategoria> value)
+        {
+            NetCorePSAV.Models.PSAVCrud.ILCrudModel.SubCategoria val = value.Value;
+            val.ID = QueryCrud.UpdateSCategories(0, value.Value);
+            SubCategoriasList.Insert(SubCategoriasList.Count, val);
+            return Json(EtiquetasList);
+        }
+        public ActionResult SCNormalDelete([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.ILCrudModel.SubCategoria> value)
+        {
+            NetCorePSAV.Models.PSAVCrud.ILCrudModel.SubCategoria val = new NetCorePSAV.Models.PSAVCrud.ILCrudModel.SubCategoria();
+            val.ID = value.Key.ToString();
+            QueryCrud.UpdateSCategories(2, val);
+            SubCategoriasList.Remove(SubCategoriasList.Where(or => or.ID == value.Key.ToString()).FirstOrDefault());
+            return Json(value);
+        }
+        #endregion
+        #region CategoriaIL
+        public static List<NetCorePSAV.Models.PSAVCrud.ILCrudModel.Categoria> CategoriasList = new List<NetCorePSAV.Models.PSAVCrud.ILCrudModel.Categoria>();
+        public ActionResult categoria()
+        {
+            if (CategoriasList.Count.Equals(0)) { BindDataSourceCategoria(); }
+            ViewBag.datasource = CategoriasList;
+            return View();
+        }
+        public void BindDataSourceCategoria() { CategoriasList = QueryCrud.GetCategories();  }
+        public ActionResult CTNormalUpdate([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.ILCrudModel.Categoria> myObject)
+        {
+            var ord = myObject.Value;
+            NetCorePSAV.Models.PSAVCrud.ILCrudModel.Categoria val = CategoriasList.Where(or => or.ID == ord.ID).FirstOrDefault();
+            val.ID = ord.ID; val.Nombre = ord.Nombre;
+            QueryCrud.UpdateCategories(1, val);
+            return Json(myObject.Value);
+        }
+        public ActionResult CTNormalInsert([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.ILCrudModel.Categoria> value)
+        {
+            NetCorePSAV.Models.PSAVCrud.ILCrudModel.Categoria val = value.Value;
+            val.ID = QueryCrud.UpdateCategories(0, value.Value);
+            CategoriasList.Insert(CategoriasList.Count, val);
+            return Json(EtiquetasList);
+        }
+        public ActionResult CTNormalDelete([FromBody]CRUDModel<NetCorePSAV.Models.PSAVCrud.ILCrudModel.Categoria> value)
+        {
+            NetCorePSAV.Models.PSAVCrud.ILCrudModel.Categoria val = new NetCorePSAV.Models.PSAVCrud.ILCrudModel.Categoria();
+            val.ID = value.Key.ToString();
+            QueryCrud.UpdateCategories(2, val);
+            CategoriasList.Remove(CategoriasList.Where(or => or.ID == value.Key.ToString()).FirstOrDefault());
+            return Json(value);
+        }
+        #endregion
         #region Etiquetas
         public static List<NetCorePSAV.Models.PSAVCrud.EtiquetasModel> EtiquetasList = new List<NetCorePSAV.Models.PSAVCrud.EtiquetasModel>();
         public ActionResult Etiquetas()

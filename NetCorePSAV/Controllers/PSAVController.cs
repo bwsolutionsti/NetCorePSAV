@@ -141,16 +141,16 @@ namespace GCCorePSAV.Controllers
             }
         }
         public static List<NetCorePSAV.Models.ILNewModel.ILGrid> ListGridIL = new List<NetCorePSAV.Models.ILNewModel.ILGrid>();
-        public ActionResult ILU([FromBody]CRUDModel<NetCorePSAV.Models.ILNewModel.ILGrid> myObject2)
+        public ActionResult ILUd([FromBody]CRUDModel<NetCorePSAV.Models.ILNewModel.ILGrid> myObject2)
         {
             var ord = myObject2.Value;
-            NetCorePSAV.Models.ILNewModel.ILGrid val2 = ListGridIL.Where(or => or.ID == ord.ID).FirstOrDefault();
+            NetCorePSAV.Models.ILNewModel.ILGrid val2 = ListGridEIL.Where(or => or.ID == ord.ID).FirstOrDefault();
             val2.Cantidad = ord.Cantidad;
             return Json(myObject2.Value);
         }
-        public ActionResult ILD([FromBody]CRUDModel<NetCorePSAV.Models.ILNewModel.ILGrid> value)
+        public ActionResult ILDe([FromBody]CRUDModel<NetCorePSAV.Models.ILNewModel.ILGrid> value)
         {
-            ListGridIL.Remove(ListGridIL.Where(or => or.ID == value.Key.ToString()).FirstOrDefault());
+            ListGridEIL.Remove(ListGridEIL.Where(or => or.ID == value.Key.ToString()).FirstOrDefault());
             return Json(value);
         }
         [HttpPost]
@@ -281,22 +281,73 @@ namespace GCCorePSAV.Controllers
 
         #region editItemlist
         [HttpPost]
-        public IActionResult EditItemList2(Models.SyncPSAV.SalonIL model, string Clave, string Cantidad, string Dias, string Descripcion, string PrecioUnit, string Categoria, string subcategoria)
+        public IActionResult EditItemList2(Models.SyncPSAV.SalonIL model, string Item)
         {
-            ServList.Add(new Models.SyncPSAV.ItemListServices() { Clave = Clave, Cantidad = Cantidad, Dias = Dias, Descripcion = Descripcion, PrecioUnit = PrecioUnit, Categoria = Categoria, IDEvento = Convert.ToInt32(Request.Cookies["IDEVNN"].ToString()), IDITL = Request.Cookies["IDIL"].ToString() });
-            string folio = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString());
-            model.IDEvt = Request.Cookies["IDEVNN"].ToString();
-            model.IDITL = Request.Cookies["IDIL"].ToString();
-            model.IDS = Request.Cookies["IDIS"].ToString();
-            ConSQL.SaveOneItilEdit(model, ServList, ServList[0].IDITL);
-            ServList = new List<Models.SyncPSAV.ItemListServices>();
-            return RedirectToAction("EdititemList");
+            //ServList.Add(new Models.SyncPSAV.ItemListServices() { Clave = Clave, Cantidad = Cantidad, Dias = Dias, Descripcion = Descripcion, PrecioUnit = PrecioUnit, Categoria = Categoria, IDEvento = Convert.ToInt32(Request.Cookies["IDEVNN"].ToString()), IDITL = Request.Cookies["IDIL"].ToString() });
+            //string folio = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString());
+            //model.IDEvt = Request.Cookies["IDEVNN"].ToString();
+            //model.IDITL = Request.Cookies["IDIL"].ToString();
+            //model.IDS = Request.Cookies["IDIS"].ToString();
+            //ConSQL.SaveOneItilEdit(model, ServList, ServList[0].IDITL);
+            //ServList = new List<Models.SyncPSAV.ItemListServices>();
+            if (ListGridEIL.Count > 0)
+            {
+                List<NetCorePSAV.Models.ILNewModel.ILGrid> iL = new List<NetCorePSAV.Models.ILNewModel.ILGrid>();
+                iL = ConSQL.GetGrids(Item);
+                ListGridEIL.Add(iL[0]);
+            }
+            else
+            {
+                ListGridEIL = ConSQL.GetGrids(Item);
+            }
+            return RedirectToAction("EditItemList");
         }
 
-
+        public static List<NetCorePSAV.Models.ILNewModel.ILGrid> ListGridEIL = new List<NetCorePSAV.Models.ILNewModel.ILGrid>();
         [HttpPost]
-        public IActionResult EditItemList(string IDIL, string Advance, Models.SyncPSAV.SalonIL model, string EVT)
+        public IActionResult EditItemList(string IDIL, string Advance, Models.SyncPSAV.SalonIL model, string EVT,string Item,string AddCate)
         {
+            
+            ViewBag.datasourceC = ConSQL.GetCategories();
+            ViewBag.datasourceSC = ConSQL.GetSubCategories();
+            ViewBag.datasourceI = ConSQL.GetItems();
+            if (!string.IsNullOrEmpty(AddCate)){
+                if (ListGridEIL.Count > 0)
+                {
+                    List<NetCorePSAV.Models.ILNewModel.ILGrid> iL = new List<NetCorePSAV.Models.ILNewModel.ILGrid>();
+                    iL = ConSQL.GetGrids(Item);
+                    ListGridEIL.Add(iL[0]);
+                }
+                else
+                {
+                    ListGridEIL = ConSQL.GetGrids(Item);
+                }
+            }
+            if (ListGridEIL.Count ==0)
+            {
+                if (IDIL != null) {
+                    ListGridEIL = ConSQL.GetILGrid(EVT, IDIL);}
+                else { ListGridEIL = new List<NetCorePSAV.Models.ILNewModel.ILGrid>(); }
+            }
+            ViewBag.datasourceILI = ListGridEIL;
+                //editCategory
+                if (!string.IsNullOrEmpty(Advance))
+            {
+                if (Advance.Equals("00"))
+                {
+                    if (ListGridEIL.Count > 0)
+                    {
+                        List<NetCorePSAV.Models.ILNewModel.ILGrid> iL = new List<NetCorePSAV.Models.ILNewModel.ILGrid>();
+                        iL = ConSQL.GetGrids(Item);
+                        ListGridEIL.Add(iL[0]);
+                    }
+                    else
+                    {
+                        ListGridEIL = ConSQL.GetGrids(Item);
+                    }
+                    ViewBag.datasourceILI = ListGridEIL;
+                }
+            }
             if (string.IsNullOrEmpty(Advance))
             {
                 if (string.IsNullOrEmpty(IDIL) && Request.Cookies["IDIL"] == null)
@@ -341,10 +392,20 @@ namespace GCCorePSAV.Controllers
                 if (Advance.Equals("2")) { Response.Cookies.Delete("IDIL"); string folio1 = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString()); Response.Cookies.Append("folio", folio1, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true }); return RedirectToAction("ResumeEPT"); }
                 string folio = ConSQL.GetFolioByITL(Request.Cookies["IDEVNN"].ToString());
                 model.IDEvt = Request.Cookies["IDEVNN"].ToString();
-                if (ServList.Count.Equals(0)) { ConSQL.UpdateITL(model, ServList, ""); } else { ConSQL.UpdateITL(model, ServList, ServList[0].IDITL); }
-
+                IDIL = Request.Cookies["IDIL"].ToString();
+                try
+                {
+                    if (ServList.Count.Equals(0)) { ConSQL.UpdateITL(model, ServList, IDIL); } else { ConSQL.UpdateITL(model, ServList, IDIL); }
+                }
+                catch { }
+                if (ListGridEIL.Count > 0)
+                {
+                    IDIL = Request.Cookies["IDIL"].ToString();
+                    ConSQL.SaveIL(ListGridEIL, Request.Cookies["IDEVNN"].ToString(), IDIL,"1");
+                }
                 Response.Cookies.Append("folio", folio, new Microsoft.AspNetCore.Http.CookieOptions { Path = "/", HttpOnly = true });
                 ServList = new List<Models.SyncPSAV.ItemListServices>();
+                ListGridEIL = new List<NetCorePSAV.Models.ILNewModel.ILGrid>();
                 return RedirectToAction("ResumeEPT");
             }
         }

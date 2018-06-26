@@ -59,7 +59,7 @@
 
         <div class="row">
             <h4>Agregar Item a lista</h4>
-            <form method="post" asp-action="EditItemList2" asp-controller="PSAV">
+            @*<form method="post" asp-action="EditItemList2" asp-controller="PSAV">
                 <table class="table">
                     <thead>
                         <tr>
@@ -89,6 +89,54 @@
                         </tr>
                         <tr><td><button type="submit" class="btn btn-default">Agregar</button></td></tr>
                     </tbody>
+                </table>
+            </form>*@
+            <form method="post" asp-action="EditItemList" asp-controller="PSAV">
+                <input type="hidden" value="000" name="AddCate" id="AddCate" />
+                <table width="100%">
+                    <tr>
+                        <td width="25%">
+                            <span>Categoria</span>
+                            <ej-drop-down-list id="Categoria" datasource="ViewBag.datasourceC" watermark-text="Seleccione Categoria" cascade-to="SubCategoria" width="100%">
+                                <e-drop-down-list-fields text="Nombre" id="ParentID" value="ParentID" />
+                            </ej-drop-down-list>
+                        </td>
+                        <td width="25%">
+                            <span>SubCategoría</span>
+                            <ej-drop-down-list id="SubCategoria" datasource="ViewBag.datasourceSC" watermark-text="Seleccione Subcategoria" cascade-to="Item" width="100%">
+                                <e-drop-down-list-fields text="Nombre" id="SCID" value="SCID" />
+                            </ej-drop-down-list>
+                        </td>
+                        <td width="50%">
+                            <span>Item</span>
+                            <ej-drop-down-list id="Item" datasource="ViewBag.datasourceI" watermark-text="Seleccione Item" width="100%">
+                                <e-drop-down-list-fields text="descripcion" id="ID" value="ID" />
+                            </ej-drop-down-list>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="btn btn-default" value="AddCat" type="submit">Agregar</button>
+                        </td>
+                    </tr>
+                    <tr width="100%">
+                        <td colspan="3">
+                            <ej-grid id="FlatGrid4" allow-paging="true">
+                                <e-datamanager json="(IEnumerable<object>)ViewBag.datasourceILI" update-url="ILUd" remove-url="ILDe" adaptor="remoteSaveAdaptor" />
+                                <e-edit-settings allow-adding="true" allow-editing="true" allow-deleting="true" edit-mode="@(EditMode.InlineForm)"></e-edit-settings>
+                                <e-toolbar-settings show-toolbar="true" toolbar-items="@(new List<string>() { "edit", "delete", "update", "cancel" })"></e-toolbar-settings>
+                                <e-columns>
+                                    <e-column field="ID" header-text="ID" is-identity="true" is-primary-key="true" validation-rules='new Dictionary<string, object>() { {"required",true}, {"number",true} }' text-align="Right" width="75"></e-column>
+                                    <e-column field="Categoria" header-text="Categoria" validation-rules='new Dictionary<string, object>() { {"required",true} }' text-align="Right" width="75"></e-column>
+                                    <e-column field="Subcategoria" header-text="Subcategoria" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
+                                    <e-column field="Descripcion" header-text="Descripcion" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
+                                    <e-column field="Incluye" header-text="Incluye" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' width="80"></e-column>
+                                    <e-column field="PrecioUnit" header-text="Precio" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
+                                    <e-column field="Cantidad" header-text="Cantidad" validation-rules='new Dictionary<string, object>() { {"required",true}, {"minlength",1} }' text-align="Right" width="75"></e-column>
+                                </e-columns>
+                            </ej-grid>
+                        </td>
+                    </tr>
                 </table>
             </form>
         </div>

@@ -978,8 +978,17 @@ namespace GCCorePSAV.Data
             conn.Close();
             return categories;
         }
-        public void SaveIL(List<NetCorePSAV.Models.ILNewModel.ILGrid> ILG,string IDEvento,string iditl)
+        public void SaveIL(List<NetCorePSAV.Models.ILNewModel.ILGrid> ILG,string IDEvento,string iditl,string limpia="")
         {
+            if (!string.IsNullOrEmpty(limpia))
+            {
+                string queryInsert = "delete from td_nil where tditl_id="+iditl+" and tme_id="+IDEvento;
+                MySqlConnection conn = new MySqlConnection(con);
+                MySqlCommand cmd = new MySqlCommand(queryInsert, conn);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
             foreach(NetCorePSAV.Models.ILNewModel.ILGrid ILGs in ILG)
             {
                 string queryInsert = "insert into td_nil(tci_id,tdnil_cantidad,tme_id,tditl_id) values(" + ILGs.ID + ",'" + ILGs.Cantidad + "'," + IDEvento + ","+iditl+")";
@@ -2605,6 +2614,31 @@ namespace GCCorePSAV.Data
             string lastID = cmd.LastInsertedId.ToString();
             conn.Close();
             return lastID;
+        }
+        #endregion
+        #region editaIL
+        public List<NetCorePSAV.Models.ILNewModel.ILGrid> GetILGrid(string evento,string salon)
+        {
+            string queryP = "SELECT tdn.tdnil_id,tcc.tcc_name,tcs.tc_subcategoria,tci.descripcion,tci.incluye,tci.precio,tdn.tdnil_cantidad FROM psav_dev.td_nil tdn inner join psav_dev.tc_items tci on tci.tci_id=tdn.tci_id inner join psav_dev.tc_category tcc on tcc.tcc_id=tci.tcc_id inner join psav_dev.tc_subcategoria tcs on tcs.tc_ID=tci.tcsc_id where tdn.tditl_id="+salon;
+            List<NetCorePSAV.Models.ILNewModel.ILGrid> retorna = new List<NetCorePSAV.Models.ILNewModel.ILGrid>();
+            MySqlConnection conn = new MySqlConnection(con);
+            MySqlCommand cmd = new MySqlCommand(queryP, conn);
+            conn.Open();
+            MySqlDataReader msdr = cmd.ExecuteReader();
+            while (msdr.Read())
+            {
+                NetCorePSAV.Models.ILNewModel.ILGrid lGrid = new NetCorePSAV.Models.ILNewModel.ILGrid();
+                lGrid.ID = msdr.GetValue(0).ToString();
+                lGrid.Categoria = msdr.GetValue(1).ToString();
+                lGrid.Subcategoria = msdr.GetValue(2).ToString();
+                lGrid.Descripcion = msdr.GetValue(3).ToString();
+                lGrid.Incluye = msdr.GetValue(4).ToString();
+                lGrid.PrecioUnit = msdr.GetValue(5).ToString();
+                lGrid.Cantidad = msdr.GetValue(6).ToString();
+                retorna.Add(lGrid);
+            }
+            conn.Close();
+            return retorna;
         }
         #endregion
     }
